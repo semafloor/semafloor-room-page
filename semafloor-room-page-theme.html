@@ -15,12 +15,13 @@
       }
 
       *, *::before, *::after {
-        box-sizing: inherit;
+        box-sizing: border-box;
       }
 
       .vertical-section {
         @apply(--layout-horizontal);
-        @apply(--layout-flex-auto);
+        /*@apply(--layout-flex-auto);*/
+        height: 100%;
       }
 
       paper-icon-item {
@@ -33,6 +34,47 @@
         word-break: break-all;
         word-wrap: break-word;
       }
+
+      paper-icon-item:focus,
+      paper-button[pressed] {
+        background-color: #1DDBD8;
+        color: #fff;
+      }
+
+      paper-button {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        min-width: 60px;
+        width: 80px;
+        height: 80px;
+        margin: 0;
+        border-radius: 3px;
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+        font-size: 95%;
+      }
+
+      .alpha-collapsible,
+      .beta-collapsible,
+      .gamma-collapsible {
+        @apply(--layout-vertical);
+      }
+      .alpha-collapsible-container {
+        padding: 8px;
+        @apply(--layout-flex-auto);
+        @apply(--layout-horizontal);
+        @apply(--layout-wrap);
+        @apply(--layout-start);
+        @apply(--layout-center-justified);
+      }
+      .beta-collapsible-container,
+      .gamma-collapsible-container {
+        @apply(--layout-flex-auto);
+        @apply(--layout-vertical);
+        @apply(--layout-center-justified);
+        padding: 8px;
+      }
+
     </style>
 
   </template>
