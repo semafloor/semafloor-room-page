@@ -58,14 +58,13 @@
       .beta-collapsible,
       .gamma-collapsible {
         @apply(--layout-vertical);
+        @apply(--layout-center-justified);
       }
       .alpha-collapsible-container {
         padding: 8px;
-        @apply(--layout-flex-auto);
         @apply(--layout-horizontal);
         @apply(--layout-wrap);
-        @apply(--layout-start);
-        @apply(--layout-center-justified);
+        @apply(--layout-flex-auto);
       }
       .beta-collapsible-container,
       .gamma-collapsible-container {
@@ -73,6 +72,20 @@
         @apply(--layout-vertical);
         @apply(--layout-center-justified);
         padding: 8px;
+      }
+
+      paper-dialog {
+        margin: 0;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      app-toolbar {
+        background-color: #607D8B;
+        color: #fff;
       }
 
     </style>
