@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="semafloor-room-page-theme.html">
 
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../iron-collapse/iron-collapse.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
@@ -37,8 +38,8 @@ Example:
       auto
       url="[[_roomInfoURL]]"
       handle-as="json"
-      last-response="{{_roomInfo}}"
-      on-response="_onResponse"></iron-ajax>
+      on-response="_onResponse"
+      last-response="{{_roomInfo}}"></iron-ajax>
 
     <div class="vertical-section">
       <paper-icon-item name="alpha" on-tap="_toggleVerticallapsible">
@@ -195,9 +196,10 @@ Example:
       }
     },
 
-    _onResponse: function (_json) {
+    _onResponse: function (ev) {
       // when ajax receives latesta data...
       console.log('get-json');
+      console.log(this._roomInfo);
     },
 
   });
