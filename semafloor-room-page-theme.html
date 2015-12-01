@@ -1,0 +1,39 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="semafloor-room-page-theme">
+  <template>
+    <style>
+      :host {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+        box-sizing: inherit;
+
+        display: block;
+      }
+
+      *, *::before, *::after {
+        box-sizing: inherit;
+      }
+
+      .vertical-section {
+        @apply(--layout-horizontal);
+        @apply(--layout-flex-auto);
+      }
+
+      paper-icon-item {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+        @apply(--layout-start-justified);
+        max-width: 12px;
+      }
+      paper-icon-item > span {
+        word-break: break-all;
+        word-wrap: break-word;
+      }
+    </style>
+
+  </template>
+</dom-module>

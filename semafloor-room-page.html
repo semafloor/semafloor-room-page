@@ -1,0 +1,156 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="semafloor-room-page-theme.html">
+
+<link rel="import" href="../iron-collapse/iron-collapse.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+
+<link rel="import" href="../paper-item/paper-icon-item.html">
+
+<script src="../lodash/lodash.min.js" charset="utf-8"></script>
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <semafloor-room-page></semafloor-room-page>
+
+@group Seed Elements
+@element semafloor-room-page
+@demo demo/index.html
+@hero hero.svg
+-->
+<dom-module id="semafloor-room-page">
+
+  <template>
+    <style include="semafloor-room-page-theme"></style>
+
+    <div class="vertical-section">
+      <paper-icon-item name="alpha" on-tap="_toggleVerticallapsible">
+        <iron-icon icon="icons:star-border"></iron-icon>
+        <span>KLB - Tower 5</span>
+      </paper-icon-item>
+      <iron-collapse id="alpha">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, architecto.
+      </iron-collapse>
+      <paper-icon-item>
+        <iron-icon icon="icons:star-half"></iron-icon>
+        <span>KLB - Tower 2A</span>
+      </paper-icon-item>
+      <iron-collapse id="beta">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, architecto.
+      </iron-collapse>
+      <paper-icon-item name="gamma">
+        <iron-icon icon="icons:star"></iron-icon>
+        <span>SUITE</span>
+      </paper-icon-item>
+      <iron-collapse id="gamma">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, architecto.
+      </iron-collapse>
+    </div>
+  </template>
+
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'semafloor-room-page',
+
+    properties: {
+
+      /**
+       * `fancy` indicates that the element should don a monocle and tophat,
+       * while checking its pocket watch.
+       */
+      fancy: Boolean,
+
+      /**
+       * Describes the author of the element, but is really just an excuse to
+       * show off JSDoc annotations.
+       *
+       * @type {{name: string, image: string}}
+       */
+      author: {
+        type: Object,
+        // Use `value` to provide a default value for a property, by setting it
+        // on your element's prototype.
+        //
+        // If you provide a function, as we do here, Polymer will call that
+        // _per element instance_.
+        //
+        // We do that to ensure that each element gets its own copy of the
+        // value, rather than having it shared across all instances (via the
+        // prototype).
+        value: function() {
+          return {
+            name:  'Dimitri Glazkov',
+            image: 'http://addyosmani.com/blog/wp-content/uploads/2013/04/unicorn.jpg',
+          };
+        }
+      },
+
+    },
+
+    // Element Lifecycle
+
+    ready: function() {
+      // `ready` is called after all elements have been configured, but
+      // propagates bottom-up. This element's children are ready, but parents
+      // are not.
+      //
+      // This is the point where you should make modifications to the DOM (when
+      // necessary), or kick off any processes the element wants to perform.
+    },
+
+    attached: function() {
+      // `attached` fires once the element and its parents have been inserted
+      // into a document.
+      //
+      // This is a good place to perform any work related to your element's
+      // visual state or active behavior (measuring sizes, beginning animations,
+      // loading resources, etc).
+    },
+
+    detached: function() {
+      // The analog to `attached`, `detached` fires when the element has been
+      // removed from a document.
+      //
+      // Use this to clean up anything you did in `attached`.
+    },
+
+    // Element Behavior
+
+    /**
+     * The `semafloor-room-page-lasers` event is fired whenever `fireLasers` is called.
+     *
+     * @event semafloor-room-page-lasers
+     * @detail {{sound: String}}
+     */
+
+    /**
+     * Sometimes it's just nice to say hi.
+     *
+     * @param {string} greeting A positive greeting.
+     * @return {string} The full greeting.
+     */
+    sayHello: function(greeting) {
+      var response = greeting || 'Hello World!';
+      return 'semafloor-room-page says, ' + response;
+    },
+
+    /**
+     * Attempt to destroy this element's enemies with a beam of light!
+     *
+     * Or, at least, dispatch an event in the vain hope that someone else will
+     * do the zapping.
+     */
+    fireLasers: function() {
+      this.fire('semafloor-room-page-lasers', {sound: 'Pew pew!'});
+    }
+
+  });
+
+</script>
