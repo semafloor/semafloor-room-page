@@ -7,6 +7,7 @@
 <link rel="import" href="../iron-icons/iron-icons.html">
 
 <link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="../paper-item/paper-icon-item.html">
 <link rel="import" href="../paper-item/paper-item.html">
@@ -43,32 +44,78 @@ Example:
       on-response="_onResponse"
       last-response="{{_roomInfo}}"></iron-ajax>
 
-    <div class="vertical-section">
-      <paper-icon-item name="alpha" on-tap="_toggleVerticallapsible" class="site-collapsible">
+      <div class="horizontal-section">
+        <div class="horizontal-collapsible-section">
+          <div class="alpha-site-container">
+            <paper-icon-item name="alphaSite" on-tap="_toggleVerticallapsible" class="site-collapsible">
+              <iron-icon icon="icons:star-border" item-icon></iron-icon>
+              <span>KLB - Tower 5</span>
+            </paper-icon-item>
+            <iron-collapse id="alphaSite" horizontal>
+              <div class="collapsible-content">
+                <template is="dom-repeat" items="[[_alphaFloors]]" index-as="index">
+                  <paper-button raised>
+                    <span>[[_computeFloorNumber(item)]]</span>
+                  </paper-button>
+                </template>
+              </div>
+            </iron-collapse>
+          </div>
+          <div class="beta-site-container">
+            <paper-icon-item name="betaSite" on-tap="_toggleVerticallapsible" class="site-collapsible">
+              <iron-icon icon="icons:star-half" item-icon></iron-icon>
+              <span>KLB - Tower 2A</span>
+            </paper-icon-item>
+            <iron-collapse id="betaSite" horizontal>
+              <div class="collapsible-content">
+                <paper-button raised>3</paper-button>
+              </div>
+            </iron-collapse>
+          </div>
+          <div class="gamma-site-container">
+            <paper-icon-item name="gammaSite" on-tap="_toggleVerticallapsible" class="site-collapsible">
+              <iron-icon icon="icons:star" item-icon></iron-icon>
+              <span>SUITE</span>
+            </paper-icon-item>
+            <iron-collapse id="gammaSite" horizontal>
+              <div class="collapsible-content">
+                <paper-button raised>1</paper-button>
+              </div>
+            </iron-collapse>
+          </div>
+        </div>
+        <!-- hide me content -->
+        <!-- <div id="hideMe" class="vertical-section">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus accusantium quos ex odio nisi! Dolor maxime quaerat voluptatem nostrum ab.
+        </div> -->
+      </div>
+
+    <!-- <div class="horizontal-section">
+      <paper-icon-item name="alphaSite" on-tap="_toggleVerticallapsible" class="site-collapsible">
         <iron-icon icon="icons:star-border"></iron-icon>
         <span>KLB - Tower 5</span>
       </paper-icon-item>
-      <iron-collapse id="alpha" horizontal class="alpha-collapsible">
+      <iron-collapse id="alphaSite" horizontal class="alpha-collapsible">
         <div class="alpha-collapsible-container">
           <template is="dom-repeat" items="[[_alphaFloors]]" index-as="index">
             <paper-button name="alpha" raised on-tap="_showFloorDialog">[[item]]</paper-button>
           </template>
         </div>
       </iron-collapse>
-      <paper-icon-item name="beta" on-tap="_toggleVerticallapsible" class="site-collapsible">
+      <paper-icon-item name="betaSite" on-tap="_toggleVerticallapsible" class="site-collapsible">
         <iron-icon icon="icons:star-half"></iron-icon>
         <span>KLB - Tower 2A</span>
       </paper-icon-item>
-      <iron-collapse id="beta" horizontal class="beta-collapsible">
+      <iron-collapse id="betaSite" horizontal class="beta-collapsible">
         <div class="beta-collapsible-container">
           <paper-button name="beta" raised on-tap="_showFloorDialog">Level 3</paper-button>
         </div>
       </iron-collapse>
-      <paper-icon-item name="gamma" on-tap="_toggleVerticallapsible" class="site-collapsible">
+      <paper-icon-item name="gammaSite" on-tap="_toggleVerticallapsible" class="site-collapsible">
         <iron-icon icon="icons:star"></iron-icon>
         <span>SUITE</span>
       </paper-icon-item>
-      <iron-collapse id="gamma" horizontal class="gamma-collapsible">
+      <iron-collapse id="gammaSite" horizontal class="gamma-collapsible">
         <div class="gamma-collapsible-container">
           <paper-button name="gamma" raised on-tap="_showFloorDialog">Level 1</paper-button>
         </div>
@@ -79,7 +126,7 @@ Example:
       <app-header-layout>
         <app-header>
           <app-toolbar>
-            <paper-icon-button icon="icons:close" dialog-dismiss></paper-icon-button>
+            <paper-icon-button icon="icons:close" dialog-dismiss on-tap="_closeFloorDialog"></paper-icon-button>
           </app-toolbar>
           <app-toolbar>[[_site]] [[_floor]]</app-toolbar>
         </app-header>
@@ -95,17 +142,38 @@ Example:
           <div class="room-tab-info">
             <template is="dom-repeat" items="[[_roomsAtFloor]]" index-as="index">
               <iron-collapse id$="[[_computeRoomName(item.name)]]" horizontal>
-                <span>[[item.name]]</span>
-                <span>[[item.access]]</span>
-                <span>[[item.capacity]]</span>
-                <span>[[item.types]]</span>
-                <span>[[item.remarks]]</span>
+                <div class="room-list">
+                  <div class="room-list-item">
+                    <span>Room Name</span>
+                    <span>[[item.name]]</span>
+                  </div>
+                  <div class="room-list-item">
+                    <span>Access</span>
+                    <span>[[_computeRoomAccess(item.access)]]</span>
+                  </div>
+                  <div class="room-list-item">
+                    <span>Capacity</span>
+                    <span>[[item.capacity]]</span>
+                  </div>
+                  <div class="room-list-item">
+                    <span>Meeting Types</span>
+                    <div class="room-types">
+                      <template is="dom-repeat" items="[[_computeRoomTypes(item.types)]]" index-as="index">
+                        <paper-checkbox checked disabled>[[item]]</paper-checkbox>
+                      </template>
+                    </div>
+                  </div>
+                  <div class="room-list-item">
+                    <span>Remarks</span>
+                    <span>[[item.remarks]]</span>
+                  </div>
+                </div>
               </iron-collapse>
             </template>
           </div>
         </div>
       </app-header-layout>
-    </paper-dialog>
+    </paper-dialog> -->
   </template>
 
 </dom-module>
@@ -114,6 +182,7 @@ Example:
   var _alphaFloors = ['level 1','level 2','level 3','level 3a','level 5','level 6','level 7','level 8','level 9','level 10','level 11','level 12'];
   var _alphaFloorsCode = ['01level','02level','03level','04level','05level','06level','07level','08level','09level','10level','11level','12level'];
   var _sites = ['KLB - Tower 5', 'KLB - Tower 2A', 'SUITE'];
+  var _roomTypes = ['Adjoining Room (Operable Wall)','Panaboard','Polycom CX100 (Audio)','Polycom CX5000 (Video Conferencing)','Projector','Projector Cable Faulty','Projector Faulty','Screen Projector Faulty','SmartBoard 800','Telepresence','TV','Writing Glass Board'];
 
   Polymer({
 
@@ -134,6 +203,7 @@ Example:
       _floorIdx: String,
       _siteIdx: String,
       _roomsAtFloor: Array,
+      _openedRoom: String,
 
     },
 
@@ -186,7 +256,11 @@ Example:
           this.set('_openedVerticallapsible', _name);
         }
         this.$[_name].toggle();
+        // set null.
+        _name = null; _opened = null;
       }
+      // set null.
+      _target = null;
     },
 
     _showFloorDialog: function (ev) {
@@ -214,8 +288,12 @@ Example:
           // open dialog...
           this.$.floorDialog.open();
           console.log('dialog-open');
+          // set null.
+          _site = null; _siteIdx = null; _floor = null; _floorIdx = null;
         }
       }
+      // set null.
+      _target = null;
     },
 
     _onResponse: function (ev) {
@@ -232,6 +310,8 @@ Example:
       if (_roomInfo && _siteIdx && _floorIdx) {
         this.set('_roomsAtFloor', _roomInfo[_siteIdx][_floorIdx]);
       }
+      // set null.
+      _roomInfo = null; _siteIdx = null; _floorIdx = null;
     },
 
     _computeRoomName: function (_room) {
@@ -247,9 +327,57 @@ Example:
 
       if (_target && _target.hasAttribute('room')) {
         var _room = _target.getAttribute('room');
+        var _opened = this._openedRoom;
+        // _opened && _opened === _name -> set _opened null, toggle(_name)
+        // _opened && _opened !== _name -> set _opened, hide(_opened), toggle(_name)
+        // _opened is undefined -> set _opened, toggle(_name)
+        if (_opened && _opened === _room) {
+          this.set('_openedRoom', '');
+        }else {
+          if (_opened) {
+            this.$$('#' + _opened).hide();
+          }
+          this.set('_openedRoom', _room);
+        }
 
         this.$$('#' + _room).toggle();
+        // set null.
+        _room = null; _opened = null;
       }
+      // set null.
+      _target = null;
+    },
+
+    _computeRoomTypes: function (_types) {
+      console.time('haha');
+      var _hex2bin = _.padLeft(parseInt(_types, 16).toString(2), 12, 0)
+      var _str2arr = _hex2bin.split('').map(Number);
+      var _filtered = [];
+      _.filter(_str2arr, function(el, idx, arr){
+        if (el === 1) _filtered.push(_roomTypes[idx]);
+      });
+      console.timeEnd('haha');
+      console.log(_filtered);
+      // set null.
+      _hex2bin = null; _str2arr = null;
+      return _filtered;
+    },
+
+    _computeRoomAccess: function (_access) {
+      return _access ? 'Public' : 'Restricted';
+    },
+
+    _closeFloorDialog: function (ev) {
+      // close opened room.
+      if (this._openedRoom) {
+        this.$$('#' + this._openedRoom).hide();
+      }
+      // reset _openedRoom.
+      this.set('_openedRoom', '');
+    },
+
+    _computeFloorNumber: function (_floorNumber) {
+      return _floorNumber.slice(6);
     }
 
   });

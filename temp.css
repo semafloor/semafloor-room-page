@@ -1,0 +1,141 @@
+paper-icon-item.site-collapsible {
+  /*@apply(--layout-vertical);
+  @apply(--layout-center);
+  @apply(--layout-start-justified);
+  max-width: 12px;*/
+}
+paper-icon-item.site-collapsible > span {
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+paper-icon-item.site-collapsible:focus,
+paper-button[pressed] {
+  background-color: #1DDBD8;
+  color: #fff;
+}
+
+paper-button {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  min-width: 60px;
+  width: 80px;
+  height: 80px;
+  margin: 0;
+  border-radius: 3px;
+  @apply(--layout-vertical);
+  @apply(--layout-center-center);
+  font-size: 95%;
+}
+
+.alpha-collapsible,
+.beta-collapsible,
+.gamma-collapsible {
+  @apply(--layout-vertical);
+  @apply(--layout-center-justified);
+}
+.alpha-collapsible-container {
+  padding: 8px;
+  @apply(--layout-horizontal);
+  @apply(--layout-wrap);
+  @apply(--layout-flex-auto);
+}
+.beta-collapsible-container,
+.gamma-collapsible-container {
+  @apply(--layout-flex-auto);
+  @apply(--layout-vertical);
+  @apply(--layout-center-justified);
+  padding: 8px;
+}
+
+paper-dialog {
+  margin: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  @apply(--layout-vertical);
+}
+paper-dialog > app-header-layout {
+  /*overflow-y: auto;*/
+  /*@apply(--layout-vertical);*/
+  /*@apply(--layout-flex-auto);*/
+  @apply(--layout-fit);
+}
+paper-dialog::content > * {
+  margin: 0;
+  padding: 0;
+}
+paper-dialog::content #contentContainer {
+  /*overflow-y: auto;*/
+}
+paper-dialog::content #contentContainer,
+paper-dialog::content app-header-layout {
+  /*@apply(--layout-vertical);*/
+  /*@apply(--layout-fit);*/
+  /*@apply(--layout-flex-auto);*/
+  /*height: 100%;*/
+}
+
+app-toolbar {
+  background-color: #607D8B;
+  color: #fff;
+}
+
+
+.room-info-container {
+  /*max-height: 100%;*/
+  @apply(--layout-horizontal);
+  /*@apply(--layout-flex);*/
+  /*height: 100%;*/
+}
+.room-tabs {
+  /*@apply(--layout-vertical);*/
+  width: auto;
+  border-right: 1px solid #ddd;
+}
+.room-tab-info {
+  /*@apply(--layout-vertical);*/
+  /*@apply(--layout-flex-auto);*/
+  /*height: 100%;*/
+  width: 100%;
+}
+paper-item.room-tab {
+  height: 40px;
+  width: auto;
+  font-size: 85%;
+  padding: 3px;
+  text-align: left;
+}
+paper-item[focused] {
+  background-color: #1DDBD8;
+  color: #fff;
+}
+
+.room-list {
+}
+.room-list-item {
+  position: relative;
+  border-bottom: 1px solid #ddd;
+  padding: 16px 0 16px 16px;
+  min-height: 64px;
+}
+.room-list-item > span {
+  display: block;
+}
+.room-list-item > span+span {
+  color: #757575;
+}
+.room-types > paper-checkbox {
+  display: block;
+  margin-top: 6px;
+  --paper-checkbox-unchecked-color: #1DDBD8;
+}
+paper-checkbox::content *{
+  opacity: 1 !important;
+}
+paper-checkbox::content #checkbox {
+  border-radius: 50%;
+}

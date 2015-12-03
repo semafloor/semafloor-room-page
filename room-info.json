@@ -2,7 +2,7 @@
   "alpha" : {
     "01level" : [ {
       "id": "alpha01level000",
-      "access": false,
+      "access": true,
       "name" : "Freedom Tower",
       "capacity": 0,
       "room": "freedom%20tower",
@@ -10,7 +10,7 @@
       "remarks": "Breakout Area"
     }, {
       "id": "alpha01level001",
-      "access": false,
+      "access": true,
       "name" : "Taipei 101",
       "capacity": 6,
       "room" : "taipei%20101",
@@ -18,7 +18,7 @@
       "remarks": ""
     }, {
       "id": "alpha01level002",
-      "access": true,
+      "access": false,
       "name" : "The Shard",
       "capacity": 6,
       "room" : "the%20shard",
@@ -26,7 +26,7 @@
       "remarks": ""
     }, {
       "id": "alpha01level003",
-      "access": false,
+      "access": true,
       "name" : "Twin Towers",
       "capacity": 4,
       "room" : "twin%20towers",
@@ -34,7 +34,7 @@
       "remarks": ""
     }, {
       "id": "alpha01level004",
-      "access": false,
+      "access": true,
       "name" : "Willis Tower",
       "capacity": 10,
       "room" : "willis%20tower",
@@ -43,7 +43,7 @@
     } ],
     "02level" : [ {
       "id": "alpha02level000",
-      "access": false,
+      "access": true,
       "name" : "Acetyls",
       "capacity": 10,
       "room" : "acetyls",
@@ -51,7 +51,7 @@
       "remarks": ""
     }, {
       "id": "alpha02level001",
-      "access": false,
+      "access": true,
       "name" : "Aromatics",
       "capacity": 6,
       "room" : "aromatics",
@@ -59,7 +59,7 @@
       "remarks": ""
     }, {
       "id": "alpha02level002",
-      "access": false,
+      "access": true,
       "name" : "Bitumen",
       "capacity": 6,
       "room" : "bitumen",
@@ -67,7 +67,7 @@
       "remarks": ""
     }, {
       "id": "alpha02level003",
-      "access": false,
+      "access": true,
       "name" : "Hydrocarbon",
       "capacity": 4,
       "room" : "hydrocarbon",
@@ -75,7 +75,7 @@
       "remarks": ""
     }, {
       "id": "alpha02level004",
-      "access": false,
+      "access": true,
       "name" : "Lubricant",
       "capacity": 4,
       "room" : "lubricant",
@@ -83,7 +83,7 @@
       "remarks": ""
     }, {
       "id": "alpha02level005",
-      "access": false,
+      "access": true,
       "name" : "Olefin",
       "capacity": 0,
       "room" : "olefin",
@@ -92,7 +92,7 @@
     } ],
     "03level" : [ {
       "id": "alpha03level000",
-      "access": false,
+      "access": true,
       "name" : "Dow Jones",
       "capacity": 4,
       "room" : "dow%20jones",
@@ -100,7 +100,7 @@
       "remarks": ""
     }, {
       "id": "alpha03level001",
-      "access": false,
+      "access": true,
       "name" : "Euronext",
       "capacity": 0,
       "room" : "euronext",
@@ -108,7 +108,7 @@
       "remarks": ""
     }, {
       "id": "alpha03level002",
-      "access": false,
+      "access": true,
       "name" : "FTSE",
       "capacity": 6,
       "room" : "ftse",
@@ -116,7 +116,7 @@
       "remarks": ""
     }, {
       "id": "alpha03level003",
-      "access": false,
+      "access": true,
       "name" : "HangSeng",
       "capacity": 10,
       "room" : "hang%20seng",
@@ -124,7 +124,7 @@
       "remarks": ""
     }, {
       "id": "alpha03level004",
-      "access": false,
+      "access": true,
       "name" : "Nikkei",
       "capacity": 6,
       "room" : "nikkei",
@@ -133,7 +133,7 @@
     } ],
     "04level" : [ {
       "id": "alpha04level000",
-      "access": false,
+      "access": true,
       "name" : "Austen",
       "capacity": 6,
       "room" : "austen",
@@ -141,7 +141,7 @@
       "remarks": ""
     }, {
       "id": "alpha04level001",
-      "access": false,
+      "access": true,
       "name" : "Dickens",
       "capacity": 4,
       "room" : "dickens",
@@ -149,7 +149,7 @@
       "remarks": ""
     }, {
       "id": "alpha04level002",
-      "access": false,
+      "access": true,
       "name" : "Eliot",
       "capacity": 6,
       "room" : "eliot",
@@ -157,7 +157,7 @@
       "remarks": ""
     }, {
       "id": "alpha04level003",
-      "access": false,
+      "access": true,
       "name" : "Rowling",
       "capacity": 0,
       "room" : "rowling",
@@ -165,7 +165,7 @@
       "remarks": ""
     }, {
       "id": "alpha04level004",
-      "access": false,
+      "access": true,
       "name" : "Twain",
       "capacity": 10,
       "room" : "twain",
@@ -174,7 +174,7 @@
     } ],
     "05level" : [ {
       "id": "alpha05evel000",
-      "access": false,
+      "access": true,
       "name" : "Daffodil",
       "capacity": 6,
       "room" : "daffodil",
@@ -182,7 +182,7 @@
       "remarks": ""
     }, {
       "id": "alpha05evel001",
-      "access": false,
+      "access": true,
       "name" : "Golden Wattle",
       "capacity": 4,
       "room" : "golden%20wattle",
@@ -190,7 +190,7 @@
       "remarks": ""
     }, {
       "id": "alpha05evel002",
-      "access": false,
+      "access": true,
       "name" : "Hibiscus",
       "capacity": 4,
       "room" : "hibiscus",
@@ -198,7 +198,7 @@
       "remarks": ""
     }, {
       "id": "alpha05evel003",
-      "access": false,
+      "access": true,
       "name" : "Orchid",
       "capacity": 0,
       "room" : "orchid",
@@ -206,7 +206,7 @@
       "remarks": ""
     }, {
       "id": "alpha05evel004",
-      "access": false,
+      "access": true,
       "name" : "Protea",
       "capacity": 6,
       "room" : "protea",
@@ -214,7 +214,7 @@
       "remarks": ""
     }, {
       "id": "alpha05evel005",
-      "access": false,
+      "access": true,
       "name" : "Rafflesia",
       "capacity": 10,
       "room" : "rafflesia",
@@ -222,7 +222,7 @@
       "remarks": ""
     }, {
       "id": "alpha05evel006",
-      "access": false,
+      "access": true,
       "name" : "Rose",
       "capacity": 4,
       "room" : "rose",
@@ -230,7 +230,7 @@
       "remarks": ""
     }, {
       "id": "alpha05evel007",
-      "access": false,
+      "access": true,
       "name" : "Tulip",
       "capacity": 4,
       "room" : "tulip",
@@ -239,7 +239,7 @@
     } ],
     "06level" : [ {
       "id": "alpha06evel000",
-      "access": false,
+      "access": true,
       "name" : "Courage",
       "capacity": 4,
       "room" : "courage",
@@ -247,7 +247,7 @@
       "remarks": ""
     }, {
       "id": "alpha06evel001",
-      "access": false,
+      "access": true,
       "name" : "Excellence",
       "capacity": 10,
       "room" : "excellence",
@@ -255,7 +255,7 @@
       "remarks": ""
     }, {
       "id": "alpha06evel002",
-      "access": false,
+      "access": true,
       "name" : "One Team",
       "capacity": 6,
       "room" : "one%20team",
@@ -263,7 +263,7 @@
       "remarks": ""
     }, {
       "id": "alpha06evel003",
-      "access": false,
+      "access": true,
       "name" : "Respect",
       "capacity": 6,
       "room" : "respect",
@@ -271,7 +271,7 @@
       "remarks": ""
     }, {
       "id": "alpha06evel004",
-      "access": false,
+      "access": true,
       "name" : "Values",
       "capacity": 0,
       "room" : "values",
@@ -280,7 +280,7 @@
     } ],
     "07level" : [ {
       "id": "alpha07evel000",
-      "access": false,
+      "access": true,
       "name" : "Alpha",
       "capacity": 6,
       "room" : "alpha",
@@ -288,7 +288,7 @@
       "remarks": ""
     }, {
       "id": "alpha07evel001",
-      "access": false,
+      "access": true,
       "name" : "Beta",
       "capacity": 4,
       "room" : "beta",
@@ -296,7 +296,7 @@
       "remarks": ""
     }, {
       "id": "alpha07evel002",
-      "access": false,
+      "access": true,
       "name" : "Delta",
       "capacity": 4,
       "room" : "delta",
@@ -304,7 +304,7 @@
       "remarks": ""
     }, {
       "id": "alpha07evel003",
-      "access": false,
+      "access": true,
       "name" : "Gamma",
       "capacity": 6,
       "room" : "gamma",
@@ -312,7 +312,7 @@
       "remarks": ""
     }, {
       "id": "alpha07evel004",
-      "access": false,
+      "access": true,
       "name" : "Kappa",
       "capacity": 10,
       "room" : "kappa",
@@ -320,7 +320,7 @@
       "remarks": ""
     }, {
       "id": "alpha07evel005",
-      "access": false,
+      "access": true,
       "name" : "Omega",
       "capacity": 0,
       "room" : "omega",
@@ -328,7 +328,7 @@
       "remarks": ""
     }, {
       "id": "alpha07evel006",
-      "access": false,
+      "access": true,
       "name" : "Sigma",
       "capacity": 4,
       "room" : "sigma",
@@ -336,7 +336,7 @@
       "remarks": ""
     }, {
       "id": "alpha07evel007",
-      "access": false,
+      "access": true,
       "name" : "Zeta",
       "capacity": 4,
       "room" : "zeta",
@@ -345,7 +345,7 @@
     } ],
     "08level" : [ {
       "id": "alpha08evel000",
-      "access": false,
+      "access": true,
       "name" : "Angsana",
       "capacity": 4,
       "room" : "angsana",
@@ -353,7 +353,7 @@
       "remarks": ""
     }, {
       "id": "alpha08evel001",
-      "access": false,
+      "access": true,
       "name" : "Cendana",
       "capacity": 10,
       "room" : "cendana",
@@ -361,7 +361,7 @@
       "remarks": ""
     }, {
       "id": "alpha08evel002",
-      "access": false,
+      "access": true,
       "name" : "Chengal",
       "capacity": 4,
       "room" : "chengal",
@@ -369,7 +369,7 @@
       "remarks": ""
     }, {
       "id": "alpha08evel003",
-      "access": false,
+      "access": true,
       "name" : "Jati",
       "capacity": 6,
       "room" : "jati",
@@ -377,7 +377,7 @@
       "remarks": ""
     }, {
       "id": "alpha08evel004",
-      "access": false,
+      "access": true,
       "name" : "Meranti",
       "capacity": 4,
       "room" : "meranti",
@@ -385,7 +385,7 @@
       "remarks": ""
     }, {
       "id": "alpha08evel005",
-      "access": false,
+      "access": true,
       "name" : "Seraya",
       "capacity": 4,
       "room" : "seraya",
@@ -393,7 +393,7 @@
       "remarks": ""
     }, {
       "id": "alpha08evel006",
-      "access": false,
+      "access": true,
       "name" : "Teak",
       "capacity": 0,
       "room" : "teak",
@@ -402,7 +402,7 @@
     } ],
     "09level" : [ {
       "id": "alpha09evel000",
-      "access": false,
+      "access": true,
       "name" : "Batu Caves",
       "capacity": 14,
       "room" : "batu%20caves",
@@ -410,7 +410,7 @@
       "remarks": ""
     }, {
       "id": "alpha09evel001",
-      "access": false,
+      "access": true,
       "name" : "Batu Ferringhi",
       "capacity": 12,
       "room" : "batu%20ferringhi",
@@ -418,7 +418,7 @@
       "remarks": ""
     }, {
       "id": "alpha09evel002",
-      "access": false,
+      "access": true,
       "name" : "Cherating",
       "capacity": 8,
       "room" : "cherating",
@@ -426,7 +426,7 @@
       "remarks": ""
     }, {
       "id": "alpha09evel003",
-      "access": false,
+      "access": true,
       "name" : "Gunung Ledang",
       "capacity": 8,
       "room" : "gunung%20ledang",
@@ -434,7 +434,7 @@
       "remarks": ""
     }, {
       "id": "alpha09evel004",
-      "access": false,
+      "access": true,
       "name" : "Jonker Street",
       "capacity": 4,
       "room" : "jonker%20street",
@@ -442,7 +442,7 @@
       "remarks": ""
     }, {
       "id": "alpha09evel005",
-      "access": false,
+      "access": true,
       "name" : "Kinabalu",
       "capacity": 6,
       "room" : "kinabalu",
@@ -450,7 +450,7 @@
       "remarks": ""
     }, {
       "id": "alpha09evel006",
-      "access": false,
+      "access": true,
       "name" : "KLCC",
       "capacity": 4,
       "room" : "klcc",
@@ -458,7 +458,7 @@
       "remarks": ""
     }, {
       "id": "alpha09evel007",
-      "access": false,
+      "access": true,
       "name" : "Lake Melati",
       "capacity": 8,
       "room" : "lake%20melati",
@@ -466,7 +466,7 @@
       "remarks": ""
     }, {
       "id": "alpha09evel008",
-      "access": false,
+      "access": true,
       "name" : "Limestone",
       "capacity": 14,
       "room" : "limestone",
@@ -474,7 +474,7 @@
       "remarks": ""
     }, {
       "id": "alpha09evel009",
-      "access": false,
+      "access": true,
       "name" : "Minangkabau",
       "capacity": 18,
       "room" : "minangkabau",
@@ -482,7 +482,7 @@
       "remarks": ""
     }, {
       "id": "alpha09evel010",
-      "access": false,
+      "access": true,
       "name" : "Putrajaya",
       "capacity": 4,
       "room" : "putrajaya",
@@ -490,7 +490,7 @@
       "remarks": ""
     }, {
       "id": "alpha09evel011",
-      "access": false,
+      "access": true,
       "name" : "Silat",
       "capacity": 0,
       "room" : "silat",
@@ -498,7 +498,7 @@
       "remarks": ""
     }, {
       "id": "alpha09evel012",
-      "access": false,
+      "access": true,
       "name" : "Songkat",
       "capacity": 8,
       "room" : "songkat",
@@ -506,7 +506,7 @@
       "remarks": ""
     }, {
       "id": "alpha09evel013",
-      "access": false,
+      "access": true,
       "name" : "Wellness Room",
       "capacity": 0,
       "room" : "wellness%20room",
@@ -515,7 +515,7 @@
     } ],
     "10level" : [ {
       "id": "alpha10evel000",
-      "access": false,
+      "access": true,
       "name" : "Degas",
       "capacity": 4,
       "room" : "degas",
@@ -523,15 +523,15 @@
       "remarks": ""
     }, {
       "id": "alpha10evel001",
-      "access": false,
-      "name" : "Michaelangelo",
+      "access": true,
+      "name" : "Michelangelo",
       "capacity": 4,
-      "room" : "michaelangelo",
+      "room" : "Michelangelo",
       "types": "003",
       "remarks": ""
     }, {
       "id": "alpha10evel002",
-      "access": false,
+      "access": true,
       "name" : "Monet",
       "capacity": 6,
       "room" : "monet",
@@ -539,7 +539,7 @@
       "remarks": ""
     }, {
       "id": "alpha10evel003",
-      "access": false,
+      "access": true,
       "name" : "Picasso",
       "capacity": 6,
       "room" : "picasso",
@@ -547,7 +547,7 @@
       "remarks": ""
     }, {
       "id": "alpha10evel004",
-      "access": false,
+      "access": true,
       "name" : "Renoir",
       "capacity": 0,
       "room" : "renoir",
@@ -555,7 +555,7 @@
       "remarks": ""
     }, {
       "id": "alpha10evel005",
-      "access": false,
+      "access": true,
       "name" : "Sisley",
       "capacity": 4,
       "room" : "sisley",
@@ -563,7 +563,7 @@
       "remarks": ""
     }, {
       "id": "alpha10evel006",
-      "access": false,
+      "access": true,
       "name" : "Van Gogh",
       "capacity": 10,
       "room" : "van%20gogh",
@@ -572,7 +572,7 @@
     } ],
     "11level" : [ {
       "id": "alpha11level000",
-      "access": false,
+      "access": true,
       "name" : "Anise",
       "capacity": 6,
       "room" : "anise",
@@ -580,7 +580,7 @@
       "remarks": ""
     }, {
       "id": "alpha11level001",
-      "access": false,
+      "access": true,
       "name" : "Cardamom",
       "capacity": 0,
       "room" : "cardamom",
@@ -588,7 +588,7 @@
       "remarks": ""
     }, {
       "id": "alpha11level002",
-      "access": false,
+      "access": true,
       "name" : "Cinnamon",
       "capacity": 10,
       "room" : "cinnamon",
@@ -596,7 +596,7 @@
       "remarks": ""
     }, {
       "id": "alpha11level003",
-      "access": false,
+      "access": true,
       "name" : "Clove",
       "capacity": 6,
       "room" : "clove",
@@ -604,7 +604,7 @@
       "remarks": ""
     }, {
       "id": "alpha11level004",
-      "access": false,
+      "access": true,
       "name" : "Peppercorn",
       "capacity": 4,
       "room" : "peppercorn",
@@ -612,7 +612,7 @@
       "remarks": ""
     }, {
       "id": "alpha11level005",
-      "access": false,
+      "access": true,
       "name" : "Sesame",
       "capacity": 4,
       "room" : "sesame",
@@ -620,7 +620,7 @@
       "remarks": ""
     }, {
       "id": "alpha11level006",
-      "access": false,
+      "access": true,
       "name" : "Tamarind",
       "capacity": 4,
       "room" : "tamarind",
@@ -628,7 +628,7 @@
       "remarks": ""
     }, {
       "id": "alpha11level007",
-      "access": false,
+      "access": true,
       "name" : "Tumeric",
       "capacity": 4,
       "room" : "tumeric",
@@ -637,7 +637,7 @@
     } ],
     "12level" : [ {
       "id": "alpha12level000",
-      "access": false,
+      "access": true,
       "name" : "Amethyst",
       "capacity": 6,
       "room" : "amethyst",
@@ -645,7 +645,7 @@
       "remarks": ""
     }, {
       "id": "alpha12level001",
-      "access": true,
+      "access": false,
       "name" : "Diamond",
       "capacity": 4,
       "room" : "diamond",
@@ -653,7 +653,7 @@
       "remarks": ""
     }, {
       "id": "alpha12level002",
-      "access": false,
+      "access": true,
       "name" : "Emerald",
       "capacity": 6,
       "room" : "emerald",
@@ -661,7 +661,7 @@
       "remarks": ""
     }, {
       "id": "alpha12level003",
-      "access": false,
+      "access": true,
       "name" : "Garnet",
       "capacity": 10,
       "room" : "garnet",
@@ -669,7 +669,7 @@
       "remarks": ""
     }, {
       "id": "alpha12level004",
-      "access": false,
+      "access": true,
       "name" : "Pearl",
       "capacity": 0,
       "room" : "pearl",
@@ -677,7 +677,7 @@
       "remarks": ""
     }, {
       "id": "alpha12level005",
-      "access": false,
+      "access": true,
       "name" : "Sapphire",
       "capacity": 4,
       "room" : "sapphire",
@@ -685,7 +685,7 @@
       "remarks": ""
     }, {
       "id": "alpha12level006",
-      "access": false,
+      "access": true,
       "name" : "Topaz",
       "capacity": 4,
       "room" : "topaz",
@@ -693,7 +693,7 @@
       "remarks": ""
     }, {
       "id": "alpha12level007",
-      "access": false,
+      "access": true,
       "name" : "Zircon",
       "capacity": 4,
       "room" : "zircon",
@@ -704,7 +704,7 @@
   "beta" : {
     "03level" : [ {
       "id": "beta03level000",
-      "access": false,
+      "access": true,
       "name" : "Benz",
       "capacity": 4,
       "room" : "benz",
@@ -712,7 +712,7 @@
       "remarks": ""
     }, {
       "id": "beta03level001",
-      "access": false,
+      "access": true,
       "name" : "Edison",
       "capacity": 8,
       "room" : "edison",
@@ -720,7 +720,7 @@
       "remarks": ""
     }, {
       "id": "beta03level002",
-      "access": false,
+      "access": true,
       "name" : "Einstein",
       "capacity": 0,
       "room" : "einstein",
@@ -728,7 +728,7 @@
       "remarks": ""
     }, {
       "id": "beta03level003",
-      "access": false,
+      "access": true,
       "name" : "Fleming",
       "capacity": 4,
       "room" : "fleming",
@@ -736,7 +736,7 @@
       "remarks": ""
     }, {
       "id": "beta03level004",
-      "access": false,
+      "access": true,
       "name" : "Franklin",
       "capacity": 6,
       "room" : "franklin",
@@ -744,7 +744,7 @@
       "remarks": ""
     }, {
       "id": "beta03level005",
-      "access": false,
+      "access": true,
       "name" : "Graham",
       "capacity": 6,
       "room" : "graham",
@@ -752,7 +752,7 @@
       "remarks": ""
     }, {
       "id": "beta03level006",
-      "access": false,
+      "access": true,
       "name" : "Newton",
       "capacity": 0,
       "room" : "newton",
@@ -760,7 +760,7 @@
       "remarks": ""
     }, {
       "id": "beta03level007",
-      "access": false,
+      "access": true,
       "name" : "Whitney",
       "capacity": 10,
       "room" : "whitney",
@@ -771,7 +771,7 @@
   "gamma" : {
     "01level" : [ {
       "id": "gamma01level000",
-      "access": false,
+      "access": true,
       "name" : "Collaborate",
       "capacity": 8,
       "room" : "collaborate",
@@ -779,7 +779,7 @@
       "remarks": ""
     }, {
       "id": "gamma01level001",
-      "access": false,
+      "access": true,
       "name" : "Create",
       "capacity": 10,
       "room" : "create",
@@ -787,7 +787,7 @@
       "remarks": ""
     }, {
       "id": "gamma01level002",
-      "access": false,
+      "access": true,
       "name" : "Fun",
       "capacity": 0,
       "room" : "fun",
@@ -795,7 +795,7 @@
       "remarks": ""
     }, {
       "id": "gamma01level003",
-      "access": false,
+      "access": true,
       "name" : "Grow",
       "capacity": 10,
       "room" : "grow",
@@ -803,7 +803,7 @@
       "remarks": ""
     }, {
       "id": "gamma01level004",
-      "access": false,
+      "access": true,
       "name" : "Idea",
       "capacity": 8,
       "room" : "idea",
@@ -811,7 +811,7 @@
       "remarks": ""
     }, {
       "id": "gamma01level005",
-      "access": false,
+      "access": true,
       "name" : "Innovate",
       "capacity": 10,
       "room" : "innovate",
@@ -819,7 +819,7 @@
       "remarks": ""
     }, {
       "id": "gamma01level006",
-      "access": false,
+      "access": true,
       "name" : "Inspire",
       "capacity": 12,
       "room" : "inspire",
@@ -827,7 +827,7 @@
       "remarks": ""
     }, {
       "id": "gamma01level007",
-      "access": false,
+      "access": true,
       "name" : "Lead",
       "capacity": 10,
       "room" : "lead",
@@ -835,7 +835,7 @@
       "remarks": ""
     }, {
       "id": "gamma01level008",
-      "access": false,
+      "access": true,
       "name" : "Meet",
       "capacity": 4,
       "room" : "meet",
@@ -843,7 +843,7 @@
       "remarks": ""
     }, {
       "id": "gamma01level009",
-      "access": false,
+      "access": true,
       "name" : "Team",
       "capacity": 6,
       "room" : "team",
@@ -851,7 +851,7 @@
       "remarks": ""
     }, {
       "id": "gamma01level010",
-      "access": false,
+      "access": true,
       "name" : "Think",
       "capacity": 4,
       "room" : "think",

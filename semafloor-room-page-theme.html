@@ -18,109 +18,72 @@
         box-sizing: border-box;
       }
 
-      .vertical-section {
+      .horizontal-section {
         @apply(--layout-horizontal);
-        /*@apply(--layout-flex-auto);*/
-        height: 100%;
+        @apply(--layout-flex-auto);
+        /*height: calc(100% - 128px);*/
+        /*height: 100%;*/
       }
 
-      paper-icon-item.site-collapsible {
-        @apply(--layout-vertical);
-        @apply(--layout-center);
-        @apply(--layout-start-justified);
-        max-width: 12px;
+      .horizontal-collapsible-section {
+        @apply(--layout-horizontal);
       }
-      paper-icon-item.site-collapsible > span {
+
+      .alpha-site-container,
+      .beta-site-container,
+      .gamma-site-container {
+        @apply(--layout-horizontal);
+      }
+
+      .alpha-site-container > paper-icon-item,
+      .beta-site-container > paper-icon-item,
+      .gamma-site-container > paper-icon-item {
+        @apply(--layout-vertical);
+      }
+      .alpha-site-container > paper-icon-item > span,
+      .beta-site-container > paper-icon-item > span,
+      .gamma-site-container > paper-icon-item > span {
+        max-width: 12px;
         word-break: break-all;
         word-wrap: break-word;
+        text-transform: uppercase;
+        text-align: center;
       }
-
+      paper-icon-item::content > #contentIcon {
+        width: auto;
+      }
       paper-icon-item.site-collapsible:focus,
       paper-button[pressed] {
         background-color: #1DDBD8;
         color: #fff;
       }
 
-      paper-button {
+      iron-collapse {
+        @apply(--layout-horizontal);
+        @apply(--layout-center-center);
+      }
+      /* workaround for dreadfully height stretch*/
+      iron-collapse#alphaSite {
+        max-height: calc(100vh - 128px);
+      }
+      iron-collapse > .collapsible-content {
+        padding: 3px;
+        @apply(--layout-horizontal);
+        @apply(--layout-wrap-reverse);
+      }
+      iron-collapse > .collapsible-content paper-button {
+        margin: 8px 2px;
+        min-width: 20px;
+        width: 58px;
+        height: 58px;
+        font-size: 24px;
+        border-radius: 50%;
         -webkit-tap-highlight-color: transparent;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
-        min-width: 60px;
-        width: 80px;
-        height: 80px;
-        margin: 0;
-        border-radius: 3px;
-        @apply(--layout-vertical);
+        @apply(--layout);
         @apply(--layout-center-center);
-        font-size: 95%;
       }
 
-      .alpha-collapsible,
-      .beta-collapsible,
-      .gamma-collapsible {
-        @apply(--layout-vertical);
-        @apply(--layout-center-justified);
-      }
-      .alpha-collapsible-container {
-        padding: 8px;
-        @apply(--layout-horizontal);
-        @apply(--layout-wrap);
-        @apply(--layout-flex-auto);
-      }
-      .beta-collapsible-container,
-      .gamma-collapsible-container {
-        @apply(--layout-flex-auto);
-        @apply(--layout-vertical);
-        @apply(--layout-center-justified);
-        padding: 8px;
-      }
-
-      paper-dialog {
-        margin: 0;
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-      }
-
-      app-toolbar {
-        background-color: #607D8B;
-        color: #fff;
-      }
-
-      paper-dialog::content > * {
-        margin: 0;
-        padding: 0;
-      }
-
-      .room-info-container {
-        @apply(--layout-horizontal);
-      }
-      .room-tabs {
-        @apply(--layout-vertical);
-        width: 80px;
-        border-right: 1px solid #ddd;
-      }
-      .room-tab-info {
-        @apply(--layout-vertical);
-        /*width: calc(100% - 80px);*/
-      }
-
-      paper-item.room-tab {
-        height: 40px;
-        width: 80px;
-        font-size: 85%;
-        padding: 3px;
-        text-align: left;
-      }
-      paper-item[focused] {
-        background-color: #1DDBD8;
-        color: #fff;
-      }
-
-      .room-tab-info > iron-collapse {
-        /*width: 100%;*/
-      }
 
 
     </style>
