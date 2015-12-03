@@ -9,7 +9,9 @@
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="../paper-item/paper-icon-item.html">
+<link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html">
 
 <link rel="import" href="../app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../app-layout/app-header/app-header.html">
@@ -42,7 +44,7 @@ Example:
       last-response="{{_roomInfo}}"></iron-ajax>
 
     <div class="vertical-section">
-      <paper-icon-item name="alpha" on-tap="_toggleVerticallapsible">
+      <paper-icon-item name="alpha" on-tap="_toggleVerticallapsible" class="site-collapsible">
         <iron-icon icon="icons:star-border"></iron-icon>
         <span>KLB - Tower 5</span>
       </paper-icon-item>
@@ -53,7 +55,7 @@ Example:
           </template>
         </div>
       </iron-collapse>
-      <paper-icon-item name="beta" on-tap="_toggleVerticallapsible">
+      <paper-icon-item name="beta" on-tap="_toggleVerticallapsible" class="site-collapsible">
         <iron-icon icon="icons:star-half"></iron-icon>
         <span>KLB - Tower 2A</span>
       </paper-icon-item>
@@ -62,7 +64,7 @@ Example:
           <paper-button name="beta" raised on-tap="_showFloorDialog">Level 3</paper-button>
         </div>
       </iron-collapse>
-      <paper-icon-item name="gamma" on-tap="_toggleVerticallapsible">
+      <paper-icon-item name="gamma" on-tap="_toggleVerticallapsible" class="site-collapsible">
         <iron-icon icon="icons:star"></iron-icon>
         <span>SUITE</span>
       </paper-icon-item>
@@ -82,8 +84,25 @@ Example:
           <app-toolbar>[[_site]] [[_floor]]</app-toolbar>
         </app-header>
 
-        <div class="">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam eaque esse voluptatem quisquam nulla optio! Architecto ullam esse, id, fugit omnis minus tenetur! Vitae debitis eveniet suscipit, iure earum minima iusto ratione. Officia temporibus aspernatur ullam libero minus excepturi, adipisci deleniti ratione inventore, accusantium saepe illum sunt maxime! Maxime, provident!
+        <div class="room-info-container">
+          <div class="room-tabs">
+            <template is="dom-repeat" items="[[_roomsAtFloor]]" index-as="index">
+              <paper-item class="room-tab" room$="[[_computeRoomName(item.name)]]" on-tap="_showRoom">
+                <span>[[item.name]]</span>
+              </paper-item>
+            </template>
+          </div>
+          <div class="room-tab-info">
+            <template is="dom-repeat" items="[[_roomsAtFloor]]" index-as="index">
+              <iron-collapse id$="[[_computeRoomName(item.name)]]" horizontal>
+                <span>[[item.name]]</span>
+                <span>[[item.access]]</span>
+                <span>[[item.capacity]]</span>
+                <span>[[item.types]]</span>
+                <span>[[item.remarks]]</span>
+              </iron-collapse>
+            </template>
+          </div>
         </div>
       </app-header-layout>
     </paper-dialog>
@@ -113,6 +132,8 @@ Example:
       _site: String,
       _floor: String,
       _floorIdx: String,
+      _siteIdx: String,
+      _roomsAtFloor: Array,
 
     },
 
@@ -184,8 +205,9 @@ Example:
           // site name and floor name for dialog's title.
           this.set('_site', _sites[_siteIdx]);
           this.set('_floor', _floor);
-          // set floor index to read floor's data.
+          // set floor and site indices to read floor's data.
           this.set('_floorIdx', _alphaFloorsCode[_floorIdx]);
+          this.set('_siteIdx', _site);
           // set ajax url to read latest data.
           this.set('_roomInfoURL', '../room-info.json');
           console.log('url-set');
@@ -199,8 +221,36 @@ Example:
     _onResponse: function (ev) {
       // when ajax receives latesta data...
       console.log('get-json');
+      console.log(this._floorIdx);
+      console.log(this._siteIdx);
       console.log(this._roomInfo);
+      console.log(this._roomInfo[this._siteIdx][this._floorIdx]);
+      var _roomInfo = this._roomInfo;
+      var _siteIdx = this._siteIdx;
+      var _floorIdx = this._floorIdx;
+
+      if (_roomInfo && _siteIdx && _floorIdx) {
+        this.set('_roomsAtFloor', _roomInfo[_siteIdx][_floorIdx]);
+      }
     },
+
+    _computeRoomName: function (_room) {
+      return _.camelCase(_room);
+    },
+
+    _showRoom: function (ev) {
+      var _target = ev.target;
+
+      while (_target && _target.tagName !== 'PAPER-ITEM') {
+        _target = _target.parentElement;
+      }
+
+      if (_target && _target.hasAttribute('room')) {
+        var _room = _target.getAttribute('room');
+
+        this.$$('#' + _room).toggle();
+      }
+    }
 
   });
 
