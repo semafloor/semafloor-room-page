@@ -11,7 +11,6 @@
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="../paper-item/paper-icon-item.html">
-<link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 
@@ -239,7 +238,6 @@ Example:
       if (_target && _target.hasAttribute('name')) {
         var _site = _target.getAttribute('name');
         var _siteIdx = Array.prototype.indexOf.call(['alpha', 'beta', 'gamma'], _site);
-        // var _floor = String.prototype.toLowerCase.call(_.trim(_target.innerText));
         var _floor = _target.getAttribute('floor');
         var _floorIdx = Array.prototype.indexOf.call(_alphaFloors, _floor);
         // reset ajax url.
