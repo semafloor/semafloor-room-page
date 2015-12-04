@@ -12,6 +12,7 @@
         box-sizing: inherit;
 
         display: block;
+        @apply(--paper-font-common-base);
       }
 
       *, *::before, *::after {
@@ -21,14 +22,9 @@
       .horizontal-section {
         @apply(--layout-horizontal);
         @apply(--layout-flex-auto);
-        /*height: calc(100% - 128px);*/
-        /*height: 100%;*/
       }
 
-      .horizontal-collapsible-section {
-        @apply(--layout-horizontal);
-      }
-
+      .horizontal-collapsible-section,
       .alpha-site-container,
       .beta-site-container,
       .gamma-site-container {
@@ -58,7 +54,9 @@
         color: #fff;
       }
 
-      iron-collapse {
+      .alpha-site-container > iron-collapse,
+      .beta-site-container > iron-collapse,
+      .gamma-site-container > iron-collapse {
         @apply(--layout-horizontal);
         @apply(--layout-center-center);
       }
@@ -66,12 +64,16 @@
       iron-collapse#alphaSite {
         max-height: calc(100vh - 128px);
       }
-      iron-collapse > .collapsible-content {
+      .alpha-site-container > iron-collapse > .collapsible-content,
+      .beta-site-container > iron-collapse > .collapsible-content,
+      .gamma-site-container > iron-collapse > .collapsible-content {
         padding: 3px;
         @apply(--layout-horizontal);
         @apply(--layout-wrap-reverse);
       }
-      iron-collapse > .collapsible-content paper-button {
+      .alpha-site-container > iron-collapse > .collapsible-content paper-button,
+      .beta-site-container > iron-collapse > .collapsible-content paper-button,
+      .gamma-site-container > iron-collapse > .collapsible-content paper-button {
         margin: 8px 2px;
         min-width: 20px;
         width: 58px;
@@ -84,7 +86,85 @@
         @apply(--layout-center-center);
       }
 
+      paper-dialog {
+        margin: 0;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        @apply(--layout);
+        overflow: auto;
+      }
+      paper-dialog > app-header-layout,
+      app-header-layout::content > #contentContainer {
+        @apply(--layout-flex-auto);
+        @apply(--layout-horizontal);
+        box-sizing: border-box;
+      }
 
+      /* remove default spacing of `paper-dialog` */
+      paper-dialog > app-header-layout {
+        padding: 0;
+        margin: 0;
+      }
+
+      /* dialog styling */
+      paper-dialog app-toolbar {
+        background-color: #607D8B;
+        color: #fff;
+      }
+      paper-dialog .dialog-room-tabs {
+        @apply(--layout-vertical);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      paper-dialog .dialog-room-tab {
+        width: 100%;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      paper-dialog .dialog-room-tabs {
+        border-right: 1px solid #ddd;
+        min-width: 95px;
+      }
+      .dialog-room-tabs > iron-selector {
+        font-size: 85%;
+        padding: 0;
+      }
+      .dialog-room-tabs > iron-selector div {
+        padding: 8px;
+      }
+      .dialog-room-tabs > iron-selector .iron-selected {
+        background-color: #1DDBD8;
+        color: #fff;
+      }
+      .dialog-room-tab .room-tab-item {
+        position: relative;
+        border-bottom: 1px solid #ddd;
+        padding: 16px 0 16px 16px;
+        min-height: 64px;
+      }
+      .dialog-room-tab .room-tab-item > span {
+        display: block;
+        font-size: 85%;
+      }
+      .dialog-room-tab .room-tab-item > span+span {
+        color: #757575;
+      }
+      .dialog-room-tab .room-tab-item > paper-checkbox {
+        display: block;
+        margin-top: 6px;
+        font-size: 85%;
+        --paper-checkbox-unchecked-color: #1DDBD8;
+      }
+      paper-checkbox::content * {
+        opacity: 1 !important;
+        max-width: 200px !important
+      }
+      paper-checkbox::content #checkbox {
+        border-radius: 50%;
+      }
 
     </style>
 

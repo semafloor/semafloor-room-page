@@ -5,6 +5,7 @@
 <link rel="import" href="../iron-collapse/iron-collapse.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-selector/iron-selector.html">
 
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
@@ -54,7 +55,7 @@ Example:
             <iron-collapse id="alphaSite" horizontal>
               <div class="collapsible-content">
                 <template is="dom-repeat" items="[[_alphaFloors]]" index-as="index">
-                  <paper-button raised>
+                  <paper-button name="alpha" raised on-tap="_showFloorDialog" floor$="[[item]]">
                     <span>[[_computeFloorNumber(item)]]</span>
                   </paper-button>
                 </template>
@@ -68,7 +69,7 @@ Example:
             </paper-icon-item>
             <iron-collapse id="betaSite" horizontal>
               <div class="collapsible-content">
-                <paper-button raised>3</paper-button>
+                <paper-button name="beta" raised on-tap="_showFloorDialog" floor="level 3">3</paper-button>
               </div>
             </iron-collapse>
           </div>
@@ -79,7 +80,7 @@ Example:
             </paper-icon-item>
             <iron-collapse id="gammaSite" horizontal>
               <div class="collapsible-content">
-                <paper-button raised>1</paper-button>
+                <paper-button name="gamma" raised on-tap="_showFloorDialog" floor="level 1">1</paper-button>
               </div>
             </iron-collapse>
           </div>
@@ -89,6 +90,59 @@ Example:
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus accusantium quos ex odio nisi! Dolor maxime quaerat voluptatem nostrum ab.
         </div> -->
       </div>
+
+      <paper-dialog id="floorDialog">
+        <app-header-layout>
+          <app-header>
+            <app-toolbar>
+              <paper-icon-button icon="icons:close" on-tap="_closeFloorDialog" dialog-dismiss></paper-icon-button>
+            </app-toolbar>
+            <app-toolbar>[[_site]] [[_floor]]</app-toolbar>
+          </app-header>
+
+          <!-- <div class="dialog-content-container"> -->
+            <div class="dialog-room-tabs">
+                <iron-selector selected="0">
+              <template is="dom-repeat" items="[[_roomsAtFloor]]" index-as="index">
+                <div class="" on-tap="_showRoom" room$="[[_computeRoomName(item.name)]]">[[item.name]]</div>
+              </template>
+                </iron-selector>
+            </div>
+            <div class="dialog-room-tab">
+              <template is="dom-repeat" items="[[_roomsAtFloor]]" index-as="index">
+                <iron-collapse id$="[[_computeRoomName(item.name)]]" horizontal>
+                  <div room-tab-items-container>
+                    <div class="room-tab-item">
+                      <span>Room Name</span>
+                      <span>[[item.name]]</span>
+                    </div>
+                    <div class="room-tab-item">
+                      <span>Access</span>
+                      <span>[[_computeRoomAccess(item.access)]]</span>
+                    </div>
+                    <div class="room-tab-item">
+                      <span>Capacity</span>
+                      <span>[[item.capacity]]</span>
+                    </div>
+                    <div class="room-tab-item item-types">
+                      <span>Room Types</span>
+                      <template is="dom-repeat" items="[[_computeRoomTypes(item.types)]]" index-as="index">
+                        <paper-checkbox disabled checked>
+                          <span class="checkbox-content">[[item]]</span>
+                        </paper-checkbox>
+                      </template>
+                    </div>
+                    <div class="room-tab-item">
+                      <span>Remarks</span>
+                      <span>[[item.remarks]]</span>
+                    </div>
+                  </div>
+                </iron-collapse>
+              </template>
+            </div>
+          <!-- </div> -->
+        </app-header-layout>
+      </paper-dialog>
 
     <!-- <div class="horizontal-section">
       <paper-icon-item name="alphaSite" on-tap="_toggleVerticallapsible" class="site-collapsible">
@@ -266,31 +320,34 @@ Example:
     _showFloorDialog: function (ev) {
       var _target = ev.target;
 
-      if (_target && _target.tagName === 'PAPER-BUTTON') {
-        if (_target.hasAttribute('name')) {
-          var _site = _target.getAttribute('name');
-          var _siteIdx = Array.prototype.indexOf.call(['alpha', 'beta', 'gamma'], _site);
-          var _floor = String.prototype.toLowerCase.call(_.trim(_target.innerText));
-          var _floorIdx = Array.prototype.indexOf.call(_alphaFloors, _floor);
-          // reset ajax url.
-          this.set('_roomInfoURL', '');
-          // empty data object where json data stored at.
-          this.set('_roomInfo', null);
-          // site name and floor name for dialog's title.
-          this.set('_site', _sites[_siteIdx]);
-          this.set('_floor', _floor);
-          // set floor and site indices to read floor's data.
-          this.set('_floorIdx', _alphaFloorsCode[_floorIdx]);
-          this.set('_siteIdx', _site);
-          // set ajax url to read latest data.
-          this.set('_roomInfoURL', '../room-info.json');
-          console.log('url-set');
-          // open dialog...
-          this.$.floorDialog.open();
-          console.log('dialog-open');
-          // set null.
-          _site = null; _siteIdx = null; _floor = null; _floorIdx = null;
-        }
+      while (_target && _target.tagName !== 'PAPER-BUTTON') {
+        _target = _target.parentElement;
+      }
+
+      if (_target && _target.hasAttribute('name')) {
+        var _site = _target.getAttribute('name');
+        var _siteIdx = Array.prototype.indexOf.call(['alpha', 'beta', 'gamma'], _site);
+        // var _floor = String.prototype.toLowerCase.call(_.trim(_target.innerText));
+        var _floor = _target.getAttribute('floor');
+        var _floorIdx = Array.prototype.indexOf.call(_alphaFloors, _floor);
+        // reset ajax url.
+        this.set('_roomInfoURL', '');
+        // empty data object where json data stored at.
+        this.set('_roomInfo', null);
+        // site name and floor name for dialog's title.
+        this.set('_site', _sites[_siteIdx]);
+        this.set('_floor', _floor);
+        // set floor and site indices to read floor's data.
+        this.set('_floorIdx', _alphaFloorsCode[_floorIdx]);
+        this.set('_siteIdx', _site);
+        // set ajax url to read latest data.
+        this.set('_roomInfoURL', '../room-info.json');
+        console.log('url-set');
+        // open dialog...
+        this.$.floorDialog.open();
+        console.log('dialog-open');
+        // set null.
+        _site = null; _siteIdx = null; _floor = null; _floorIdx = null;
       }
       // set null.
       _target = null;
@@ -321,7 +378,7 @@ Example:
     _showRoom: function (ev) {
       var _target = ev.target;
 
-      while (_target && _target.tagName !== 'PAPER-ITEM') {
+      while (_target && _target.tagName !== 'DIV') {
         _target = _target.parentElement;
       }
 
@@ -373,7 +430,8 @@ Example:
         this.$$('#' + this._openedRoom).hide();
       }
       // reset _openedRoom.
-      this.set('_openedRoom', '');
+      this.set('_openedRoom', null);
+      this.set('_roomsAtFloor', null);
     },
 
     _computeFloorNumber: function (_floorNumber) {
