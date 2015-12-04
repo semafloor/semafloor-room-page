@@ -98,11 +98,11 @@ Example:
 
           <!-- <div class="dialog-content-container"> -->
             <div class="dialog-room-tabs">
-                <iron-selector selected="0">
-              <template is="dom-repeat" items="[[_roomsAtFloor]]" index-as="index">
-                <div class="" on-tap="_showRoom" room$="[[_computeRoomName(item.name)]]">[[item.name]]</div>
-              </template>
-                </iron-selector>
+              <iron-selector selected="0">
+                <template is="dom-repeat" items="[[_roomsAtFloor]]" index-as="index">
+                  <div on-tap="_showRoom" room$="[[_computeRoomName(item.name)]]">[[item.name]]</div>
+                </template>
+              </iron-selector>
             </div>
             <div class="dialog-room-tab">
               <template is="dom-repeat" items="[[_roomsAtFloor]]" index-as="index">
