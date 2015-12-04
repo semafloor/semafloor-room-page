@@ -85,12 +85,9 @@ Example:
             </iron-collapse>
           </div>
         </div>
-        <!-- hide me content -->
-        <!-- <div id="hideMe" class="vertical-section">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus accusantium quos ex odio nisi! Dolor maxime quaerat voluptatem nostrum ab.
-        </div> -->
       </div>
 
+      <!-- floor dialog -->
       <paper-dialog id="floorDialog">
         <app-header-layout>
           <app-header>
@@ -143,91 +140,6 @@ Example:
           <!-- </div> -->
         </app-header-layout>
       </paper-dialog>
-
-    <!-- <div class="horizontal-section">
-      <paper-icon-item name="alphaSite" on-tap="_toggleVerticallapsible" class="site-collapsible">
-        <iron-icon icon="icons:star-border"></iron-icon>
-        <span>KLB - Tower 5</span>
-      </paper-icon-item>
-      <iron-collapse id="alphaSite" horizontal class="alpha-collapsible">
-        <div class="alpha-collapsible-container">
-          <template is="dom-repeat" items="[[_alphaFloors]]" index-as="index">
-            <paper-button name="alpha" raised on-tap="_showFloorDialog">[[item]]</paper-button>
-          </template>
-        </div>
-      </iron-collapse>
-      <paper-icon-item name="betaSite" on-tap="_toggleVerticallapsible" class="site-collapsible">
-        <iron-icon icon="icons:star-half"></iron-icon>
-        <span>KLB - Tower 2A</span>
-      </paper-icon-item>
-      <iron-collapse id="betaSite" horizontal class="beta-collapsible">
-        <div class="beta-collapsible-container">
-          <paper-button name="beta" raised on-tap="_showFloorDialog">Level 3</paper-button>
-        </div>
-      </iron-collapse>
-      <paper-icon-item name="gammaSite" on-tap="_toggleVerticallapsible" class="site-collapsible">
-        <iron-icon icon="icons:star"></iron-icon>
-        <span>SUITE</span>
-      </paper-icon-item>
-      <iron-collapse id="gammaSite" horizontal class="gamma-collapsible">
-        <div class="gamma-collapsible-container">
-          <paper-button name="gamma" raised on-tap="_showFloorDialog">Level 1</paper-button>
-        </div>
-      </iron-collapse>
-    </div>
-
-    <paper-dialog id="floorDialog">
-      <app-header-layout>
-        <app-header>
-          <app-toolbar>
-            <paper-icon-button icon="icons:close" dialog-dismiss on-tap="_closeFloorDialog"></paper-icon-button>
-          </app-toolbar>
-          <app-toolbar>[[_site]] [[_floor]]</app-toolbar>
-        </app-header>
-
-        <div class="room-info-container">
-          <div class="room-tabs">
-            <template is="dom-repeat" items="[[_roomsAtFloor]]" index-as="index">
-              <paper-item class="room-tab" room$="[[_computeRoomName(item.name)]]" on-tap="_showRoom">
-                <span>[[item.name]]</span>
-              </paper-item>
-            </template>
-          </div>
-          <div class="room-tab-info">
-            <template is="dom-repeat" items="[[_roomsAtFloor]]" index-as="index">
-              <iron-collapse id$="[[_computeRoomName(item.name)]]" horizontal>
-                <div class="room-list">
-                  <div class="room-list-item">
-                    <span>Room Name</span>
-                    <span>[[item.name]]</span>
-                  </div>
-                  <div class="room-list-item">
-                    <span>Access</span>
-                    <span>[[_computeRoomAccess(item.access)]]</span>
-                  </div>
-                  <div class="room-list-item">
-                    <span>Capacity</span>
-                    <span>[[item.capacity]]</span>
-                  </div>
-                  <div class="room-list-item">
-                    <span>Meeting Types</span>
-                    <div class="room-types">
-                      <template is="dom-repeat" items="[[_computeRoomTypes(item.types)]]" index-as="index">
-                        <paper-checkbox checked disabled>[[item]]</paper-checkbox>
-                      </template>
-                    </div>
-                  </div>
-                  <div class="room-list-item">
-                    <span>Remarks</span>
-                    <span>[[item.remarks]]</span>
-                  </div>
-                </div>
-              </iron-collapse>
-            </template>
-          </div>
-        </div>
-      </app-header-layout>
-    </paper-dialog> -->
   </template>
 
 </dom-module>
