@@ -12,6 +12,8 @@
         box-sizing: inherit;
 
         display: block;
+        height: calc(100vh - 128px);
+        @apply(--layout);
         @apply(--paper-font-common-base);
       }
 
@@ -59,10 +61,6 @@
       .gamma-site-container > iron-collapse {
         @apply(--layout-horizontal);
         @apply(--layout-center-center);
-      }
-      /* workaround for dreadfully height stretch*/
-      iron-collapse#alphaSite {
-        max-height: calc(100vh - 128px);
       }
       .alpha-site-container > iron-collapse > .collapsible-content,
       .beta-site-container > iron-collapse > .collapsible-content,
