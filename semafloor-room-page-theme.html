@@ -4,166 +4,17 @@
   <template strip-whitespace>
     <style>
       :host {
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        -o-user-select: none;
         user-select: none;
-        box-sizing: inherit;
+        box-sizing: border-box;
 
         display: block;
-        height: calc(100vh - 128px);
-        @apply(--layout);
-        @apply(--paper-font-common-base);
       }
 
       *, *::before, *::after {
         box-sizing: border-box;
       }
 
-      .horizontal-section {
-        @apply(--layout-horizontal);
-        @apply(--layout-flex-auto);
-      }
-
-      .horizontal-collapsible-section,
-      .alpha-site-container,
-      .beta-site-container,
-      .gamma-site-container {
-        @apply(--layout-horizontal);
-      }
-
-      .alpha-site-container > paper-icon-item,
-      .beta-site-container > paper-icon-item,
-      .gamma-site-container > paper-icon-item {
-        @apply(--layout-vertical);
-      }
-      .alpha-site-container > paper-icon-item > span,
-      .beta-site-container > paper-icon-item > span,
-      .gamma-site-container > paper-icon-item > span {
-        max-width: 12px;
-        word-break: break-all;
-        word-wrap: break-word;
-        text-transform: uppercase;
-        text-align: center;
-      }
-      paper-icon-item::content > #contentIcon {
-        width: auto;
-      }
-      paper-icon-item.site-collapsible:focus,
-      paper-button[pressed] {
-        background-color: #1DDBD8;
-        color: #fff;
-      }
-
-      .alpha-site-container > iron-collapse,
-      .beta-site-container > iron-collapse,
-      .gamma-site-container > iron-collapse {
-        @apply(--layout-horizontal);
-        @apply(--layout-center-center);
-      }
-      .alpha-site-container > iron-collapse > .collapsible-content,
-      .beta-site-container > iron-collapse > .collapsible-content,
-      .gamma-site-container > iron-collapse > .collapsible-content {
-        padding: 3px;
-        @apply(--layout-horizontal);
-        @apply(--layout-wrap-reverse);
-      }
-      .alpha-site-container > iron-collapse > .collapsible-content paper-button,
-      .beta-site-container > iron-collapse > .collapsible-content paper-button,
-      .gamma-site-container > iron-collapse > .collapsible-content paper-button {
-        margin: 8px 2px;
-        min-width: 20px;
-        width: 58px;
-        height: 58px;
-        font-size: 24px;
-        border-radius: 50%;
-        -webkit-tap-highlight-color: transparent;
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-        @apply(--layout);
-        @apply(--layout-center-center);
-      }
-
-      paper-dialog {
-        margin: 0;
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        @apply(--layout);
-        overflow: auto;
-      }
-      paper-dialog > app-header-layout,
-      app-header-layout::content > #contentContainer {
-        @apply(--layout-flex-auto);
-        @apply(--layout-horizontal);
-        box-sizing: border-box;
-      }
-
-      /* remove default spacing of `paper-dialog` */
-      paper-dialog > app-header-layout {
-        padding: 0;
-        margin: 0;
-      }
-
-      /* dialog styling */
-      paper-dialog app-toolbar {
-        background-color: #607D8B;
-        color: #fff;
-      }
-      paper-dialog .dialog-room-tabs {
-        @apply(--layout-vertical);
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-      paper-dialog .dialog-room-tab {
-        width: 100%;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-      paper-dialog .dialog-room-tabs {
-        border-right: 1px solid #ddd;
-        min-width: 95px;
-      }
-      .dialog-room-tabs > iron-selector {
-        font-size: 85%;
-        padding: 0;
-      }
-      .dialog-room-tabs > iron-selector div {
-        padding: 8px;
-      }
-      .dialog-room-tabs > iron-selector .iron-selected {
-        background-color: #1DDBD8;
-        color: #fff;
-      }
-      .dialog-room-tab .room-tab-item {
-        position: relative;
-        border-bottom: 1px solid #ddd;
-        padding: 16px 0 16px 16px;
-        min-height: 64px;
-      }
-      .dialog-room-tab .room-tab-item > span {
-        display: block;
-        font-size: 85%;
-      }
-      .dialog-room-tab .room-tab-item > span+span {
-        color: #757575;
-      }
-      .dialog-room-tab .room-tab-item > paper-checkbox {
-        display: block;
-        margin-top: 6px;
-        font-size: 85%;
-        --paper-checkbox-unchecked-color: #1DDBD8;
-      }
-      paper-checkbox::content * {
-        opacity: 1 !important;
-        max-width: 200px !important
-      }
-      paper-checkbox::content #checkbox {
-        border-radius: 50%;
-      }
-
+      
     </style>
 
   </template>

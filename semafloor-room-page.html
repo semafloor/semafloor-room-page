@@ -2,9 +2,7 @@
 <link rel="import" href="semafloor-room-page-theme.html">
 
 <link rel="import" href="../iron-ajax/iron-ajax.html">
-<link rel="import" href="../iron-collapse/iron-collapse.html">
-<link rel="import" href="../iron-icons/iron-icons.html">
-<link rel="import" href="../iron-icons/iron-icons.html">
+<!-- <link rel="import" href="../iron-collapse/iron-collapse.html">
 <link rel="import" href="../iron-selector/iron-selector.html">
 
 <link rel="import" href="../paper-button/paper-button.html">
@@ -12,11 +10,7 @@
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="../paper-item/paper-icon-item.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../paper-tabs/paper-tabs.html">
-
-<link rel="import" href="../app-layout/app-header-layout/app-header-layout.html">
-<link rel="import" href="../app-layout/app-header/app-header.html">
-<link rel="import" href="../app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html"> -->
 
 <script src="../lodash/lodash.min.js" charset="utf-8"></script>
 
@@ -44,101 +38,7 @@ Example:
       on-response="_onResponse"
       last-response="{{_roomInfo}}"></iron-ajax>
 
-      <div class="horizontal-section">
-        <div class="horizontal-collapsible-section">
-          <div class="alpha-site-container">
-            <paper-icon-item name="alphaSite" on-tap="_toggleVerticallapsible" class="site-collapsible">
-              <iron-icon icon="icons:star-border" item-icon></iron-icon>
-              <span>KLB - Tower 5</span>
-            </paper-icon-item>
-            <iron-collapse id="alphaSite" horizontal>
-              <div class="collapsible-content">
-                <template is="dom-repeat" items="[[_alphaFloors]]" index-as="index">
-                  <paper-button name="alpha" raised on-tap="_showFloorDialog" floor$="[[item]]">
-                    <span>[[_computeFloorNumber(item)]]</span>
-                  </paper-button>
-                </template>
-              </div>
-            </iron-collapse>
-          </div>
-          <div class="beta-site-container">
-            <paper-icon-item name="betaSite" on-tap="_toggleVerticallapsible" class="site-collapsible">
-              <iron-icon icon="icons:star-half" item-icon></iron-icon>
-              <span>KLB - Tower 2A</span>
-            </paper-icon-item>
-            <iron-collapse id="betaSite" horizontal>
-              <div class="collapsible-content">
-                <paper-button name="beta" raised on-tap="_showFloorDialog" floor="level 3">3</paper-button>
-              </div>
-            </iron-collapse>
-          </div>
-          <div class="gamma-site-container">
-            <paper-icon-item name="gammaSite" on-tap="_toggleVerticallapsible" class="site-collapsible">
-              <iron-icon icon="icons:star" item-icon></iron-icon>
-              <span>SUITE</span>
-            </paper-icon-item>
-            <iron-collapse id="gammaSite" horizontal>
-              <div class="collapsible-content">
-                <paper-button name="gamma" raised on-tap="_showFloorDialog" floor="level 1">1</paper-button>
-              </div>
-            </iron-collapse>
-          </div>
-        </div>
-      </div>
 
-      <!-- floor dialog -->
-      <paper-dialog id="floorDialog">
-        <app-header-layout>
-          <app-header>
-            <app-toolbar>
-              <paper-icon-button icon="icons:close" on-tap="_closeFloorDialog" dialog-dismiss></paper-icon-button>
-            </app-toolbar>
-            <app-toolbar>[[_site]] [[_floor]]</app-toolbar>
-          </app-header>
-
-          <!-- <div class="dialog-content-container"> -->
-            <div class="dialog-room-tabs">
-              <iron-selector selected="0">
-                <template is="dom-repeat" items="[[_roomsAtFloor]]" index-as="index">
-                  <div on-tap="_showRoom" room$="[[_computeRoomName(item.name)]]">[[item.name]]</div>
-                </template>
-              </iron-selector>
-            </div>
-            <div class="dialog-room-tab">
-              <template is="dom-repeat" items="[[_roomsAtFloor]]" index-as="index">
-                <iron-collapse id$="[[_computeRoomName(item.name)]]" horizontal>
-                  <div room-tab-items-container>
-                    <div class="room-tab-item">
-                      <span>Room Name</span>
-                      <span>[[item.name]]</span>
-                    </div>
-                    <div class="room-tab-item">
-                      <span>Access</span>
-                      <span>[[_computeRoomAccess(item.access)]]</span>
-                    </div>
-                    <div class="room-tab-item">
-                      <span>Capacity</span>
-                      <span>[[item.capacity]]</span>
-                    </div>
-                    <div class="room-tab-item item-types">
-                      <span>Room Types</span>
-                      <template is="dom-repeat" items="[[_computeRoomTypes(item.types)]]" index-as="index">
-                        <paper-checkbox disabled checked>
-                          <span class="checkbox-content">[[item]]</span>
-                        </paper-checkbox>
-                      </template>
-                    </div>
-                    <div class="room-tab-item">
-                      <span>Remarks</span>
-                      <span>[[item.remarks]]</span>
-                    </div>
-                  </div>
-                </iron-collapse>
-              </template>
-            </div>
-          <!-- </div> -->
-        </app-header-layout>
-      </paper-dialog>
   </template>
 
 </dom-module>
@@ -154,21 +54,7 @@ Example:
     is: 'semafloor-room-page',
 
     properties: {
-      _alphaFloors: {
-        type: Array,
-        value: function () {
-          return _alphaFloors
-        }
-      },
-      _openedVerticallapsible: String,
-      _roomInfo: Object,
-      _roomInfoURL: String,
-      _site: String,
-      _floor: String,
-      _floorIdx: String,
-      _siteIdx: String,
-      _roomsAtFloor: Array,
-      _openedRoom: String,
+
 
     },
 
@@ -199,154 +85,6 @@ Example:
       // Use this to clean up anything you did in `attached`.
     },
 
-    _toggleVerticallapsible: function (ev) {
-      var _target = ev.target;
-
-      while (_target && _target.tagName !== 'PAPER-ICON-ITEM') {
-        _target = _target.parentElement;
-      }
-
-      if (_target && _target.hasAttribute('name')) {
-        var _name = _target.getAttribute('name');
-        var _opened = this._openedVerticallapsible;
-        // _opened && _opened === _name -> set _opened null, toggle(_name)
-        // _opened && _opened !== _name -> set _opened, hide(_opened), toggle(_name)
-        // _opened is undefined -> set _opened, toggle(_name)
-        if (_opened && _opened === _name) {
-          this.set('_openedVerticallapsible', '');
-        }else {
-          if (_opened) {
-            this.$[_opened].hide();
-          }
-          this.set('_openedVerticallapsible', _name);
-        }
-        this.$[_name].toggle();
-        // set null.
-        _name = null; _opened = null;
-      }
-      // set null.
-      _target = null;
-    },
-
-    _showFloorDialog: function (ev) {
-      var _target = ev.target;
-
-      while (_target && _target.tagName !== 'PAPER-BUTTON') {
-        _target = _target.parentElement;
-      }
-
-      if (_target && _target.hasAttribute('name')) {
-        var _site = _target.getAttribute('name');
-        var _siteIdx = Array.prototype.indexOf.call(['alpha', 'beta', 'gamma'], _site);
-        var _floor = _target.getAttribute('floor');
-        var _floorIdx = Array.prototype.indexOf.call(_alphaFloors, _floor);
-        // reset ajax url.
-        this.set('_roomInfoURL', '');
-        // empty data object where json data stored at.
-        this.set('_roomInfo', null);
-        // site name and floor name for dialog's title.
-        this.set('_site', _sites[_siteIdx]);
-        this.set('_floor', _floor);
-        // set floor and site indices to read floor's data.
-        this.set('_floorIdx', _alphaFloorsCode[_floorIdx]);
-        this.set('_siteIdx', _site);
-        // set ajax url to read latest data.
-        this.set('_roomInfoURL', '../json/room-info.json');
-        console.log('url-set');
-        // open dialog...
-        this.$.floorDialog.open();
-        console.log('dialog-open');
-        // set null.
-        _site = null; _siteIdx = null; _floor = null; _floorIdx = null;
-      }
-      // set null.
-      _target = null;
-    },
-
-    _onResponse: function (ev) {
-      // when ajax receives latesta data...
-      console.log('get-json');
-      console.log(this._floorIdx);
-      console.log(this._siteIdx);
-      console.log(this._roomInfo);
-      console.log(this._roomInfo[this._siteIdx][this._floorIdx]);
-      var _roomInfo = this._roomInfo;
-      var _siteIdx = this._siteIdx;
-      var _floorIdx = this._floorIdx;
-
-      if (_roomInfo && _siteIdx && _floorIdx) {
-        this.set('_roomsAtFloor', _roomInfo[_siteIdx][_floorIdx]);
-      }
-      // set null.
-      _roomInfo = null; _siteIdx = null; _floorIdx = null;
-    },
-
-    _computeRoomName: function (_room) {
-      return _.camelCase(_room);
-    },
-
-    _showRoom: function (ev) {
-      var _target = ev.target;
-
-      while (_target && _target.tagName !== 'DIV') {
-        _target = _target.parentElement;
-      }
-
-      if (_target && _target.hasAttribute('room')) {
-        var _room = _target.getAttribute('room');
-        var _opened = this._openedRoom;
-        // _opened && _opened === _name -> set _opened null, toggle(_name)
-        // _opened && _opened !== _name -> set _opened, hide(_opened), toggle(_name)
-        // _opened is undefined -> set _opened, toggle(_name)
-        if (_opened && _opened === _room) {
-          this.set('_openedRoom', '');
-        }else {
-          if (_opened) {
-            this.$$('#' + _opened).hide();
-          }
-          this.set('_openedRoom', _room);
-        }
-
-        this.$$('#' + _room).toggle();
-        // set null.
-        _room = null; _opened = null;
-      }
-      // set null.
-      _target = null;
-    },
-
-    _computeRoomTypes: function (_types) {
-      console.time('haha');
-      var _hex2bin = _.padLeft(parseInt(_types, 16).toString(2), 12, 0)
-      var _str2arr = _hex2bin.split('').map(Number);
-      var _filtered = [];
-      _.filter(_str2arr, function(el, idx, arr){
-        if (el === 1) _filtered.push(_roomTypes[idx]);
-      });
-      console.timeEnd('haha');
-      console.log(_filtered);
-      // set null.
-      _hex2bin = null; _str2arr = null;
-      return _filtered;
-    },
-
-    _computeRoomAccess: function (_access) {
-      return _access ? 'Public' : 'Restricted';
-    },
-
-    _closeFloorDialog: function (ev) {
-      // close opened room.
-      if (this._openedRoom) {
-        this.$$('#' + this._openedRoom).hide();
-      }
-      // reset _openedRoom.
-      this.set('_openedRoom', null);
-      this.set('_roomsAtFloor', null);
-    },
-
-    _computeFloorNumber: function (_floorNumber) {
-      return _floorNumber.slice(6);
-    }
 
   });
 

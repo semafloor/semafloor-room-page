@@ -6,47 +6,53 @@
     <title>semafloor-room-page Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="../semafloor-room-page.html">
-    <link rel="import" href="../../app-layout/app-drawer-layout/app-drawer-layout.html">
-    <link rel="import" href="../../app-layout/app-header-layout/app-header-layout.html">
-    <link rel="import" href="../../app-layout/app-header/app-header.html">
-    <link rel="import" href="../../app-layout/app-toolbar/app-toolbar.html">
-
+    <link rel="import" href="../../app-layout/app-layout.html">
+    <link rel="import" href="../../app-layout/app-scroll-effects/app-scroll-effects.html">
+    <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="../semafloor-room-page-icons.html">
     <style is="custom-style">
       body {
         margin: 0;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        -webkit-font-smoothing: antialiased;
       }
 
-      app-toolbar {
-        background-color: #607D8B;
+      app-header {
+        background-color: #009688;
         color: #fff;
       }
 
-      /* ::content is needed when sytle[is=custom-style] is used */
-      app-drawer-layout,
-      [main]::content > #contentContainer {
-        /*@apply(--layout-fit);
-        @apply(--layout-vertical);*/
-      }
-
-      semafloor-room-page {
-        /*@apply(--layout-flex-auto);
-        @apply(--layout-vertical);*/
+      [title] {
+        color: #fff;
+        font-size: 20px;
+        font-weight: 300;
+        margin-left: 8px;
       }
     </style>
   </head>
   <body>
-
     <app-drawer-layout>
       <app-header-layout drawer></app-header-layout>
+
       <app-header-layout main>
-        <app-header>
-          <!-- top toolbar -->
-          <app-toolbar>Room Information</app-toolbar>
-          <!-- bottom toolbar -->
-          <app-toolbar></app-toolbar>
+        <app-header condenses fixed effects="waterfall">
+          <app-toolbar title>Room Information</app-toolbar>
         </app-header>
 
-        <!-- main content -->
+        <!-- 35 nodes clean on CH/ OP before optimization-->
+        <!-- 43 nodes clean on FF before optimization -->
+        <!-- 21 nodes app shell on CH/ OP before optimization -->
+        <!-- 21 nodes app shell on FF before optimization -->
+        <!-- 88 nodes element on CH/ OP before optimization -->
+        <!-- 88 nodes element on FF before optimization -->
+
+        <!-- 35 nodes clean on CH/ OP after optimization-->
+        <!-- 43 nodes clean on FF after optimization -->
+        <!-- 21 nodes app shell on CH/ OP after optimization -->
+        <!-- 21 nodes app shell on FF after optimization -->
+        <!-- ? nodes element on CH/ OP after optimization -->
+        <!-- ? nodes element on FF after optimization -->
+
         <semafloor-room-page></semafloor-room-page>
       </app-header-layout>
     </app-drawer-layout>
