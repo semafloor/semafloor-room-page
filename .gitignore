@@ -1,1 +1,6 @@
 bower_components
+node_modules
+src
+dist
+package.json
+gulpfile.babel.js

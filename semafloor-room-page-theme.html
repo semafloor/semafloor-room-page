@@ -14,7 +14,61 @@
         box-sizing: border-box;
       }
 
-      
+      paper-card.each-card {
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+      div.card-header {
+        height: 64px;
+        font-size: 32px;
+        padding-left: 24px;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+      div.card-header > iron-icon {
+        height: 32px;
+        width: 32px;
+        margin-right: 16px;
+      }
+      div.card-img {
+        background-color: #FFECB3;
+        width: 100%;
+        height: 150px;
+      }
+      div.card-img.language {
+        background-color: #C5CAE9;
+      }
+      div.card-img.trending-up {
+        background-color: #F8BBD0;
+      }
+      paper-ripple {
+        color: #FFC107;
+      }
+      paper-ripple.language {
+        color: #3F51B5;
+      }
+      paper-ripple.trending-up {
+        color: #E91E63;
+      }
+
+      div.fake-toolbar {
+        height: 48px;
+        text-align: center;
+        background-color: #80CBC4;
+        color: #FFFF8D;
+        font-weight: 300;
+        @apply(--layout-horizontal);
+      }
+      div.fake-tab {
+        font-size: 12px;
+        padding: 12px 0;
+        width: calc(100% / 3);
+      }
+      div.fake-tab.selected {
+        font-weight: 800;
+        border-bottom: 3px solid #ffff8d;
+      }
+
     </style>
 
   </template>

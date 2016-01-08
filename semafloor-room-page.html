@@ -1,18 +1,22 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="semafloor-room-page-theme.html">
+<link rel="import" href="semafloor-room-page-icons.html">
 
 <link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+
+<link rel="import" href="../paper-card/paper-card.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-ripple/paper-ripple.html">
 <!-- <link rel="import" href="../iron-collapse/iron-collapse.html">
 <link rel="import" href="../iron-selector/iron-selector.html">
 
-<link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="../paper-item/paper-icon-item.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html"> -->
-
-<script src="../lodash/lodash.min.js" charset="utf-8"></script>
 
 <!--
 An element providing a solution to no problem in particular.
@@ -38,16 +42,80 @@ Example:
       on-response="_onResponse"
       last-response="{{_roomInfo}}"></iron-ajax>
 
+    <iron-pages selected="[[_enteredSite]]">
+      <div class="">
+        <div class="fake-toolbar">
+          <template is="dom-repeat" items="[[_computeFakeTabs(0)]]" index-as="index">
+            <div class$="fake-tab[[_isSelectedTab(index, _selectedFakeTab)]]" on-tap="_changeTab">
+              [[item]]
+            </div>
+          </template>
+        </div>
+        KLB - Tower 5
+      </div>
 
+      <div class="">
+        <div class="fake-toolbar">
+          <template is="dom-repeat" items="[[_computeFakeTabs(1)]]" index-as="index">
+            <div class$="fake-tab[[_isSelectedTab(index, _selectedFakeTab)]]" on-tap="_changeTab">
+              [[item]]
+            </div>
+          </template>
+        </div>
+        KLB - Tower 2A
+
+      </div>
+
+      <div class="">
+        <div class="fake-toolbar">
+          <template is="dom-repeat" items="[[_computeFakeTabs(2)]]" index-as="index">
+            <div class$="fake-tab[[_isSelectedTab(index, _selectedFakeTab)]]" on-tap="_changeTab">
+              [[item]]
+            </div>
+          </template>
+        </div>
+        SUITE
+
+      </div>
+
+      <div class="">
+        <template is="dom-repeat" items="[[_allSiteCards]]" index-as="index">
+          <paper-card class="each-card" on-tap="_enterSite">
+            <div class="card-header">
+              <iron-icon icon="icons:[[_computeSiteIcon(index)]]"></iron-icon>
+              <span>[[item]]</span>
+            </div>
+
+            <div class$="card-img [[_computeSiteIcon(index)]]"></div>
+
+            <div class="card-content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam rem ducimus aperiam necessitatibus nisi at voluptatibus quam, delectus tempora a.
+            </div>
+
+            <paper-ripple site$="[[item]]" class$="[[_computeSiteIcon(index)]]"></paper-ripple>
+            <!-- <div class="card-actions">
+          </div> -->
+        </paper-card>
+      </template>
+      </div>
+    </iron-pages>
   </template>
 
 </dom-module>
 
 <script>
-  var _alphaFloors = ['level 1','level 2','level 3','level 3a','level 5','level 6','level 7','level 8','level 9','level 10','level 11','level 12'];
-  var _alphaFloorsCode = ['01level','02level','03level','04level','05level','06level','07level','08level','09level','10level','11level','12level'];
-  var _sites = ['KLB - Tower 5', 'KLB - Tower 2A', 'SUITE'];
-  var _roomTypes = ['Adjoining Room (Operable Wall)','Panaboard','Polycom CX100 (Audio)','Polycom CX5000 (Video Conferencing)','Projector','Projector Cable Faulty','Projector Faulty','Screen Projector Faulty','SmartBoard 800','Telepresence','TV','Writing Glass Board'];
+  var _alphaFloors = [
+    'level 1','level 2','level 3','level 3A','level 5','level 6',
+    'level 7','level 8','level 9','level 10','level 11','level 12'];
+  var _alphaFloorsCode = [
+    '01level','02level','03level','04level','05level','06level',
+    '07level','08level','09level','10level','11level','12level'];
+  var _siteNames = ['KLB - Tower 5', 'KLB - Tower 2A', 'SUITE'];
+  var _roomTypes = [
+    'Adjoining Room (Operable Wall)','Panaboard','Polycom CX100 (Audio)',
+    'Polycom CX5000 (Video Conferencing)','Projector','Projector Cable Faulty',
+    'Projector Faulty','Screen Projector Faulty','SmartBoard 800','Telepresence',
+    'TV','Writing Glass Board'];
 
   Polymer({
 
@@ -55,6 +123,20 @@ Example:
 
     properties: {
 
+      _allSiteCards: {
+        type: Array,
+        value: function() {
+          return _siteNames
+        }
+      },
+      _enteredSite: {
+        type: Number,
+        value: 3
+      },
+      _selectedFakeTab: {
+        type: Number,
+        value: 1
+      },
 
     },
 
@@ -85,6 +167,27 @@ Example:
       // Use this to clean up anything you did in `attached`.
     },
 
+    _computeSiteIcon: function(_index) {
+      return ['language', 'trending-up', 'group-work'][_index];
+    },
+
+    _enterSite: function(ev) {
+      this.set('_enteredSite', parseInt(ev.model.index));
+    },
+
+    _computeFakeTabs: function(_index) {
+      var _fakeTabs = ['KLB - Tower 5', 'KLB - Tower 2A', 'SUITE'];
+      _fakeTabs.splice(_index, 1);
+      _fakeTabs.unshift('Sites');
+      return _fakeTabs;
+    },
+    _isSelectedTab: function(_index, _selectedFakeTab) {
+      return _index === _selectedFakeTab ? ' selected' : '';
+    },
+    _changeTab: function(ev) {
+      this.set('_enteredSite', ev.model.index < 1 ? 3 :
+        _siteNames.indexOf(ev.model.item));
+    },
 
   });
 
