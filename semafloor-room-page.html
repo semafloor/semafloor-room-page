@@ -1,1 +1,113 @@
-<link rel=import href=../polymer/polymer.html><link rel=import href=semafloor-room-page-theme.html><link rel=import href=../iron-icon/iron-icon.html><link rel=import href=../iron-list/iron-list.html><link rel=import href=../paper-card/paper-card.html><link rel=import href=../paper-ripple/paper-ripple.html><link rel=import href=../paper-dialog/paper-dialog.html><link rel=import href=../paper-icon-button/paper-icon-button.html><link rel=import href=../paper-checkbox/paper-checkbox.html><link rel=import href=../paper-progress/paper-progress.html><link rel=import href=../firebase-element/firebase-collection.html><dom-module id=semafloor-room-page><template strip-whitespace><style include=semafloor-room-page-theme></style><firebase-collection id=infoList location=[[url]] on-firebase-value=_onFirebaseValue></firebase-collection><template is=dom-repeat items=[[_allSiteCards]] index-as=index strip-whitespace><paper-card class=each-card on-transitionend=_enterSite on-tap=_setSiteReady on-down=_onDown on-up=_onUp><div class$="card-header [[_computeSiteIcon(index)]]"><iron-icon icon=icons:[[_computeSiteIcon(index)]]></iron-icon>[[item]]</div><iron-image class$="card-img [[_computeSiteIcon(index)]]" src=[[_computeSiteImage(index)]] sizing=contain preload></iron-image><div class=card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam rem ducimus aperiam necessitatibus nisi at voluptatibus quam, delectus tempora a.</div><paper-ripple site$=[[item]] class$=[[_computeSiteIcon(index)]]></paper-ripple></paper-card></template><paper-dialog id=floorDialog auto-fit-on-attach no-auto-focus><div class$="fake-toolbar no-padding[[_computeInfoCls(_enteredSite)]]"><paper-icon-button icon=icons:arrow-back on-tap=_leaveFloor></paper-icon-button>[[_enteredSite]]</div><paper-progress id=floorgress indeterminate hidden$=[[_isDataReady]]></paper-progress><div class=fake-layout hidden$=[[!_isDataReady]]><iron-list id=floorsList class=floor-list items=[[_floorsAtEnteredSite]]><template strip-whitespace><div class=each-floor on-tap=_enterRoom>[[item]]</div></template></iron-list></div></paper-dialog><paper-dialog id=roomDialog auto-fit-on-attach no-auto-focus><div class$="fake-toolbar no-padding[[_computeInfoCls(_enteredSite)]]"><paper-icon-button icon=icons:arrow-back on-tap=_leaveRoom></paper-icon-button>[[_enteredSite]] [[_enteredFloor]]</div><paper-progress id=roomgress indeterminate hidden$=[[_isDataReady]]></paper-progress><div class=fake-layout hidden$=[[!_isDataReady]]><iron-list id=roomsList class=floor-list items=[[_roomsAtEnteredFloor]]><template strip-whitespace><div class=each-floor on-tap=_enterInfo>[[item.name]]</div></template></iron-list></div></paper-dialog><paper-dialog id=infoDialog auto-fit-on-attach no-auto-focus on-iron-overlay-opened=_onOpened with-backdrop><template is=dom-repeat items=[[_infoAtEnteredRoom]] index-as=index strip-whitespace><h2 class$=[[_computeInfoCls(_enteredSite)]]>[[item.name]]</h2><div class=each-info on-tap=_enterInfo>Restricted <span>[[_isRestricted(item.access)]]</span></div><div class=each-info on-tap=_enterInfo>Capacity <span>[[item.capacity]]</span></div><div class=each-info on-tap=_enterInfo>Remarks <span>[[item.remarks]]</span></div><div class$=each-info[[_computeInfoCls(_enteredSite)]] on-tap=_enterInfo>Types<template is=dom-repeat items=[[_decodeTypes(item.types)]] index-as=index strip-whitespace><paper-checkbox checked>[[item]]</paper-checkbox></template></div></template></paper-dialog></template></dom-module><script src=semafloor-room-page.js></script>
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="semafloor-room-page-theme.html">
+
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-list/iron-list.html">
+
+<link rel="import" href="../paper-card/paper-card.html">
+<link rel="import" href="../paper-ripple/paper-ripple.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../paper-progress/paper-progress.html">
+
+<link rel="import" href="../firebase-element/firebase-collection.html">
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <semafloor-room-page></semafloor-room-page>
+
+@group Seed Elements
+@element semafloor-room-page
+@demo demo/index.html
+@hero hero.svg
+-->
+<dom-module id="semafloor-room-page">
+
+  <template strip-whitespace>
+    <style include="semafloor-room-page-theme"></style>
+
+    <firebase-collection id="infoList" location="[[url]]" on-firebase-value="_onFirebaseValue"></firebase-collection>
+
+    <template is="dom-repeat" items="[[_allSiteCards]]" index-as="index" strip-whitespace>
+      <paper-card class="each-card" on-transitionend="_enterSite" on-tap="_setSiteReady" on-down="_onDown" on-up="_onUp">
+        <div class$="card-header [[_computeSiteIcon(index)]]">
+          <iron-icon icon="icons:[[_computeSiteIcon(index)]]"></iron-icon>[[item]]
+        </div>
+
+        <iron-image class$="card-img [[_computeSiteIcon(index)]]" src="[[_computeSiteImage(index)]]" sizing="contain" preload></iron-image>
+
+        <div class="card-content">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam rem ducimus aperiam necessitatibus nisi at voluptatibus quam, delectus tempora a.
+        </div>
+
+        <paper-ripple site$="[[item]]" class$="[[_computeSiteIcon(index)]]"></paper-ripple>
+      </paper-card>
+    </template>
+
+    <paper-dialog id="floorDialog" auto-fit-on-attach no-auto-focus>
+      <div class$="fake-toolbar no-padding[[_computeInfoCls(_enteredSite)]]">
+        <paper-icon-button icon="icons:arrow-back" on-tap="_leaveFloor"></paper-icon-button>
+        [[_enteredSite]]
+      </div>
+
+      <paper-progress id="floorgress" indeterminate hidden$="[[_isDataReady]]"></paper-progress>
+      <div class="fake-layout" hidden$="[[!_isDataReady]]">
+        <iron-list id="floorsList" class="floor-list" items="[[_floorsAtEnteredSite]]">
+          <template strip-whitespace>
+            <div class="each-floor" on-tap="_enterRoom">
+              [[item]]
+            </div>
+          </template>
+        </iron-list>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="roomDialog" auto-fit-on-attach no-auto-focus>
+      <div class$="fake-toolbar no-padding[[_computeInfoCls(_enteredSite)]]">
+        <paper-icon-button icon="icons:arrow-back" on-tap="_leaveRoom"></paper-icon-button>
+        [[_enteredSite]] [[_enteredFloor]]
+      </div>
+
+      <paper-progress id="roomgress" indeterminate hidden$="[[_isDataReady]]"></paper-progress>
+      <div class="fake-layout" hidden$="[[!_isDataReady]]">
+        <iron-list id="roomsList" class="floor-list" items="[[_roomsAtEnteredFloor]]">
+          <template strip-whitespace>
+            <div class="each-floor" on-tap="_enterInfo">
+              [[item.name]]
+            </div>
+          </template>
+        </iron-list>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="infoDialog" auto-fit-on-attach no-auto-focus on-iron-overlay-opened="_onOpened" with-backdrop>
+      <template is="dom-repeat" items="[[_infoAtEnteredRoom]]" index-as="index" strip-whitespace>
+        <h2 class$="[[_computeInfoCls(_enteredSite)]]">[[item.name]]</h2>
+        <div class="each-info" on-tap="_enterInfo">
+          Restricted
+          <span>[[_isRestricted(item.access)]]</span>
+        </div>
+        <div class="each-info" on-tap="_enterInfo">
+          Capacity
+          <span>[[item.capacity]]</span>
+        </div>
+        <div class="each-info" on-tap="_enterInfo">
+          Remarks
+          <span>[[item.remarks]]</span>
+        </div>
+        <div class$="each-info[[_computeInfoCls(_enteredSite)]]" on-tap="_enterInfo">
+          Types
+          <template is="dom-repeat" items="[[_decodeTypes(item.types)]]" index-as="index" strip-whitespace>
+            <paper-checkbox checked>[[item]]</paper-checkbox>
+          </template>
+        </div>
+      </template>
+    </paper-dialog>
+  </template>
+
+</dom-module>
+
+<script src="semafloor-room-page.js"></script>
