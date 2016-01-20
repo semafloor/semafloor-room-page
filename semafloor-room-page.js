@@ -100,6 +100,7 @@ Polymer({
     // visual state or active behavior (measuring sizes, beginning animations,
     // loading resources, etc).
     this.updateIronImageWidth();
+    this.fire('room-page-attached');
   },
 
   detached: function() {
