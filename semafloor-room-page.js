@@ -265,8 +265,7 @@ Polymer({
    },
 
    // updateIronImageWidth
-   updateIronImageWidth: function() {
-     var _width = this.getBoundingClientRect().width;
+   updateIronImageWidth: function(_width) {
      // 16:9 aspect ratio for an image to scale and fit properly.
      this.updateStyles({
         '--iron-image-height': (_width / 16 * 9) + 'px'
