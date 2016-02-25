@@ -8,6 +8,8 @@
         box-sizing: border-box;
 
         display: block;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
       }
 
       *, *::before, *::after {
@@ -15,8 +17,23 @@
       }
 
       paper-card.each-card {
-        margin-top: 8px;
+        /*margin-top: 8px;
         margin-bottom: 8px;
+        margin-left: 8px;*/
+        margin: 8px;
+        max-width: 360px;
+        @apply(--layout-horizontal);
+      }
+      div.each-content {
+        @apply(--layout-flex-2);
+      }
+      div.each-content iron-icon {
+        height: 32px;
+        width: 32px;
+        margin-right: 8px;
+      }
+      div.card-actions {
+        @apply(--layout-horizontal);
       }
       div.card-header {
         height: 64px;
@@ -34,16 +51,19 @@
         background-color: #E91E63;
         color: #fff;
       }
-      div.card-header > iron-icon {
+      /*div.card-header > iron-icon {
         height: 32px;
         width: 32px;
         margin-right: 16px;
-      }
+      }*/
       iron-image.card-img {
-        min-height: 64px;
+        /*min-height: 64px;
+        max-height: 128px;*/
+        /*height: 64px;*/
         background-color: #FFECB3;
         width: 100%;
-        height: var(--iron-image-height, 250px);
+        /*height: var(--iron-image-height, 250px);*/
+        /*@apply(--layout-flex);*/
       }
       iron-image.card-img.language {
         background-color: #C5CAE9;
@@ -161,6 +181,18 @@
         padding: 0;
         margin: 0;
         --paper-progress-active-color: #1ddb8b;
+      }
+
+      /* some @media */
+      @media all and (min-width: 376px) {
+        paper-card.each-card {
+          margin: 8px auto;
+          @apply(--layout-vertical-reverse);
+        }
+
+        iron-image.card-img {
+          height: calc(360px / 16 * 9);
+        }
       }
     </style>
 

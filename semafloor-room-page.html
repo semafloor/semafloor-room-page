@@ -1,11 +1,12 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="semafloor-room-page-theme.html">
 
-<link rel="import" href="../iron-icon/iron-icon.html">
+<!-- <link rel="import" href="../iron-icon/iron-icon.html"> -->
 <link rel="import" href="../iron-list/iron-list.html">
 
 <link rel="import" href="../paper-card/paper-card.html">
-<link rel="import" href="../paper-ripple/paper-ripple.html">
+<!-- <link rel="import" href="../paper-ripple/paper-ripple.html"> -->
+<link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
@@ -32,19 +33,33 @@ Example:
     <firebase-collection id="infoList" location="[[url]]" on-firebase-value="_onFirebaseValue"></firebase-collection>
 
     <template is="dom-repeat" items="[[_allSiteCards]]" index-as="index" strip-whitespace>
-      <paper-card class="each-card" on-transitionend="_enterSite" on-tap="_setSiteReady" on-down="_onDown" on-up="_onUp">
+      <paper-card class="each-card">
+        <div class="each-content">
+          <div class="card-content">
+            <iron-icon icon="icons:[[_computeSiteIcon(index)]]"></iron-icon>
+            [[item]]
+          </div>
+          <div class="card-actions">
+            <paper-button>
+              roll
+            </paper-button>
+            <paper-button>Explore</paper-button>
+          </div>
+        </div>
+        <iron-image class$="card-img [[_computeSiteIcon(index)]]" src="[[_computeSiteImage(index)]]" sizing="cover" preload></iron-image>
+      </paper-card>
+      <!-- <paper-card class="each-card" on-transitionend="_enterSite" on-tap="_setSiteReady" on-down="_onDown" on-up="_onUp">
         <div class$="card-header [[_computeSiteIcon(index)]]">
           <iron-icon icon="icons:[[_computeSiteIcon(index)]]"></iron-icon>[[item]]
         </div>
 
-        <iron-image class$="card-img [[_computeSiteIcon(index)]]" src="[[_computeSiteImage(index)]]" sizing="contain" preload></iron-image>
 
         <div class="card-content">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam rem ducimus aperiam necessitatibus nisi at voluptatibus quam, delectus tempora a.
         </div>
 
         <paper-ripple site$="[[item]]" class$="[[_computeSiteIcon(index)]]"></paper-ripple>
-      </paper-card>
+      </paper-card> -->
     </template>
 
     <paper-dialog id="floorDialog" auto-fit-on-attach no-auto-focus>

@@ -1,4 +1,3 @@
-
 var _alphaFloors = [
   'level 1','level 2','level 3','level 3A','level 5','level 6',
   'level 7','level 8','level 9','level 10','level 11','level 12'];
@@ -19,7 +18,8 @@ Polymer({
   properties: {
     url: {
       type: String,
-      value: 'https://semafloor-webapp.firebaseio.com/json/room-info'
+      // TODO: To change to new Firebase reference URL soon.
+      value: 'https://polymer-semaphore.firebaseio.com/2016/01february/week07/17/site'
     },
 
     _allSiteCards: {
