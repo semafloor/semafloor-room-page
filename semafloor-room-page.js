@@ -15,11 +15,38 @@ Polymer({
 
   is: 'semafloor-room-page',
 
+  behaviors: [
+    Polymer.NeonSharedElementAnimatableBehavior,
+    Polymer.NeonAnimationRunnerBehavior
+  ],
+
   properties: {
     url: {
       type: String,
       // TODO: To change to new Firebase reference URL soon.
-      value: 'https://polymer-semaphore.firebaseio.com/2016/01february/week07/17/site'
+      value: 'https://polymer-semaphore.firebaseio.com/mockMessages/2016/01february/week07/17/site'
+    },
+
+    animationConfig: {
+      type: Object,
+      value: function() {
+        return {
+          'entry': [{
+            name: 'cascaded-animation',
+            animation: 'slide-from-bottom-animation',
+            timing: {
+              delay: 550
+            }
+          }],
+          'dialogEntry': [{
+            name: 'cascaded-animation',
+            animation: 'slide-from-bottom-animation',
+            timing: {
+              delay: 550
+            }
+          }]
+        };
+      }
     },
 
     _allSiteCards: {
@@ -95,7 +122,23 @@ Polymer({
       }
     },
 
+    _isLoadingCard: {
+      type: Boolean,
+      value: true
+    },
+    _page: {
+      type: String,
+      value: 'loading'
+    },
+    _exploringSiteIdx: Number,
+    _floorInfoTitle: String,
+
+
   },
+
+  observers: [
+    '_applyAnimationConfigToNodes(_isDataReady)'
+  ],
 
   // Element Lifecycle
 
@@ -115,8 +158,13 @@ Polymer({
     // This is a good place to perform any work related to your element's
     // visual state or active behavior (measuring sizes, beginning animations,
     // loading resources, etc).
-    this.updateIronImageWidth();
-    this.fire('room-page-attached');
+    // this.updateIronImageWidth();
+    // var _cardsList = Polymer.dom(this.root).querySelectorAll('paper-card');
+    // this.animationConfig['entry'][0].nodes = _cardsList;
+
+    this.async(function() {
+      this.fire('room-page-attached');
+    });
   },
 
   detached: function() {
@@ -128,6 +176,7 @@ Polymer({
 
   listeners: {
     'touchmove': '_cancelRippleWhileScrolling'
+    // 'neon-animation-finish': '_cardAnimationDone'
   },
 
   _onDown: function(ev) {
@@ -155,21 +204,21 @@ Polymer({
   },
 
   _onFirebaseValue: function(ev) {
-  console.log('on-firebase-value');
-  // set _currentReservations when data is fetched.
-  this.set('_roomInfo', ev.detail.val());
-  // if beta || gama is selected...
-  if (this._roomNotReady) {
-    this._decodeRoom(this._enteredFloor.toLowerCase(), this._enteredSite);
-  }
-  // unhide iron-list and hide progress bar.
-  this.set('_isDataReady', true);
-  // update all iron-lists.
-  this.$.floorsList.fire('iron-resize');
-  this.$.roomsList.fire('iron-resize');
+    console.log('on-firebase-value', ev.detail.val());
+    // set _currentReservations when data is fetched.
+    this.set('_roomInfo', ev.detail.val());
+    // if beta || gama is selected...
+    if (this._roomNotReady) {
+      this._decodeRoom(this._enteredFloor.toLowerCase(), this._enteredSite);
+    }
+    // unhide iron-list and hide progress bar.
+    this.set('_isDataReady', true);
+    // update all iron-lists.
+    // this.$.floorsList.fire('iron-resize');
+    // this.$.roomsList.fire('iron-resize');
 
-  this.fire('room-info-ready');
-},
+    this.fire('room-info-ready');
+  },
 
   _computeSiteIcon: function(_index) {
     return ['language', 'trending-up', 'group-work'][_index];
@@ -179,7 +228,6 @@ Polymer({
     // To ensure site image will always be different through randomization.
     var _randomIdx = _.random(0, _imagesList.length - 1);
     var _removed = this.splice('imagesList', _randomIdx, 1);
-    console.log(this.imagesList);
     return _removed;
   },
 
@@ -260,41 +308,216 @@ Polymer({
     this.set('_roomsAtEnteredFloor', this._roomInfo[_decodeSite][_decodeFloor]);
   },
   _decodeTypes: function(_types) {
-     var _hexTypes = _.padLeft(parseInt(_types, 16).toString(2), 12, 0);
-     var _str2arr = _hexTypes.split('').map(Number);
-     var _filtered = [];
-     _.filter(_str2arr, function(el, idx) {
-       if (el === 1) _filtered.push(_roomTypes[idx]);
-     });
-     _hexTypes = null; _str2arr = null;
-     return _filtered;
-   },
-   _computeInfoCls: function(_enteredSite) {
-     var _siteIdx = _siteNames.indexOf(_enteredSite);
-     var _siteCls = ['language', 'trending-up', 'group-work'][_siteIdx];
-     return ' info-title ' + _siteCls;
-   },
-   _isRestricted: function(_access) {
-     return _access ? 'No' : 'Yes';
-   },
+    var _hexTypes = _.padLeft(parseInt(_types, 16).toString(2), 12, 0);
+    var _str2arr = _hexTypes.split('').map(Number);
+    var _filtered = [];
+    _.filter(_str2arr, function(el, idx) {
+      if (el === 1) _filtered.push(_roomTypes[idx]);
+    });
+    _hexTypes = null; _str2arr = null;
+    return _filtered;
+  },
+  _computeInfoCls: function(_enteredSite) {
+    var _siteIdx = _siteNames.indexOf(_enteredSite);
+    var _siteCls = ['language', 'trending-up', 'group-work'][_siteIdx];
+    return ' info-title ' + _siteCls;
+  },
+  _isRestricted: function(_access) {
+    return _access ? 'No' : 'Yes';
+  },
 
-   // updateIronImageWidth
-   updateIronImageWidth: function(_width) {
-     // 16:9 aspect ratio for an image to scale and fit properly.
-     this.updateStyles({
-        '--iron-image-height': (_width / 16 * 9) + 'px'
-      });
-   },
+  // updateIronImageWidth.
+  // updateIronImageWidth: function(_width) {
+  //   // 16:9 aspect ratio for an image to scale and fit properly.
+  //   this.updateStyles({
+  //     '--iron-image-height': (_width / 16 * 9) + 'px'
+  //   });
+  // },
 
-   _rollThumbnail: function(ev) {
-     console.log(ev);
-     var _rollIdx = ev.model.index;
-     var _ironImages = Polymer.dom(this.root).querySelectorAll('iron-image');
-     var _currentThumbnail = _ironImages[_rollIdx].src;
-     this.push('imagesList', _currentThumbnail[0]);
+  // Re-randomize thumbnail of selected paper-card.
+  _rollThumbnail: function(ev) {
+    var _rollIdx = ev.model.index;
+    var _ironImages = Polymer.dom(this.root).querySelectorAll('iron-image');
+    var _currentThumbnail = _ironImages[_rollIdx].src;
 
-     _ironImages[_rollIdx].src = this._computeSiteImage(this.imagesList);
-     console.log(_ironImages[_rollIdx].src[0], this.imagesList);
-   },
+    this.push('imagesList', _currentThumbnail[0]);
+    _ironImages[_rollIdx].src = this._computeSiteImage(this.imagesList);
+  },
+  _exploreSite: function(ev) {
+    this.debounce('rippleEnd', function() {
+      var _exploreItem = ev.model.item;
+      var _siteIdx = _siteNames.indexOf(_exploreItem);
+      var _siteCode = ['alpha', 'beta', 'gamma'][_siteIdx];
+      var _floors = _alphaFloors;
+
+      if (_siteCode === 'beta') {
+        _floors = ['level 3'];
+      }else if (_siteCode === 'gamma') {
+        _floors = ['level 1'];
+      }
+
+      // this.set('_allSiteCards', _floors);
+      this.set('_floorInfoTitle', this._idxToName(_siteIdx));
+      this.set('_allFloorCards', _floors);
+      this.set('_exploringSiteIdx', _siteIdx);
+      // this.playAnimation('entry');
+      this.async(function() {
+        this.$.floorInfo.open();
+
+        // _setAnimationConfigToCards here with opening dialog.
+        // _setAnimationConfigToCards when overlay is opened is way too slow in running the animation.
+        this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
+      }, 350);
+
+      // console.log(_siteCode, _floors, this._roomInfo);
+    }, 1);
+  },
+  _exploreFloor: function(ev) {
+    console.log(ev, this._floorInfoTitle);
+    // If at floor level...
+    var _item = ev.model.item;
+
+    if (this._floorInfoTitle.indexOf('level') >= 0) {
+      //TODO: After clicking on a room, what to do with _exploreFloor function?
+      var _roomInfo = this._allRoomsCards['item'];
+      this.set('_allFloorCards', [_roomInfo]);
+    }else {
+      // if at room level...
+      // var _floorItem = ev.model.item;
+      var _floorIdx = _alphaFloors.indexOf(_item);
+      var _floorCode = _alphaFloorsCode[_floorIdx];
+      var _roomInfo = this._roomInfo;
+      var _exploringSiteIdx = ev.model._exploringSiteIdx;
+      var _siteCode = ['alpha', 'beta', 'gamma'][_exploringSiteIdx];
+      var _rooms = _roomInfo[_siteCode][_floorCode];
+
+      console.log(_rooms, _siteCode, _floorCode);
+      this.set('_allRoomsCards', [_rooms, _item]);
+      this.set('_allFloorCards', _.keys(_rooms));
+    }
+
+    this.set('_floorInfoTitle', _item);
+
+    this.async(function() {
+      this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
+    }, 1);
+
+    // this.playCardAnimation('dialogEntry', null);
+  },
+
+  _setAnimationConfigToCards: function(_node, _animationName, _page) {
+    var _cardsList = Polymer.dom(_node).querySelectorAll('paper-card');
+    this.animationConfig[_animationName][0].nodes = _cardsList;
+
+    this.playCardAnimation(_animationName, _page);
+  },
+  _applyAnimationConfigToNodes: function(_isDataReady) {
+    if (_isDataReady) {
+      this.async(function() {
+        this._setAnimationConfigToCards(this.$.pages, 'entry', 'card');
+      }, 1);
+
+      // Play the card animation after all paper-card has received the animationConfig;
+      // this.playCardAnimation('entry', 'card');
+    }
+  },
+  playCardAnimation: function(_animationName, _page) {
+    // play card animation and set the iron-pages from loading to card.
+    this.cancelAnimation();
+    this.playAnimation(_animationName);
+
+    if (!!_page) {
+      this.set('_page', _page);
+    }
+  },
+
+  _floorInfoDialogOpened: function(ev) {
+    document.body.style.overflow = 'hidden';
+
+    // var _floorCards = Polymer.dom(this.$.floorInfo).querySelectorAll('paper-card');
+    // this.animationConfig['dialogEntry'][0].nodes = _floorCards;
+    // this.async(function() {
+    //   this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
+    // }, 1);
+  },
+  _resetDocumentScrolling: function() {
+    document.body.style.overflow = '';
+  },
+
+  _idxToName: function(_exploringSiteIdx) {
+    return ['KLB - Tower 5', 'KLB - Tower 2A', 'SUITE'][_exploringSiteIdx];
+  },
+
+  _computeFloorInfoIcon: function(_floorInfoTitle) {
+    console.log(_floorInfoTitle);
+    if (_floorInfoTitle.indexOf('KLB') >= 0 || _floorInfoTitle.indexOf('SUITE') >= 0) {
+      return 'close';
+    }
+    return 'arrow-back';
+  },
+  _floorInfoIconAction: function(ev) {
+    if (!this.$.floorInfo.opened) {
+      return;
+    }
+
+    var _target = ev.target;
+
+    while (_target && _target.tagName !== 'PAPER-ICON-BUTTON') {
+      _target = _target.parentElement;
+    }
+
+    if (_target) {
+      console.log(_target);
+      var _icon = _target.icon;
+
+      if (_icon.indexOf('close') >= 0) {
+        console.log('close');
+        this.$.floorInfo.close();
+      }else {
+        var _items = _alphaFloors;
+        var _title = 'KLB - Tower 5';
+
+        // At floor level...
+        if (this._floorInfoTitle.indexOf('level') >= 0) {
+          console.log(ev, this._exploringSiteIdx);
+          var _exploreSiteIdx = this._exploringSiteIdx;
+
+          if (_exploreSiteIdx > 0) {
+            _title = 'KLB - Tower 2A';
+            _items = ['level 3'];
+          }else if (_exploreSiteIdx > 1) {
+            _title = 'SUITE';
+            _items = ['level 1'];
+          }
+        }else {
+          // At room level...
+          // var _roomInfo = this._roomInfo;
+          // var _floorCode = this._allRoomsCards[1];
+          // var _siteIdx = this._exploringSiteIdx;
+          // var _siteCode = ['alpha', 'beta', 'gamma'][_siteIdx];
+          // var _floors = this._roomInfo[_siteCode][_floorCode];
+          var _allRoomsCards = this._allRoomsCards;
+          _items = _.keys(_allRoomsCards[0]);
+          _title = _allRoomsCards[1];
+
+          console.log(ev, this._allRoomsCards);
+        }
+
+        this.set('_floorInfoTitle', _title);
+        this.set('_allFloorCards', _items);
+
+        // The dom-repeat maynot be fast enough to update new cards.
+        // Hence from room to floor, only the first card has animation configured.
+        this.async(function() {
+          this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
+          // var _cardsList = Polymer.dom(this.$.floorInfo).querySelectorAll('paper-card');
+          // this.animationConfig['dialogEntry'][0].nodes = _cardsList;
+          //
+          // this.playCardAnimation('dialogEntry', null);
+        }, 1);
+
+      }
+    }
+  },
 
 });

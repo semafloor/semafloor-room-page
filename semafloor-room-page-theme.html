@@ -20,11 +20,13 @@
         /*margin-top: 8px;
         margin-bottom: 8px;
         margin-left: 8px;*/
+        /*opacity: 0;*/
         margin: 8px;
         max-width: 360px;
         @apply(--layout-horizontal);
       }
       div.each-content {
+        text-transform: capitalize;
         @apply(--layout-flex-2);
       }
       div.each-content iron-icon {
@@ -70,10 +72,10 @@
         /*min-height: 64px;
         max-height: 128px;*/
         /*height: 64px;*/
+        /*height: var(--iron-image-height, 250px);*/
         background-color: #FFECB3;
         width: 100%;
-        /*height: var(--iron-image-height, 250px);*/
-        /*@apply(--layout-flex);*/
+        @apply(--layout-flex);
       }
       iron-image.card-img.language {
         background-color: #C5CAE9;
@@ -82,7 +84,60 @@
         background-color: #F8BBD0;
       }
 
-      paper-dialog#floorDialog,
+      paper-spinner-lite {
+        display: block;
+        margin: 24px auto;
+        --paper-spinner-color: #1ddb8b;
+      }
+
+      /* width: 100% will cause jank. */
+      paper-dialog {
+        margin: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        box-shadow: none;
+      }
+      div.info-card-toolbar {
+        margin-top: 0;
+        padding: 0 16px;
+        height: 64px;
+        background-color: #FFEB3B;
+        text-transform: capitalize;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+      div.info-card-toolbar.language {
+        background-color: #3F51B5;
+        color: #fff;
+      }
+      div.info-card-toolbar.trending-up {
+        background-color: #E91E63;
+        color: #fff;
+      }
+      div.info-card-toolbar > paper-icon-button {
+        margin-right: 8px;
+      }
+      div.info-card-container {
+        height: 100%;
+        max-height: calc(100% - 64px - 8px);
+        margin-top: 8px;
+        margin-bottom: 0;
+        padding: 0;
+        @apply(--layout-scroll);
+      }
+      div.info-card-container iron-icon {
+        background-color: #ffecb3;
+      }
+      div.info-card-container iron-icon.language {
+        background-color: #c5cae9;
+      }
+      div.info-card-container iron-icon.trending-up {
+        background-color: #f8bbd0;
+      }
+
+      /*paper-dialog#floorDialog,
       paper-dialog#roomDialog {
         margin: 0;
         height: 100%;
@@ -191,7 +246,7 @@
         padding: 0;
         margin: 0;
         --paper-progress-active-color: #1ddb8b;
-      }
+      }*/
 
       /* some @media */
       @media all and (min-width: 376px) {
@@ -202,6 +257,12 @@
 
         iron-image.card-img {
           height: calc(360px / 16 * 9);
+          @apply(--layout-flex-auto);
+        }
+
+        div.info-card-container {
+          /*max-height: calc(272px - 24px - 64px);*/
+          /*max-height: calc(100% - 64px - 8px);*/
         }
       }
     </style>

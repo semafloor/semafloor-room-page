@@ -2,17 +2,27 @@
 <link rel="import" href="semafloor-room-page-theme.html">
 
 <!-- <link rel="import" href="../iron-icon/iron-icon.html"> -->
-<link rel="import" href="../iron-list/iron-list.html">
+<!-- <link rel="import" href="../iron-list/iron-list.html"> -->
+<link rel="import" href="../iron-pages/iron-pages.html">
 
 <link rel="import" href="../paper-card/paper-card.html">
+<link rel="import" href="../paper-spinner/paper-spinner-lite.html">
 <!-- <link rel="import" href="../paper-ripple/paper-ripple.html"> -->
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../paper-progress/paper-progress.html">
+<!-- <link rel="import" href="../paper-checkbox/paper-checkbox.html"> -->
+<!-- <link rel="import" href="../paper-progress/paper-progress.html"> -->
 
 <link rel="import" href="../firebase-element/firebase-collection.html">
+
+<link rel="import" href="../neon-animation/animations/cascaded-animation.html">
+<link rel="import" href="../neon-animation/animations/slide-from-bottom-animation.html">
+<link rel="import" href="../neon-animation/neon-shared-element-animatable-behavior.html">
+<link rel="import" href="../neon-animation/neon-animation-runner-behavior.html">
+<link rel="import" href="../jv-datepicker/datepicker-slide-from-bottom-animation.html">
+<link rel="import" href="../jv-datepicker/datepicker-slide-from-top-animation.html">
+
 <!--
 An element providing a solution to no problem in particular.
 
@@ -32,37 +42,60 @@ Example:
 
     <firebase-collection id="infoList" location="[[url]]" on-firebase-value="_onFirebaseValue"></firebase-collection>
 
-    <template is="dom-repeat" items="[[_allSiteCards]]" index-as="index" strip-whitespace>
-      <paper-card class="each-card">
-        <div class="each-content">
-          <div class="card-content">
-            <iron-icon class$="[[_computeSiteIcon(index)]]" icon="icons:[[_computeSiteIcon(index)]]"></iron-icon>
-            [[item]]
-          </div>
-          <div class="card-actions">
-            <paper-button on-tap="_rollThumbnail">
-              roll
-            </paper-button>
-            <paper-button>Explore</paper-button>
-          </div>
-        </div>
-        <iron-image class$="card-img [[_computeSiteIcon(index)]]" alt="[[item]]" src="[[_computeSiteImage(imagesList)]]" sizing="cover" fade preload></iron-image>
-      </paper-card>
-      <!-- <paper-card class="each-card" on-transitionend="_enterSite" on-tap="_setSiteReady" on-down="_onDown" on-up="_onUp">
-        <div class$="card-header [[_computeSiteIcon(index)]]">
-          <iron-icon icon="icons:[[_computeSiteIcon(index)]]"></iron-icon>[[item]]
-        </div>
+    <iron-pages id="pages" selected="[[_page]]" attr-for-selected="page">
+      <paper-spinner-lite active="[[_isLoadingCard]]" page="loading"></paper-spinner-lite>
 
+      <div class="" page="card">
+        <template is="dom-repeat" items="[[_allSiteCards]]" index-as="index" strip-whitespace>
+          <paper-card class="each-card">
+            <div class="each-content">
+              <div class="card-content">
+                <iron-icon class$="[[_computeSiteIcon(index)]]" icon="icons:[[_computeSiteIcon(index)]]"></iron-icon>
+                [[item]]
+              </div>
+              <div class="card-actions">
+                <paper-button on-tap="_rollThumbnail">
+                  roll
+                </paper-button>
+                <paper-button on-transitionend="_exploreSite">Explore</paper-button>
+              </div>
+            </div>
+            <iron-image class$="card-img [[_computeSiteIcon(index)]]" alt="[[item]]" src="[[_computeSiteImage(imagesList)]]" sizing="cover" fade preload></iron-image>
+          </paper-card>
+        </template>
+      </div>
+    </iron-pages>
 
-        <div class="card-content">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam rem ducimus aperiam necessitatibus nisi at voluptatibus quam, delectus tempora a.
-        </div>
+    <paper-dialog id="floorInfo"
+      no-auto-focus
+      entry-animation="slide-from-bottom-animation"
+      exit-animation="datepicker-slide-from-top-animation"
+      on-iron-overlay-opened="_floorInfoDialogOpened"
+      on-iron-overlay-closed="_resetDocumentScrolling">
+      <div class$="info-card-toolbar [[_computeSiteIcon(_exploringSiteIdx)]]">
+        <paper-icon-button icon="icons:[[_computeFloorInfoIcon(_floorInfoTitle)]]" on-tap="_floorInfoIconAction"></paper-icon-button>
+        [[_floorInfoTitle]]
+      </div>
 
-        <paper-ripple site$="[[item]]" class$="[[_computeSiteIcon(index)]]"></paper-ripple>
-      </paper-card> -->
-    </template>
+      <div class="info-card-container">
+        <template is="dom-repeat" items="[[_allFloorCards]]" index-as="index" strip-whitespace>
+          <paper-card class="each-card">
+            <div class="each-content">
+              <div class="card-content">
+                <iron-icon class$="[[_computeSiteIcon(_exploringSiteIdx)]]" icon=""></iron-icon>
+                [[item]]
+              </div>
+              <div class="card-actions">
+                <paper-button on-tap="_exploreFloor">Explore</paper-button>
+              </div>
+            </div>
+            <iron-image class$="card-img [[_computeSiteIcon(_exploringSiteIdx)]]" alt="[[item]]" src="" sizing="cover" fade preload></iron-image>
+          </paper-card>
+        </template>
+      </div>
+    </paper-dialog>
 
-    <paper-dialog id="floorDialog" auto-fit-on-attach no-auto-focus>
+    <!-- <paper-dialog id="floorDialog" auto-fit-on-attach no-auto-focus>
       <div class$="fake-toolbar no-padding[[_computeInfoCls(_enteredSite)]]">
         <paper-icon-button icon="icons:arrow-back" on-tap="_leaveFloor"></paper-icon-button>
         [[_enteredSite]]
@@ -120,7 +153,7 @@ Example:
           </template>
         </div>
       </template>
-    </paper-dialog>
+    </paper-dialog> -->
   </template>
 
 </dom-module>
