@@ -36,17 +36,17 @@ Example:
       <paper-card class="each-card">
         <div class="each-content">
           <div class="card-content">
-            <iron-icon icon="icons:[[_computeSiteIcon(index)]]"></iron-icon>
+            <iron-icon class$="[[_computeSiteIcon(index)]]" icon="icons:[[_computeSiteIcon(index)]]"></iron-icon>
             [[item]]
           </div>
           <div class="card-actions">
-            <paper-button>
+            <paper-button on-tap="_rollThumbnail">
               roll
             </paper-button>
             <paper-button>Explore</paper-button>
           </div>
         </div>
-        <iron-image class$="card-img [[_computeSiteIcon(index)]]" src="[[_computeSiteImage(index)]]" sizing="cover" preload></iron-image>
+        <iron-image class$="card-img [[_computeSiteIcon(index)]]" alt="[[item]]" src="[[_computeSiteImage(imagesList)]]" sizing="cover" fade preload></iron-image>
       </paper-card>
       <!-- <paper-card class="each-card" on-transitionend="_enterSite" on-tap="_setSiteReady" on-down="_onDown" on-up="_onUp">
         <div class$="card-header [[_computeSiteIcon(index)]]">

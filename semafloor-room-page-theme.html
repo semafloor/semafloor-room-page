@@ -28,14 +28,24 @@
         @apply(--layout-flex-2);
       }
       div.each-content iron-icon {
+        background-color: #FFEB3B;
+        border-radius: 50%;
         height: 32px;
         width: 32px;
         margin-right: 8px;
       }
+      div.each-content iron-icon.language {
+        background-color: #3F51B5;
+        color: #fff;
+      }
+      div.each-content iron-icon.trending-up {
+        background-color: #E91E63;
+        color: #fff;
+      }
       div.card-actions {
         @apply(--layout-horizontal);
       }
-      div.card-header {
+      /*div.card-header {
         height: 64px;
         font-size: 28px;
         padding-left: 24px;
@@ -50,7 +60,7 @@
       div.card-header.trending-up {
         background-color: #E91E63;
         color: #fff;
-      }
+      }*/
       /*div.card-header > iron-icon {
         height: 32px;
         width: 32px;

@@ -79,6 +79,22 @@ Polymer({
       value: -10
     },
 
+    imagesList: {
+      type: Array,
+      value: function() {
+        var _images = [
+          'https://c4.staticflickr.com/8/7209/6891647325_29b124ebe4_b.jpg',
+          'https://wallpaperscraft.com/image/dubai_uae_buildings_skyscrapers_night_96720_2560x1440.jpg',
+          'https://wallpaperscraft.com/image/kln_germany_bridge_weser_reflection_architecture_hdr_47748_2560x1440.jpg',
+          'https://wallpaperscraft.com/image/twin_towers_new_york_world_trade_center_skyscrapers_river_bridge_night_city_manhattan_59434_1920x1080.jpg',
+          'https://wallpaperscraft.com/image/skyscrapers_city_night_lights_91888_1920x1080.jpg',
+          'https://wallpaperscraft.com/image/london_england_city_night_lights_river_thames_uk_tower_bridge_lantern_58386_1920x1080.jpg',
+          'https://wallpaperscraft.com/image/tokyo_japan_city_night_lights_63139_1920x1080.jpg'
+        ];
+        return _images;
+      }
+    },
+
   },
 
   // Element Lifecycle
@@ -158,15 +174,13 @@ Polymer({
   _computeSiteIcon: function(_index) {
     return ['language', 'trending-up', 'group-work'][_index];
   },
-  _computeSiteImage: function(_index) {
-    var _images = [
-        'https://c4.staticflickr.com/8/7209/6891647325_29b124ebe4_b.jpg',
-        'https://wallpaperscraft.com/image/dubai_uae_buildings_skyscrapers_night_96720_2560x1440.jpg',
-        'https://wallpaperscraft.com/image/kln_germany_bridge_weser_reflection_architecture_hdr_47748_2560x1440.jpg',
-        'https://wallpaperscraft.com/image/twin_towers_new_york_world_trade_center_skyscrapers_river_bridge_night_city_manhattan_59434_1920x1080.jpg'
-    ];
-    _images.splice(_index, 1);
-    return _.sample(_images);
+  _computeSiteImage: function(_imagesList) {
+    // To randomize the imagesList and splice the randomize index from the imagesList.
+    // To ensure site image will always be different through randomization.
+    var _randomIdx = _.random(0, _imagesList.length - 1);
+    var _removed = this.splice('imagesList', _randomIdx, 1);
+    console.log(this.imagesList);
+    return _removed;
   },
 
   _setSiteReady: function(ev) {
@@ -270,6 +284,17 @@ Polymer({
      this.updateStyles({
         '--iron-image-height': (_width / 16 * 9) + 'px'
       });
+   },
+
+   _rollThumbnail: function(ev) {
+     console.log(ev);
+     var _rollIdx = ev.model.index;
+     var _ironImages = Polymer.dom(this.root).querySelectorAll('iron-image');
+     var _currentThumbnail = _ironImages[_rollIdx].src;
+     this.push('imagesList', _currentThumbnail[0]);
+
+     _ironImages[_rollIdx].src = this._computeSiteImage(this.imagesList);
+     console.log(_ironImages[_rollIdx].src[0], this.imagesList);
    },
 
 });
