@@ -118,8 +118,8 @@ Polymer({
     //
     // This is the point where you should make modifications to the DOM (when
     // necessary), or kick off any processes the element wants to perform.
-    console.log(Polymer.dom(this.root).querySelectorAll('paper-icon-button'));
-    console.log(this.noAnimation);
+
+    // Remove dialog's animation if noAnimation is set.
     if (this.noAnimation) {
       var _dialog = Polymer.dom(this.root).querySelectorAll('paper-dialog')[0];
       _dialog.animationConfig = {};
@@ -290,7 +290,6 @@ Polymer({
   _applyAnimationConfigToNodes: function(_isDataReady) {
     if (_isDataReady) {
       if (!this.noAnimation) {
-        console.log('is data ready:', !this.noAnimation);
         this.async(function() {
           this._setAnimationConfigToCards(this.$.pages, 'entry', 'card');
         }, 1);
