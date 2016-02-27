@@ -98,6 +98,10 @@ Polymer({
     '_applyAnimationConfigToNodes(_isDataReady)'
   ],
 
+  listeners: {
+    'neon-animation-finish': '_cardAnimationDone'
+  },
+
   // Element Lifecycle
 
   ready: function() {
@@ -237,13 +241,18 @@ Polymer({
   },
   _exploreRoom: function(ev) {
     var _target = Polymer.dom(ev).localTarget;
-    var _transformCollapse = this.$$('#infoCollapse').opened ? 'rotateZ(0deg)' : 'rotateZ(-180deg)';
     var _scroller = this.$.infoCardContainer;
 
-    this.transform(_transformCollapse, _target);
+    // Transform to rotate hardware:keyboard-arrow-down icon button.
+    this._rotateArrowDown(_target, this.$$('#infoCollapse').opened);
+
     this.$$('#infoCollapse').toggle();
   },
 
+  _rotateArrowDown: function(_node, _opened) {
+    var _transformCollapse = _opened ? 'rotateZ(0deg)' : 'rotateZ(-180deg)';
+    this.transform(_transformCollapse, _node);
+  },
   _setAnimationConfigToCards: function(_node, _animationName, _page) {
     var _cardsList = Polymer.dom(_node).querySelectorAll('paper-card');
     var _scroller = this.$.infoCardContainer;
@@ -322,6 +331,8 @@ Polymer({
             _title = 'SUITE';
             _items = ['level 1'];
           }
+
+          this.set('_allRoomsCards', null);
         }else {
           // At room level...
           var _allRoomsCards = this._allRoomsCards;
@@ -329,11 +340,15 @@ Polymer({
           _title = _allRoomsCards[1];
 
           this.set('_isRoom', !1);
+
           console.log(ev, this._allRoomsCards);
         }
 
         this.set('_floorInfoTitle', _title);
         this.set('_allFloorCards', _items);
+
+        // Rotate the arrow down icon button to its initial state.
+        this._rotateArrowDown(this.$$('#arrowDownIconButton'), !0);
 
         // The dom-repeat maynot be fast enough to update new cards.
         // Hence from room to floor, only the first card has animation configured.
@@ -360,4 +375,20 @@ Polymer({
     }
   },
 
+  _cardAnimationDone: function(ev) {
+    console.log(ev, this._allRoomsCards, this.$$('#arrowDownIconButton'));
+
+    if (_.isUndefined(this._allRoomsCards) || _.isNull(this._allRoomsCards) || this._floorInfoTitle.indexOf('level') >= 0) {
+      return;
+    }
+
+    this.async(function() {
+      // Rotate the arrow down icon button alongside showing iron-collapse.
+      this._rotateArrowDown(this.$$('#arrowDownIconButton'), !1);
+
+      this.$$('#infoCollapse').show();
+    }, 1);
+  },
+
+  // TODO: To add no-animation property so that animation can be disabled.
 });

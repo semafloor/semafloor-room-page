@@ -15,6 +15,7 @@
 
 <link rel="import" href="../neon-animation/animations/cascaded-animation.html">
 <link rel="import" href="../neon-animation/animations/slide-from-bottom-animation.html">
+<link rel="import" href="../neon-animation/animations/slide-down-animation.html">
 <link rel="import" href="../neon-animation/neon-shared-element-animatable-behavior.html">
 <link rel="import" href="../neon-animation/neon-animation-runner-behavior.html">
 <!--
@@ -62,7 +63,7 @@ Example:
 
     <paper-dialog id="floorInfo"
       entry-animation="slide-from-bottom-animation"
-      exit-animation="slide-from-top-animation"
+      exit-animation="slide-down-animation"
       on-iron-overlay-opened="_floorInfoDialogOpened"
       on-iron-overlay-closed="_resetDocumentScrolling">
       <div class$="info-card-toolbar [[_computeSiteIcon(_exploringSiteIdx)]]">
@@ -72,7 +73,7 @@ Example:
 
       <div id="infoCardContainer" class="info-card-container">
         <template is="dom-repeat" items="[[_allFloorCards]]" index-as="index" strip-whitespace>
-          <paper-card class$="each-card [[_isRoomCls(_isRoom)]] [[_computeSiteIcon(_exploringSiteIdx)]]">
+          <paper-card class$="each-card [[_isRoomCls(_isRoom)]] [[_computeSiteIcon(_exploringSiteIdx)]]" on-neon-animation-finish="_cardAnimationDone">
             <template is="dom-if" if="[[_isRoom]]" restamp="true" strip-whitespace>
               <iron-collapse id="infoCollapse" on-transitionend="_collapseOpened">
                 <div class="each-card-info">
@@ -117,7 +118,7 @@ Example:
               <div class="card-actions">
                 <paper-button on-tap="_exploreFloor" hidden$="[[_isRoom]]">Explore</paper-button>
                 <paper-button hidden$="[[!_isRoom]]">Reserve</paper-button>
-                <paper-icon-button icon="hardware:keyboard-arrow-down" hidden$="[[!_isRoom]]" on-tap="_exploreRoom"></paper-icon-button>
+                <paper-icon-button id="arrowDownIconButton" icon="hardware:keyboard-arrow-down" hidden$="[[!_isRoom]]" on-tap="_exploreRoom"></paper-icon-button>
               </div>
             </div>
             <iron-image class$="card-img [[_computeSiteIcon(_exploringSiteIdx)]]" alt="[[item]]" src="" sizing="cover" fade preload></iron-image>
