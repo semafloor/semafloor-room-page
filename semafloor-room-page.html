@@ -1,19 +1,15 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="semafloor-room-page-theme.html">
 
-<!-- <link rel="import" href="../iron-icon/iron-icon.html"> -->
-<!-- <link rel="import" href="../iron-list/iron-list.html"> -->
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../iron-collapse/iron-collapse.html">
 
 <link rel="import" href="../paper-card/paper-card.html">
 <link rel="import" href="../paper-spinner/paper-spinner-lite.html">
-<!-- <link rel="import" href="../paper-ripple/paper-ripple.html"> -->
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
-<!-- <link rel="import" href="../paper-checkbox/paper-checkbox.html"> -->
-<!-- <link rel="import" href="../paper-progress/paper-progress.html"> -->
+<link rel="import" href="../paper-checkbox/paper-checkbox.html">
 
 <link rel="import" href="../firebase-element/firebase-collection.html">
 
@@ -21,9 +17,6 @@
 <link rel="import" href="../neon-animation/animations/slide-from-bottom-animation.html">
 <link rel="import" href="../neon-animation/neon-shared-element-animatable-behavior.html">
 <link rel="import" href="../neon-animation/neon-animation-runner-behavior.html">
-<!-- <link rel="import" href="../jv-datepicker/datepicker-slide-from-bottom-animation.html">
-<link rel="import" href="../jv-datepicker/datepicker-slide-from-top-animation.html"> -->
-
 <!--
 An element providing a solution to no problem in particular.
 
@@ -68,7 +61,6 @@ Example:
     </iron-pages>
 
     <paper-dialog id="floorInfo"
-      no-auto-focus
       entry-animation="slide-from-bottom-animation"
       exit-animation="slide-from-top-animation"
       on-iron-overlay-opened="_floorInfoDialogOpened"
@@ -80,11 +72,35 @@ Example:
 
       <div id="infoCardContainer" class="info-card-container">
         <template is="dom-repeat" items="[[_allFloorCards]]" index-as="index" strip-whitespace>
-          <paper-card class$="each-card [[_isRoomCls(_isRoom)]]">
-            <template is="dom-if" if="[[_isRoom]]" restamp="true">
+          <paper-card class$="each-card [[_isRoomCls(_isRoom)]] [[_computeSiteIcon(_exploringSiteIdx)]]">
+            <template is="dom-if" if="[[_isRoom]]" restamp="true" strip-whitespace>
               <iron-collapse id="infoCollapse" on-transitionend="_collapseOpened">
-                Content goes here...
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                <div class="each-card-info">
+                  Site
+                  <span>[[item.site]]</span>
+                </div>
+                <div class="each-card-info">
+                  Floor
+                  <span>[[item.floor]]</span>
+                </div>
+                <div class="each-card-info">
+                  Access
+                  <span>[[_isRestricted(item.access)]]</span>
+                </div>
+                <div class="each-card-info">
+                  Capacity
+                  <span>[[item.capacity]]</span>
+                </div>
+                <div class="each-card-info">
+                  Remarks
+                  <span>[[item.remarks]]</span>
+                </div>
+                <div class="each-card-info">
+                  Types
+                  <template is="dom-repeat" items="[[_decodeTypes(item.types)]]" index-as="index" strip-whitespace>
+                    <paper-checkbox checked>[[item]]</paper-checkbox>
+                  </template>
+                </div>
               </iron-collapse>
             </template>
 
@@ -110,67 +126,7 @@ Example:
       </div>
     </paper-dialog>
 
-    <!-- <paper-dialog id="floorDialog" auto-fit-on-attach no-auto-focus>
-      <div class$="fake-toolbar no-padding[[_computeInfoCls(_enteredSite)]]">
-        <paper-icon-button icon="icons:arrow-back" on-tap="_leaveFloor"></paper-icon-button>
-        [[_enteredSite]]
-      </div>
-
-      <paper-progress id="floorgress" indeterminate hidden$="[[_isDataReady]]"></paper-progress>
-      <div class="fake-layout" hidden$="[[!_isDataReady]]">
-        <iron-list id="floorsList" class="floor-list" items="[[_floorsAtEnteredSite]]">
-          <template strip-whitespace>
-            <div class="each-floor" on-tap="_enterRoom">
-              [[item]]
-            </div>
-          </template>
-        </iron-list>
-      </div>
-    </paper-dialog>
-
-    <paper-dialog id="roomDialog" auto-fit-on-attach no-auto-focus>
-      <div class$="fake-toolbar no-padding[[_computeInfoCls(_enteredSite)]]">
-        <paper-icon-button icon="icons:arrow-back" on-tap="_leaveRoom"></paper-icon-button>
-        [[_enteredSite]] [[_enteredFloor]]
-      </div>
-
-      <paper-progress id="roomgress" indeterminate hidden$="[[_isDataReady]]"></paper-progress>
-      <div class="fake-layout" hidden$="[[!_isDataReady]]">
-        <iron-list id="roomsList" class="floor-list" items="[[_roomsAtEnteredFloor]]">
-          <template strip-whitespace>
-            <div class="each-floor" on-tap="_enterInfo">
-              [[item.name]]
-            </div>
-          </template>
-        </iron-list>
-      </div>
-    </paper-dialog>
-
-    <paper-dialog id="infoDialog" auto-fit-on-attach no-auto-focus with-backdrop>
-      <template is="dom-repeat" items="[[_infoAtEnteredRoom]]" index-as="index" strip-whitespace>
-        <h2 class$="[[_computeInfoCls(_enteredSite)]]">[[item.name]]</h2>
-        <div class="each-info" on-tap="_enterInfo">
-          Restricted
-          <span>[[_isRestricted(item.access)]]</span>
-        </div>
-        <div class="each-info" on-tap="_enterInfo">
-          Capacity
-          <span>[[item.capacity]]</span>
-        </div>
-        <div class="each-info" on-tap="_enterInfo">
-          Remarks
-          <span>[[item.remarks]]</span>
-        </div>
-        <div class$="each-info[[_computeInfoCls(_enteredSite)]]" on-tap="_enterInfo">
-          Types
-          <template is="dom-repeat" items="[[_decodeTypes(item.types)]]" index-as="index" strip-whitespace>
-            <paper-checkbox checked>[[item]]</paper-checkbox>
-          </template>
-        </div>
-      </template>
-    </paper-dialog> -->
   </template>
-
 </dom-module>
 
 <script src="semafloor-room-page.js"></script>

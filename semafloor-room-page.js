@@ -55,55 +55,10 @@ Polymer({
         return _siteNames;
       }
     },
-    _enteredSite: {
-      type: String,
-      value: 'FERN'
-    },
-    _enteredFloor: {
-      type: String,
-      value: 'Level 13'
-    },
-    _roomInfo: {
-      type: Array,
-      value: function() {
-        return [];
-      }
-    },
-    _roomsAtEnteredFloor: {
-      type: Array,
-      value: function() {
-        return [];
-      }
-    },
-    _infoAtEnteredRoom: {
-      type: Array,
-      value: function() {
-        return [];
-      }
-    },
+    _allFloorCards: Array,
     _isDataReady: {
       type: Boolean,
       value: false
-    },
-    _roomNotReady: {
-      type: Boolean,
-      value: false
-    },
-    _siteReady: {
-      type: Boolean,
-      value: false
-    },
-    _rippleToBeCancelled: {
-      type: Number,
-      value: 3
-    },
-    _scrolled: {
-      type: Boolean,
-      value: false
-    },
-    _prevYPos: {
-      type: Number,
-      value: -10
     },
 
     imagesList: {
@@ -161,10 +116,6 @@ Polymer({
     // This is a good place to perform any work related to your element's
     // visual state or active behavior (measuring sizes, beginning animations,
     // loading resources, etc).
-    // this.updateIronImageWidth();
-    // var _cardsList = Polymer.dom(this.root).querySelectorAll('paper-card');
-    // this.animationConfig['entry'][0].nodes = _cardsList;
-
     this.async(function() {
       this.fire('room-page-attached');
     });
@@ -177,48 +128,12 @@ Polymer({
     // Use this to clean up anything you did in `attached`.
   },
 
-  listeners: {
-    'touchmove': '_cancelRippleWhileScrolling'
-    // 'neon-animation-finish': '_cardAnimationDone'
-  },
-
-  _onDown: function(ev) {
-    // save tapped ripple index and tapped position Y.
-    this.set('_rippleToBeCancelled', ev.model.index);
-    this.set('_prevYPos', Math.ceil(ev.detail.y));
-  },
-  _onUp: function(ev) {
-    // set _scrolled when first scroll.
-    if (this._scrolled) {
-      this.set('_scrolled', false);
-    }
-  },
-  _cancelRippleWhileScrolling: function (ev) {
-    if (!this._scrolled) {
-      // change if y position changes.
-      if (this._prevYPos !== ev.changedTouches.screenY) {
-        this.set('_scrolled', true);
-      }
-    }else {
-      // cancel ripple effect during scrolling.
-      var _ripples = Polymer.dom(this.root).querySelectorAll('paper-ripple');
-      _ripples[this._rippleToBeCancelled].upAction();
-    }
-  },
-
   _onFirebaseValue: function(ev) {
     console.log('on-firebase-value', ev.detail.val());
     // set _currentReservations when data is fetched.
     this.set('_roomInfo', ev.detail.val());
-    // if beta || gama is selected...
-    if (this._roomNotReady) {
-      this._decodeRoom(this._enteredFloor.toLowerCase(), this._enteredSite);
-    }
     // unhide iron-list and hide progress bar.
     this.set('_isDataReady', true);
-    // update all iron-lists.
-    // this.$.floorsList.fire('iron-resize');
-    // this.$.roomsList.fire('iron-resize');
 
     this.fire('room-info-ready');
   },
@@ -234,108 +149,22 @@ Polymer({
     return _removed;
   },
 
-  _setSiteReady: function(ev) {
-    if (!this._setReady) {
-      // set _setSiteReady when tap.
-      this.set('_siteReady', true);
-    }
-  },
-  _enterSite: function(ev) {
-    // do nothing when no tap or scrolled.
-    if (!this._siteReady || this._scrolled) {
-      return;
-    }
-
-    var _item = ev.model.item;
-
-    if (_item === 'KLB - Tower 5') {
-      this.set('_enteredSite', _item);
-      this.set('_floorsAtEnteredSite', _alphaFloors);
-
-      this.$.floorDialog.open();
-    }else {
-      if (_.isEmpty(this._roomInfo) || _.isUndefined(this._roomInfo)) {
-        this.set('_roomNotReady', true);
-        this.set('_enteredSite', _item);
-        this.set('_enteredFloor', _item === 'SUITE' ? 'Level 1' : 'Level 3');
-        this.$.roomDialog.open();
-      }else {
-        this.set('_enteredSite', _item);
-        this.set('_enteredFloor', _item === 'SUITE' ? 'Level 1' : 'Level 3');
-        this._decodeRoom(_item === 'SUITE' ? 'level 1' : 'level 3', _item);
-
-        this.$.roomDialog.open();
-      }
-    }
-    // reset _siteReady to norm before tap.
-    this.set('_siteReady', false);
-    // async-ly updateStyles of each paper-checkboxes if any.
-    this.async(function() {
-      var _checkboxes = Polymer.dom(this.$.infoDialog).querySelectorAll('paper-checkbox');
-      if (_checkboxes.length !== 0) {
-        for (var i = 0; i < _checkboxes.length; i++) {
-          _checkboxes[i].updateStyles();
-        }
-      }
-    });
-  },
-  _leaveFloor: function(ev) {
-    // this.set('_enteredSite', null);
-    this.$.floorDialog.close();
-  },
-  _enterRoom: function(ev) {
-    this.set('_enteredFloor', ev.model.item);
-    this._decodeRoom(ev.model.item, this._enteredSite);
-
-    this.$.roomDialog.open();
-  },
-  _leaveRoom: function(ev) {
-    // this.set('_enteredFloor', null);
-    this.$.roomDialog.close();
-  },
-  _enterInfo: function(ev) {
-    this.set('_infoAtEnteredRoom', [ev.model.item]);
-    this.$.infoDialog.open();
-    // workaround to show backdrop inside nested dialogs then
-    // notifyResize dialog async-ly.
-    this.async(function() {
-      var _zIndex = parseInt(this.$.roomDialog.style.zIndex) + 1;
-      this.$.infoDialog.backdropElement.style.zIndex = _zIndex;
-      this.$.infoDialog.notifyResize();
-    });
-  },
-  _decodeRoom: function(_floor, _site) {
-    var _siteCodes = ['alpha', 'beta', 'gamma'];
-    var _decodeSite = _siteCodes[_siteNames.indexOf(_site)];
-    var _decodeFloor = _alphaFloorsCode[_alphaFloors.indexOf(_floor)];
-    this.set('_roomsAtEnteredFloor', this._roomInfo[_decodeSite][_decodeFloor]);
-  },
   _decodeTypes: function(_types) {
-    var _hexTypes = _.padLeft(parseInt(_types, 16).toString(2), 12, 0);
+    var _hexTypes = _.padStart(parseInt(_types, 16).toString(2), 12, 0);
     var _str2arr = _hexTypes.split('').map(Number);
     var _filtered = [];
-    _.filter(_str2arr, function(el, idx) {
-      if (el === 1) _filtered.push(_roomTypes[idx]);
+
+    _.forEach(_str2arr, function(el, idx) {
+      if (el === 1) {
+        _filtered.push(_roomTypes[idx]);
+      }
     });
     _hexTypes = null; _str2arr = null;
     return _filtered;
   },
-  _computeInfoCls: function(_enteredSite) {
-    var _siteIdx = _siteNames.indexOf(_enteredSite);
-    var _siteCls = ['language', 'trending-up', 'group-work'][_siteIdx];
-    return ' info-title ' + _siteCls;
-  },
   _isRestricted: function(_access) {
-    return _access ? 'No' : 'Yes';
+    return _access ? 'PUBLIC' : 'RESTRICTED';
   },
-
-  // updateIronImageWidth.
-  // updateIronImageWidth: function(_width) {
-  //   // 16:9 aspect ratio for an image to scale and fit properly.
-  //   this.updateStyles({
-  //     '--iron-image-height': (_width / 16 * 9) + 'px'
-  //   });
-  // },
 
   // Re-randomize thumbnail of selected paper-card.
   _rollThumbnail: function(ev) {
@@ -371,18 +200,15 @@ Polymer({
         // _setAnimationConfigToCards when overlay is opened is way too slow in running the animation.
         this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
       }, 350);
-
-      // console.log(_siteCode, _floors, this._roomInfo);
     }, 1);
   },
   _exploreFloor: function(ev) {
     console.log(ev, this._floorInfoTitle);
     // If at floor level...
     var _item = ev.model.item;
-    // var _scroller = this.$.infoCardContainer;
 
     if (this._floorInfoTitle.indexOf('level') >= 0) {
-      //TODO: After clicking on a room, what to do with _exploreFloor function?
+      // X - TODO: After clicking on a room, what to do with _exploreFloor function?
       var _roomInfo = this._allRoomsCards[0][_item];
       _roomInfo['name'] = _item;
 
@@ -391,7 +217,6 @@ Polymer({
       console.log(this._allRoomsCards, _item, this._allFloorCards);
     }else {
       // if at room level...
-      // var _floorItem = ev.model.item;
       var _floorIdx = _alphaFloors.indexOf(_item);
       var _floorCode = _alphaFloorsCode[_floorIdx];
       var _roomInfo = this._roomInfo;
@@ -404,32 +229,19 @@ Polymer({
       this.set('_allFloorCards', _.keys(_rooms));
     }
 
-    // if (_scroller.scrollTop > 0) {
-    //   _scroller.scrollTop = 0;
-    // }
-
     this.set('_floorInfoTitle', _item);
 
     this.async(function() {
       this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
     }, 1);
-
-    // this.playCardAnimation('dialogEntry', null);
   },
   _exploreRoom: function(ev) {
     var _target = Polymer.dom(ev).localTarget;
-    var _transformCollapse = this.$$('#infoCollapse').opened ? 'rotateZ(0deg)' : 'rotateZ(180deg)';
+    var _transformCollapse = this.$$('#infoCollapse').opened ? 'rotateZ(0deg)' : 'rotateZ(-180deg)';
     var _scroller = this.$.infoCardContainer;
 
     this.transform(_transformCollapse, _target);
     this.$$('#infoCollapse').toggle();
-
-    // this.async(function() {
-    //   console.log(this.$$('#infoCollapse').opened, _scroller.scrollTop, _scroller.scrollHeight);
-    //   if (_scroller.scrollTop < _scroller.scrollHeight) {
-    //     _scroller.scrollTop = _scroller.scrollHeight;
-    //   }
-    // }, 1);
   },
 
   _setAnimationConfigToCards: function(_node, _animationName, _page) {
@@ -450,9 +262,6 @@ Polymer({
       this.async(function() {
         this._setAnimationConfigToCards(this.$.pages, 'entry', 'card');
       }, 1);
-
-      // Play the card animation after all paper-card has received the animationConfig;
-      // this.playCardAnimation('entry', 'card');
     }
   },
   playCardAnimation: function(_animationName, _page) {
@@ -467,12 +276,6 @@ Polymer({
 
   _floorInfoDialogOpened: function(ev) {
     document.body.style.overflow = 'hidden';
-
-    // var _floorCards = Polymer.dom(this.$.floorInfo).querySelectorAll('paper-card');
-    // this.animationConfig['dialogEntry'][0].nodes = _floorCards;
-    // this.async(function() {
-    //   this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
-    // }, 1);
   },
   _resetDocumentScrolling: function() {
     document.body.style.overflow = '';
@@ -493,12 +296,6 @@ Polymer({
     if (!this.$.floorInfo.opened) {
       return;
     }
-
-    // var _target = ev.target;
-    //
-    // while (_target && _target.tagName !== 'PAPER-ICON-BUTTON') {
-    //   _target = _target.parentElement;
-    // }
 
     var _target = Polymer.dom(ev).localTarget;
 
@@ -527,11 +324,6 @@ Polymer({
           }
         }else {
           // At room level...
-          // var _roomInfo = this._roomInfo;
-          // var _floorCode = this._allRoomsCards[1];
-          // var _siteIdx = this._exploringSiteIdx;
-          // var _siteCode = ['alpha', 'beta', 'gamma'][_siteIdx];
-          // var _floors = this._roomInfo[_siteCode][_floorCode];
           var _allRoomsCards = this._allRoomsCards;
           _items = _.keys(_allRoomsCards[0]);
           _title = _allRoomsCards[1];
@@ -547,10 +339,6 @@ Polymer({
         // Hence from room to floor, only the first card has animation configured.
         this.async(function() {
           this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
-          // var _cardsList = Polymer.dom(this.$.floorInfo).querySelectorAll('paper-card');
-          // this.animationConfig['dialogEntry'][0].nodes = _cardsList;
-          //
-          // this.playCardAnimation('dialogEntry', null);
         }, 1);
 
       }
