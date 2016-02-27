@@ -341,7 +341,7 @@ Polymer({
         // After closing dialog, playCardAnimation on 'entry'.
         if (!this.noAnimation) {
           this.async(function() {
-            this._setAnimationConfigToCards(this.root, 'entry', null);
+            this._setAnimationConfigToCards(this.$.pages, 'entry', null);
           }, 1);
         }
       }else {
