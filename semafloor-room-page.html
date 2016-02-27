@@ -73,7 +73,7 @@ Example:
 
       <div id="infoCardContainer" class="info-card-container">
         <template is="dom-repeat" items="[[_allFloorCards]]" index-as="index" strip-whitespace>
-          <paper-card class$="each-card [[_isRoomCls(_isRoom)]] [[_computeSiteIcon(_exploringSiteIdx)]]" on-neon-animation-finish="_cardAnimationDone">
+          <paper-card class$="each-card [[_isRoomCls(_isRoom)]] [[_computeSiteIcon(_exploringSiteIdx)]]">
             <template is="dom-if" if="[[_isRoom]]" restamp="true" strip-whitespace>
               <iron-collapse id="infoCollapse" on-transitionend="_collapseOpened">
                 <div class="each-card-info">
