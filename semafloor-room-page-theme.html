@@ -15,9 +15,19 @@
         box-sizing: border-box;
       }
 
+      :host[view=horizontal] div.card-container {
+        @apply(--layout-vertical);
+      }
       paper-card.each-card {
         margin: 8px;
+        min-width: 219px;
         max-width: 360px;
+        /* workaround: This is needed else div.header inside paper-card will stretch (unexpectedly?) */
+        --paper-card-header: {
+          height: 0 !important;
+          max-height: 0 !important;
+          display: none !important;
+        };
         @apply(--layout-horizontal);
       }
       div.each-content {
@@ -86,11 +96,10 @@
         transition: transform .4s ease-out;
         transition: transform .4s ease-out, -webkit-transform .4s ease-out;
       }
-      /* workaround: for unknown reason, this will show up in Chrome Android. */
-      paper-dialog paper-card {
-        --paper-card-header: {
-          display: none !important;
-        }
+      /* When animation is disabled completely, no transition for arrow down icon button. */
+      :host[no-animation] > paper-dialog > div.info-card-container paper-icon-button {
+        -webkit-transition: none;
+        transition: none;
       }
       div.info-card-toolbar {
         margin-top: 0;
@@ -181,20 +190,32 @@
 
       /* some @media */
       @media all and (min-width: 376px) {
-        paper-card.each-card {
-          margin: 8px auto;
-          @apply(--layout-vertical-reverse);
+        :host[view=horizontal] div.card-container,
+        :host[view=horizontal] div.info-card-container {
+          @apply(--layout-horizontal);
+          /*@apply(--layout-start);
+          @apply(--layout-center-justified);*/
+          @apply(--layout-center-center);
+          @apply(--layout-wrap);
         }
 
+        :host[view=horizontal] paper-card.each-card {
+          margin: 8px;
+        }
+
+        paper-card.each-card {
+          margin: 8px auto;
+          width: calc(100% / 3 - 16px);
+          @apply(--layout-vertical-reverse);
+        }
         iron-image.card-img {
           height: calc(360px / 16 * 9);
           @apply(--layout-flex-auto);
         }
 
-        /*div.info-card-container {
-          max-height: calc(272px - 24px - 64px);
-          max-height: calc(100% - 64px - 8px);
-        }*/
+        paper-dialog paper-card.each-card.is-room {
+          margin: 8px auto;
+        }
       }
     </style>
 

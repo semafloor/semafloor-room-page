@@ -27,6 +27,13 @@ Polymer({
       value: 'https://polymer-semaphore.firebaseio.com/mockMessages/2016/01february/week07/17/site'
     },
 
+    // normally vertical view and all cards are centered.
+    // view=horizontal to display horizontal view with wrapping cards.
+    view: String,
+
+    // By default, all animations are enabled.
+    noAnimation: Boolean,
+
     animationConfig: {
       type: Object,
       value: function() {
@@ -111,6 +118,12 @@ Polymer({
     //
     // This is the point where you should make modifications to the DOM (when
     // necessary), or kick off any processes the element wants to perform.
+    console.log(Polymer.dom(this.root).querySelectorAll('paper-icon-button'));
+    console.log(this.noAnimation);
+    if (this.noAnimation) {
+      var _dialog = Polymer.dom(this.root).querySelectorAll('paper-dialog')[0];
+      _dialog.animationConfig = {};
+    }
   },
 
   attached: function() {
@@ -196,18 +209,19 @@ Polymer({
       this.set('_floorInfoTitle', this._idxToName(_siteIdx));
       this.set('_allFloorCards', _floors);
       this.set('_exploringSiteIdx', _siteIdx);
-      // this.playAnimation('entry');
+
       this.async(function() {
         this.$.floorInfo.open();
 
         // _setAnimationConfigToCards here with opening dialog.
         // _setAnimationConfigToCards when overlay is opened is way too slow in running the animation.
-        this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
+        if (!this.noAnimation) {
+          this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
+        }
       }, 350);
     }, 1);
   },
   _exploreFloor: function(ev) {
-    console.log(ev, this._floorInfoTitle);
     // If at floor level...
     var _item = ev.model.item;
 
@@ -218,7 +232,6 @@ Polymer({
 
       this.set('_isRoom', !0);
       this.set('_allFloorCards', [_roomInfo]);
-      console.log(this._allRoomsCards, _item, this._allFloorCards);
     }else {
       // if at room level...
       var _floorIdx = _alphaFloors.indexOf(_item);
@@ -228,16 +241,24 @@ Polymer({
       var _siteCode = ['alpha', 'beta', 'gamma'][_exploringSiteIdx];
       var _rooms = _roomInfo[_siteCode][_floorCode];
 
-      console.log(_rooms, _siteCode, _floorCode);
       this.set('_allRoomsCards', [_rooms, _item]);
       this.set('_allFloorCards', _.keys(_rooms));
     }
 
     this.set('_floorInfoTitle', _item);
 
-    this.async(function() {
-      this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
-    }, 1);
+    if (!this.noAnimation) {
+      this.async(function() {
+        this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
+      }, 1);
+    }else {
+      // When animation is disabled completely, ASYNC-ly toggle collapse at room level.
+      if (this._floorInfoTitle.indexOf('level') < 0) {
+        this.async(function() {
+          this._cardAnimationDone();
+        }, 1);
+      }
+    }
   },
   _exploreRoom: function(ev) {
     var _target = Polymer.dom(ev).localTarget;
@@ -268,9 +289,14 @@ Polymer({
   },
   _applyAnimationConfigToNodes: function(_isDataReady) {
     if (_isDataReady) {
-      this.async(function() {
-        this._setAnimationConfigToCards(this.$.pages, 'entry', 'card');
-      }, 1);
+      if (!this.noAnimation) {
+        console.log('is data ready:', !this.noAnimation);
+        this.async(function() {
+          this._setAnimationConfigToCards(this.$.pages, 'entry', 'card');
+        }, 1);
+      }else {
+        this.set('_page', 'card');
+      }
     }
   },
   playCardAnimation: function(_animationName, _page) {
@@ -295,7 +321,6 @@ Polymer({
   },
 
   _computeFloorInfoIcon: function(_floorInfoTitle) {
-    console.log(_floorInfoTitle);
     if (_floorInfoTitle.indexOf('KLB') >= 0 || _floorInfoTitle.indexOf('SUITE') >= 0) {
       return 'close';
     }
@@ -309,19 +334,23 @@ Polymer({
     var _target = Polymer.dom(ev).localTarget;
 
     if (_target) {
-      console.log(_target);
       var _icon = _target.icon;
 
       if (_icon.indexOf('close') >= 0) {
-        console.log('close');
         this.$.floorInfo.close();
+
+        // After closing dialog, playCardAnimation on 'entry'.
+        if (!this.noAnimation) {
+          this.async(function() {
+            this._setAnimationConfigToCards(this.root, 'entry', null);
+          }, 1);
+        }
       }else {
         var _items = _alphaFloors;
         var _title = 'KLB - Tower 5';
 
         // At floor level...
         if (this._floorInfoTitle.indexOf('level') >= 0) {
-          console.log(ev, this._exploringSiteIdx);
           var _exploreSiteIdx = this._exploringSiteIdx;
 
           if (_exploreSiteIdx > 0) {
@@ -340,8 +369,6 @@ Polymer({
           _title = _allRoomsCards[1];
 
           this.set('_isRoom', !1);
-
-          console.log(ev, this._allRoomsCards);
         }
 
         this.set('_floorInfoTitle', _title);
@@ -350,12 +377,13 @@ Polymer({
         // Rotate the arrow down icon button to its initial state.
         this._rotateArrowDown(this.$$('#arrowDownIconButton'), !0);
 
-        // The dom-repeat maynot be fast enough to update new cards.
-        // Hence from room to floor, only the first card has animation configured.
-        this.async(function() {
-          this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
-        }, 1);
-
+        if (!this.noAnimation) {
+          // The dom-repeat maynot be fast enough to update new cards.
+          // Hence from room to floor, only the first card has animation configured.
+          this.async(function() {
+            this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
+          }, 1);
+        }
       }
     }
   },
@@ -369,15 +397,17 @@ Polymer({
     if (this.$$('#infoCollapse').opened) {
       var _scroller = this.$.infoCardContainer;
 
-      if (_scroller.scrollTop < _scroller.scrollHeight) {
-        _scroller.scrollTop = _scroller.scrollHeight;
-      }
+      // Scroll to bottom of the page ASYNC-ly.
+      // To prevent scrolling past end.
+      this.async(function() {
+        if (_scroller.scrollTop < _scroller.scrollHeight) {
+          _scroller.scrollTop = _scroller.scrollHeight;
+        }
+      }, 1);
     }
   },
 
   _cardAnimationDone: function(ev) {
-    console.log(ev, this._allRoomsCards, this.$$('#arrowDownIconButton'));
-
     if (_.isUndefined(this._allRoomsCards) || _.isNull(this._allRoomsCards) || this._floorInfoTitle.indexOf('level') >= 0) {
       return;
     }
