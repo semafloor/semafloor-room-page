@@ -4,6 +4,7 @@
 <!-- <link rel="import" href="../iron-icon/iron-icon.html"> -->
 <!-- <link rel="import" href="../iron-list/iron-list.html"> -->
 <link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../iron-collapse/iron-collapse.html">
 
 <link rel="import" href="../paper-card/paper-card.html">
 <link rel="import" href="../paper-spinner/paper-spinner-lite.html">
@@ -20,8 +21,8 @@
 <link rel="import" href="../neon-animation/animations/slide-from-bottom-animation.html">
 <link rel="import" href="../neon-animation/neon-shared-element-animatable-behavior.html">
 <link rel="import" href="../neon-animation/neon-animation-runner-behavior.html">
-<link rel="import" href="../jv-datepicker/datepicker-slide-from-bottom-animation.html">
-<link rel="import" href="../jv-datepicker/datepicker-slide-from-top-animation.html">
+<!-- <link rel="import" href="../jv-datepicker/datepicker-slide-from-bottom-animation.html">
+<link rel="import" href="../jv-datepicker/datepicker-slide-from-top-animation.html"> -->
 
 <!--
 An element providing a solution to no problem in particular.
@@ -69,7 +70,7 @@ Example:
     <paper-dialog id="floorInfo"
       no-auto-focus
       entry-animation="slide-from-bottom-animation"
-      exit-animation="datepicker-slide-from-top-animation"
+      exit-animation="slide-from-top-animation"
       on-iron-overlay-opened="_floorInfoDialogOpened"
       on-iron-overlay-closed="_resetDocumentScrolling">
       <div class$="info-card-toolbar [[_computeSiteIcon(_exploringSiteIdx)]]">
@@ -77,16 +78,30 @@ Example:
         [[_floorInfoTitle]]
       </div>
 
-      <div class="info-card-container">
+      <div id="infoCardContainer" class="info-card-container">
         <template is="dom-repeat" items="[[_allFloorCards]]" index-as="index" strip-whitespace>
-          <paper-card class="each-card">
+          <paper-card class$="each-card [[_isRoomCls(_isRoom)]]">
+            <template is="dom-if" if="[[_isRoom]]" restamp="true">
+              <iron-collapse id="infoCollapse" on-transitionend="_collapseOpened">
+                Content goes here...
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </iron-collapse>
+            </template>
+
             <div class="each-content">
               <div class="card-content">
                 <iron-icon class$="[[_computeSiteIcon(_exploringSiteIdx)]]" icon=""></iron-icon>
-                [[item]]
+                <template is="dom-if" if="[[_isRoom]]" restamp="true" strip-whitespace>
+                  [[item.name]]
+                </template>
+                <template is="dom-if" if="[[!_isRoom]]" restamp="true" strip-whitespace>
+                  [[item]]
+                </template>
               </div>
               <div class="card-actions">
-                <paper-button on-tap="_exploreFloor">Explore</paper-button>
+                <paper-button on-tap="_exploreFloor" hidden$="[[_isRoom]]">Explore</paper-button>
+                <paper-button hidden$="[[!_isRoom]]">Reserve</paper-button>
+                <paper-icon-button icon="hardware:keyboard-arrow-down" hidden$="[[!_isRoom]]" on-tap="_exploreRoom"></paper-icon-button>
               </div>
             </div>
             <iron-image class$="card-img [[_computeSiteIcon(_exploringSiteIdx)]]" alt="[[item]]" src="" sizing="cover" fade preload></iron-image>

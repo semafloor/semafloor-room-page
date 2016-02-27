@@ -132,7 +132,10 @@ Polymer({
     },
     _exploringSiteIdx: Number,
     _floorInfoTitle: String,
-
+    _isRoom: {
+      type: Boolean,
+      value: false
+    },
 
   },
 
@@ -376,11 +379,16 @@ Polymer({
     console.log(ev, this._floorInfoTitle);
     // If at floor level...
     var _item = ev.model.item;
+    // var _scroller = this.$.infoCardContainer;
 
     if (this._floorInfoTitle.indexOf('level') >= 0) {
       //TODO: After clicking on a room, what to do with _exploreFloor function?
-      var _roomInfo = this._allRoomsCards['item'];
+      var _roomInfo = this._allRoomsCards[0][_item];
+      _roomInfo['name'] = _item;
+
+      this.set('_isRoom', !0);
       this.set('_allFloorCards', [_roomInfo]);
+      console.log(this._allRoomsCards, _item, this._allFloorCards);
     }else {
       // if at room level...
       // var _floorItem = ev.model.item;
@@ -396,6 +404,10 @@ Polymer({
       this.set('_allFloorCards', _.keys(_rooms));
     }
 
+    // if (_scroller.scrollTop > 0) {
+    //   _scroller.scrollTop = 0;
+    // }
+
     this.set('_floorInfoTitle', _item);
 
     this.async(function() {
@@ -404,9 +416,31 @@ Polymer({
 
     // this.playCardAnimation('dialogEntry', null);
   },
+  _exploreRoom: function(ev) {
+    var _target = Polymer.dom(ev).localTarget;
+    var _transformCollapse = this.$$('#infoCollapse').opened ? 'rotateZ(0deg)' : 'rotateZ(180deg)';
+    var _scroller = this.$.infoCardContainer;
+
+    this.transform(_transformCollapse, _target);
+    this.$$('#infoCollapse').toggle();
+
+    // this.async(function() {
+    //   console.log(this.$$('#infoCollapse').opened, _scroller.scrollTop, _scroller.scrollHeight);
+    //   if (_scroller.scrollTop < _scroller.scrollHeight) {
+    //     _scroller.scrollTop = _scroller.scrollHeight;
+    //   }
+    // }, 1);
+  },
 
   _setAnimationConfigToCards: function(_node, _animationName, _page) {
     var _cardsList = Polymer.dom(_node).querySelectorAll('paper-card');
+    var _scroller = this.$.infoCardContainer;
+
+    // Reset scrollTop to 0 for every moving back and forth.
+    if (_scroller.scrollTop > 0) {
+      _scroller.scrollTop = 0;
+    }
+
     this.animationConfig[_animationName][0].nodes = _cardsList;
 
     this.playCardAnimation(_animationName, _page);
@@ -460,11 +494,13 @@ Polymer({
       return;
     }
 
-    var _target = ev.target;
+    // var _target = ev.target;
+    //
+    // while (_target && _target.tagName !== 'PAPER-ICON-BUTTON') {
+    //   _target = _target.parentElement;
+    // }
 
-    while (_target && _target.tagName !== 'PAPER-ICON-BUTTON') {
-      _target = _target.parentElement;
-    }
+    var _target = Polymer.dom(ev).localTarget;
 
     if (_target) {
       console.log(_target);
@@ -500,6 +536,7 @@ Polymer({
           _items = _.keys(_allRoomsCards[0]);
           _title = _allRoomsCards[1];
 
+          this.set('_isRoom', !1);
           console.log(ev, this._allRoomsCards);
         }
 
@@ -516,6 +553,21 @@ Polymer({
           // this.playCardAnimation('dialogEntry', null);
         }, 1);
 
+      }
+    }
+  },
+
+  _isRoomCls: function(_isRoom) {
+    return _isRoom ? 'is-room' : '';
+  },
+  _collapseOpened: function(ev) {
+    // When collapse is opened and after the transitionend event,
+    // scroll the end of the page to view everything.
+    if (this.$$('#infoCollapse').opened) {
+      var _scroller = this.$.infoCardContainer;
+
+      if (_scroller.scrollTop < _scroller.scrollHeight) {
+        _scroller.scrollTop = _scroller.scrollHeight;
       }
     }
   },

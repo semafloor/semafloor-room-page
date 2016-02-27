@@ -25,6 +25,10 @@
         max-width: 360px;
         @apply(--layout-horizontal);
       }
+      /*div.each-card-with-collapse {
+        @apply(--layout-vertical-reverse);
+        @apply(--layout-flex);
+      }*/
       div.each-content {
         text-transform: capitalize;
         @apply(--layout-flex-2);
@@ -98,6 +102,23 @@
         width: 100%;
         height: 100%;
         box-shadow: none;
+      }
+      paper-dialog paper-card.each-card.is-room {
+        @apply(--layout-vertical-reverse);
+      }
+      paper-dialog paper-card.each-card.is-room > iron-image {
+        height: calc(360px / 16 * 9);
+        @apply(--layout-flex-auto);
+      }
+      paper-dialog > div.info-card-container paper-icon-button {
+        margin-left: auto;
+        margin-right: 0;
+      }
+      /* workaround: for unknown reason, this will show up in Chrome Android. */
+      paper-dialog paper-card {
+        --paper-card-header: {
+          display: none !important;
+        }
       }
       div.info-card-toolbar {
         margin-top: 0;
