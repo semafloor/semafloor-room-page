@@ -276,7 +276,6 @@ Polymer({
     var _scroller = this.$.infoCardContainer;
 
     // Reset scrollTop to 0 for every moving back and forth.
-    console.log(_scroller.scrollTop);
     if (_scroller.scrollTop > 0) {
       _scroller.scrollTop = 0;
     }
@@ -420,7 +419,6 @@ Polymer({
       return;
     }
 
-    console.log('card animation done, proceed to toggle collapse!');
     this.async(function() {
       this._toggleCollapse(!0);
     }, 1);
