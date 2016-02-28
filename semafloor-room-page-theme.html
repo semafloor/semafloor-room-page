@@ -20,7 +20,9 @@
       }
       paper-card.each-card {
         margin: 8px;
-        min-width: 219px;
+        /*min-width: 219px;*/
+        /*min-width: 360px;
+        width: calc(100% - 16px);*/
         max-width: 360px;
         /* workaround: This is needed else div.header inside paper-card will stretch (unexpectedly?) */
         --paper-card-header: {
@@ -205,7 +207,9 @@
 
         paper-card.each-card {
           margin: 8px auto;
-          width: calc(100% / 3 - 16px);
+          min-width: 360px;
+          width: calc(100% - 16px);
+          max-width: 360px;
           @apply(--layout-vertical-reverse);
         }
         iron-image.card-img {
