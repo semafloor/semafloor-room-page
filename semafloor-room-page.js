@@ -374,12 +374,12 @@ Polymer({
         if (this._floorInfoTitle.indexOf('level') >= 0) {
           var _exploreSiteIdx = this._exploringSiteIdx;
 
-          if (_exploreSiteIdx > 0) {
-            _title = 'KLB - Tower 2A';
-            _items = ['level 3'];
-          }else if (_exploreSiteIdx > 1) {
+          if (_exploreSiteIdx > 1) {
             _title = 'SUITE';
             _items = ['level 1'];
+          }else if (_exploreSiteIdx > 0) {
+            _title = 'KLB - Tower 2A';
+            _items = ['level 3'];
           }
 
           this.set('_allRoomsCards', null);
