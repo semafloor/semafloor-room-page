@@ -212,6 +212,10 @@
           max-width: 360px;
           @apply(--layout-vertical-reverse);
         }
+        /* Due IE11 has flex-basis: 0px which renders only images shown on cards. */
+        div.each-content {
+          @apply(--layout-flex-none);
+        }
         iron-image.card-img {
           height: calc(360px / 16 * 9);
           @apply(--layout-flex-auto);

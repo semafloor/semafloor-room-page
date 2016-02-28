@@ -102,7 +102,8 @@ Polymer({
   },
 
   observers: [
-    '_applyAnimationConfigToNodes(_isDataReady)'
+    '_applyAnimationConfigToNodes(_isDataReady)',
+    '_noAnimationChanged(noAnimation)'
   ],
 
   listeners: {
@@ -118,6 +119,22 @@ Polymer({
     //
     // This is the point where you should make modifications to the DOM (when
     // necessary), or kick off any processes the element wants to perform.
+
+    // if (window.opr || window.chrome) {
+    //   _noAnimation = !0;
+    //   // for (var key in navigator) {
+    //   //   if (key.indexOf('webkit') < 0) {
+    //   //     _noAnimation = !1;
+    //   //     break;
+    //   //   }
+    //   // }
+    // }
+
+    // Enable WebAnimations only for Chrome and Opera!
+    var _noAnimation = !!(window.opr || window.chrome);
+    if (!_noAnimation) {
+      this.set('noAnimation', !0);
+    }
 
     // Remove dialog's animation if noAnimation is set.
     if (this.noAnimation) {
@@ -395,8 +412,10 @@ Polymer({
     if (this.$$('#infoCollapse').opened) {
       // Scroll to bottom of the page ASYNC-ly.
       // To prevent scrolling past end.
+      var _scroller = this.$.infoCardContainer;
+      // workaround: try to reset scrollTop first.
+      _scroller.scrollTop = 0;
       this.async(function() {
-        var _scroller = this.$.infoCardContainer;
         // Just scroll until the page end.
         _scroller.scrollTop = _scroller.scrollHeight - _scroller.clientHeight;
       }, 1);
@@ -423,4 +442,12 @@ Polymer({
       this._toggleCollapse(!0);
     }, 1);
   },
+
+  // Don't use reflectToAttribute!
+  _noAnimationChanged: function(_noAnimation) {
+    if (_noAnimation) {
+      this.setAttribute('no-animation', !0);
+    }
+  },
+
 });
