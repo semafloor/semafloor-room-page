@@ -261,13 +261,10 @@ Polymer({
     }
   },
   _exploreRoom: function(ev) {
-    var _target = Polymer.dom(ev).localTarget;
     var _scroller = this.$.infoCardContainer;
 
-    // Transform to rotate hardware:keyboard-arrow-down icon button.
-    this._rotateArrowDown(_target, this.$$('#infoCollapse').opened);
-
-    this.$$('#infoCollapse').toggle();
+    // Toggle collapse and transform arrow down icon button.
+    this._toggleCollapse(!this.$$('#infoCollapse').opened);
   },
 
   _rotateArrowDown: function(_node, _opened) {
@@ -279,6 +276,7 @@ Polymer({
     var _scroller = this.$.infoCardContainer;
 
     // Reset scrollTop to 0 for every moving back and forth.
+    console.log(_scroller.scrollTop);
     if (_scroller.scrollTop > 0) {
       _scroller.scrollTop = 0;
     }
@@ -348,6 +346,14 @@ Polymer({
         var _items = _alphaFloors;
         var _title = 'KLB - Tower 5';
 
+        if (!this.noAnimation) {
+          // The dom-repeat maynot be fast enough to update new cards.
+          // Hence from room to floor, only the first card has animation configured.
+          this.async(function() {
+            this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
+          }, 1);
+        }
+
         // At floor level...
         if (this._floorInfoTitle.indexOf('level') >= 0) {
           var _exploreSiteIdx = this._exploringSiteIdx;
@@ -361,27 +367,20 @@ Polymer({
           }
 
           this.set('_allRoomsCards', null);
+          this.set('_floorInfoTitle', _title);
+          this.set('_allFloorCards', _items);
         }else {
           // At room level...
           var _allRoomsCards = this._allRoomsCards;
           _items = _.keys(_allRoomsCards[0]);
           _title = _allRoomsCards[1];
 
+
           this.set('_isRoom', !1);
-        }
-
-        this.set('_floorInfoTitle', _title);
-        this.set('_allFloorCards', _items);
-
-        // Rotate the arrow down icon button to its initial state.
-        this._rotateArrowDown(this.$$('#arrowDownIconButton'), !0);
-
-        if (!this.noAnimation) {
-          // The dom-repeat maynot be fast enough to update new cards.
-          // Hence from room to floor, only the first card has animation configured.
-          this.async(function() {
-            this._setAnimationConfigToCards(this.$.floorInfo, 'dialogEntry', null);
-          }, 1);
+          this.set('_floorInfoTitle', _title);
+          this.set('_allFloorCards', _items);
+          // Rotate the arrow down icon button to its initial state.
+          this._toggleCollapse(!1);
         }
       }
     }
@@ -390,20 +389,30 @@ Polymer({
   _isRoomCls: function(_isRoom) {
     return _isRoom ? 'is-room' : '';
   },
+
   _collapseOpened: function(ev) {
     // When collapse is opened and after the transitionend event,
     // scroll the end of the page to view everything.
     if (this.$$('#infoCollapse').opened) {
-      var _scroller = this.$.infoCardContainer;
-
       // Scroll to bottom of the page ASYNC-ly.
       // To prevent scrolling past end.
       this.async(function() {
-        if (_scroller.scrollTop < _scroller.scrollHeight) {
-          _scroller.scrollTop = _scroller.scrollHeight;
-        }
+        var _scroller = this.$.infoCardContainer;
+        // Just scroll until the page end.
+        _scroller.scrollTop = _scroller.scrollHeight - _scroller.clientHeight;
       }, 1);
     }
+  },
+  // To toggle iron-collapse meantime animate the arrow down icom button.
+  _toggleCollapse: function(_open) {
+    var _infoCollapse = this.$$('#infoCollapse');
+    var _arrowDownIconButton = this.$$('#arrowDownIconButton');
+    var _rotation = !_open;
+    var _collapseOp = ['hide', 'show'][+_open];
+
+    this._rotateArrowDown(_arrowDownIconButton, _rotation);
+
+    _infoCollapse[_collapseOp]();
   },
 
   _cardAnimationDone: function(ev) {
@@ -411,13 +420,9 @@ Polymer({
       return;
     }
 
+    console.log('card animation done, proceed to toggle collapse!');
     this.async(function() {
-      // Rotate the arrow down icon button alongside showing iron-collapse.
-      this._rotateArrowDown(this.$$('#arrowDownIconButton'), !1);
-
-      this.$$('#infoCollapse').show();
+      this._toggleCollapse(!0);
     }, 1);
   },
-
-  // TODO: To add no-animation property so that animation can be disabled.
 });
