@@ -65,7 +65,7 @@ Polymer({
     _allFloorCards: Array,
     _isDataReady: {
       type: Boolean,
-      value: false
+      value: !1
     },
 
     imagesList: {
@@ -86,17 +86,14 @@ Polymer({
 
     _isLoadingCard: {
       type: Boolean,
-      value: true
+      value: !0
     },
-    _page: {
-      type: String,
-      value: 'loading'
-    },
+    _page: String,
     _exploringSiteIdx: Number,
     _floorInfoTitle: String,
     _isRoom: {
       type: Boolean,
-      value: false
+      value: !1
     },
 
   },
@@ -167,7 +164,7 @@ Polymer({
     // set _currentReservations when data is fetched.
     this.set('_roomInfo', ev.detail.val());
     // unhide iron-list and hide progress bar.
-    this.set('_isDataReady', true);
+    this.set('_isDataReady', !0);
 
     this.fire('room-info-ready');
   },
@@ -278,7 +275,7 @@ Polymer({
     }
   },
   _exploreRoom: function(ev) {
-    var _scroller = this.$.infoCardContainer;
+    var _scroller = this.$.infoCardContainer
 
     // Toggle collapse and transform arrow down icon button.
     this._toggleCollapse(!this.$$('#infoCollapse').opened);
@@ -290,27 +287,21 @@ Polymer({
   },
   _setAnimationConfigToCards: function(_node, _animationName, _page) {
     var _cardsList = Polymer.dom(_node).querySelectorAll('paper-card');
-    var _scroller = this.$.infoCardContainer;
 
-    // Reset scrollTop to 0 for every moving back and forth.
-    if (_scroller.scrollTop > 0) {
-      _scroller.scrollTop = 0;
-    }
+    // Scroll to page top when it's inside dialog which in this case _page is null;
+    if (!_page) {
+      // Reset scrollTop to 0 for every moving back and forth.
+      var _scroller = this.$.infoCardContainer;
 
-    this.animationConfig[_animationName][0].nodes = _cardsList;
-
-    this.playCardAnimation(_animationName, _page);
-  },
-  _applyAnimationConfigToNodes: function(_isDataReady) {
-    if (_isDataReady) {
-      if (!this.noAnimation) {
-        this.async(function() {
-          this._setAnimationConfigToCards(this.$.pages, 'entry', 'card');
-        }, 1);
-      }else {
-        this.set('_page', 'card');
+      if (_scroller.scrollTop > 0) {
+        _scroller.scrollTop = 0;
       }
     }
+
+    // Apply animationConfig to all cards inside _node.
+    this.animationConfig[_animationName][0].nodes = _cardsList;
+    // Play animation on all cards.
+    this.playCardAnimation(_animationName, _page);
   },
   playCardAnimation: function(_animationName, _page) {
     // play card animation and set the iron-pages from loading to card.
@@ -322,11 +313,23 @@ Polymer({
     }
   },
 
-  _floorInfoDialogOpened: function(ev) {
-    document.body.style.overflow = 'hidden';
+  _applyAnimationConfigToNodes: function(_isDataReady) {
+    if (_isDataReady) {
+      this.set('_isLoadingCard', !1);
+
+      if (!this.noAnimation) {
+        this.async(function() {
+          this._setAnimationConfigToCards(this.$.pages, 'entry', 'card');
+        }, 1);
+      }else {
+        this.set('_page', 'card');
+      }
+    }
   },
-  _resetDocumentScrolling: function() {
-    document.body.style.overflow = '';
+
+  _manipulateDocumentScrolling: function(ev) {
+    var _overflow = ev.type.indexOf('closed') < 0 ? 'hidden' : '';
+    document.body.style.overflow = _overflow;
   },
 
   _idxToName: function(_exploringSiteIdx) {
@@ -412,7 +415,7 @@ Polymer({
     if (this.$$('#infoCollapse').opened) {
       // Scroll to bottom of the page ASYNC-ly.
       // To prevent scrolling past end.
-      var _scroller = this.$.infoCardContainer;
+      var _scroller = this.$.infoCardContainer
       // workaround: try to reset scrollTop first.
       _scroller.scrollTop = 0;
       this.async(function() {
@@ -450,4 +453,10 @@ Polymer({
     }
   },
 
+  _computeLoadingCls: function(_isLoadingCard) {
+    return _isLoadingCard ? '' : 'finish-loading';
+  },
+
+  // X - TODO: Fixed scroll to page top even though not inside dialog.
+  // X - TODO: _manipulateDocumentScrolling FTW (special event type edition).
 });

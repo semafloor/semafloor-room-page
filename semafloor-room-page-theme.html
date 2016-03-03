@@ -10,19 +10,61 @@
         display: block;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
       }
+      :host[view=horizontal] div.card-container {
+        @apply(--layout-vertical);
+      }
 
       *, *::before, *::after {
         box-sizing: border-box;
       }
 
-      :host[view=horizontal] div.card-container {
-        @apply(--layout-vertical);
+      /* page transition between spinner and real pages */
+      iron-pages,
+      .loading {
+        will-change: opacity;
       }
+
+      iron-pages {
+        opacity: 0;
+        transition: opacity ease-in .4s;
+      }
+      iron-pages.finish-loading {
+        opacity: 1;
+      }
+
+      .loading {
+        position: absolute;
+        top: calc(64px + 16px + 16px);
+        margin: -15px 0 0 -15px;
+        width: 32px;
+        height: 32px;
+        left: 50%;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        border-left-color: #009688;
+        animation: animation-rotate 950ms cubic-bezier(.64, 2, .56, .6) infinite;
+
+        opacity: 1;
+        transition: opacity ease-in .2s;
+      }
+      .loading.finish-loading {
+        opacity: 0;
+      }
+      @-webkit-keyframes animation-rotate {
+        100% {
+          -webkit-transform: rotate(360deg);
+        }
+      }
+      @keyframes animation-rotate {
+        100% {
+          -webkit-transform: rotate(360deg);
+                  transform: rotate(360deg);
+        }
+      }
+
+      /* cards */
       paper-card.each-card {
         margin: 8px;
-        /*min-width: 219px;*/
-        /*min-width: 360px;
-        width: calc(100% - 16px);*/
         max-width: 360px;
         /* workaround: This is needed else div.header inside paper-card will stretch (unexpectedly?) */
         --paper-card-header: {
@@ -65,12 +107,6 @@
       }
       iron-image.card-img.trending-up {
         background-color: #F8BBD0;
-      }
-
-      paper-spinner-lite {
-        display: block;
-        margin: 24px auto;
-        --paper-spinner-color: #1ddb8b;
       }
 
       /* width: 100% will cause jank. */
@@ -208,8 +244,8 @@
         paper-card.each-card {
           margin: 8px auto;
           min-width: 360px;
-          width: calc(100% - 16px);
-          max-width: 360px;
+          width: calc(100% / 2 - 16px);
+          max-width: 480px;
           @apply(--layout-vertical-reverse);
         }
         /* Due IE11 has flex-basis: 0px which renders only images shown on cards. */

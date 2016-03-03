@@ -5,7 +5,6 @@
 <link rel="import" href="../iron-collapse/iron-collapse.html">
 
 <link rel="import" href="../paper-card/paper-card.html">
-<link rel="import" href="../paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
@@ -37,9 +36,9 @@ Example:
 
     <firebase-collection id="infoList" location="[[url]]" on-firebase-value="_onFirebaseValue"></firebase-collection>
 
-    <iron-pages id="pages" selected="[[_page]]" attr-for-selected="page">
-      <paper-spinner-lite active="[[_isLoadingCard]]" page="loading"></paper-spinner-lite>
+    <div class$="loading [[_computeLoadingCls(_isLoadingCard)]]"></div>
 
+    <iron-pages id="pages" class$="[[_computeLoadingCls(_isLoadingCard)]]" selected="[[_page]]" attr-for-selected="page">
       <div class="card-container" page="card">
         <template is="dom-repeat" items="[[_allSiteCards]]" index-as="index" strip-whitespace>
           <paper-card class="each-card">
@@ -49,9 +48,7 @@ Example:
                 [[item]]
               </div>
               <div class="card-actions">
-                <paper-button on-tap="_rollThumbnail">
-                  roll
-                </paper-button>
+                <paper-button on-tap="_rollThumbnail">roll</paper-button>
                 <paper-button on-transitionend="_exploreSite">Explore</paper-button>
               </div>
             </div>
@@ -64,8 +61,8 @@ Example:
     <paper-dialog id="floorInfo"
       entry-animation="slide-from-bottom-animation"
       exit-animation="slide-down-animation"
-      on-iron-overlay-opened="_floorInfoDialogOpened"
-      on-iron-overlay-closed="_resetDocumentScrolling">
+      on-iron-overlay-opened="_manipulateDocumentScrolling"
+      on-iron-overlay-closed="_manipulateDocumentScrolling">
       <div class$="info-card-toolbar [[_computeSiteIcon(_exploringSiteIdx)]]">
         <paper-icon-button icon="icons:[[_computeFloorInfoIcon(_floorInfoTitle)]]" on-tap="_floorInfoIconAction"></paper-icon-button>
         [[_floorInfoTitle]]
