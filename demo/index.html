@@ -8,6 +8,7 @@
     <script src="../../lodash/dist/lodash.min.js" charset="utf-8"></script>
 
     <link rel="import" href="../semafloor-room-page.html">
+    <link rel="import" href="semafloor-main.html">
     <link rel="import" href="../../semafloor-icons/semafloor-icons.html">
 
     <link rel="import" href="../../app-layout/app-layout.html">
@@ -16,12 +17,16 @@
 
     <style is="custom-style">
       body {
+        padding: 0;
         margin: 0;
         font-family: 'Roboto', 'Noto', sans-serif;
         -webkit-font-smoothing: antialiased;
       }
 
-      app-header {
+      semafloor-main {
+        --semafloor-current-page-height: calc(100vh - 113px);
+      }
+      /*app-header {
         color: #009688;
         --app-header-background-front-layer: {
           background-color: #fff;
@@ -40,11 +45,26 @@
         font-size: 20px;
         font-weight: 300;
         margin-left: 8px;
-      }
+      }*/
     </style>
   </head>
   <body>
-    <app-drawer-layout force-narrow>
+    <!-- 35 nodes clean on CH/ OP before optimization-->
+    <!-- 43 nodes clean on FF before optimization -->
+    <!-- 21 nodes app shell on CH/ OP before optimization -->
+    <!-- 21 nodes app shell on FF before optimization -->
+    <!-- 88 nodes element on CH/ OP before optimization -->
+    <!-- 88 nodes element on FF before optimization -->
+
+    <!-- 27 nodes clean on CH/ OP after optimization-->
+    <!-- 30 nodes clean on FF after optimization -->
+    <!-- 29 nodes app shell on CH/ OP after optimization -->
+    <!-- 29 nodes app shell on FF after optimization -->
+    <!-- 107 nodes element on CH/ OP after optimization -->
+    <!-- 112 nodes element on FF after optimization -->
+
+
+    <!-- <app-drawer-layout force-narrow>
       <app-drawer swipe-open></app-drawer>
 
       <app-header-layout>
@@ -57,37 +77,31 @@
           </app-toolbar>
         </app-header>
 
-        <!-- 35 nodes clean on CH/ OP before optimization-->
-        <!-- 43 nodes clean on FF before optimization -->
-        <!-- 21 nodes app shell on CH/ OP before optimization -->
-        <!-- 21 nodes app shell on FF before optimization -->
-        <!-- 88 nodes element on CH/ OP before optimization -->
-        <!-- 88 nodes element on FF before optimization -->
-
-        <!-- 27 nodes clean on CH/ OP after optimization-->
-        <!-- 30 nodes clean on FF after optimization -->
-        <!-- 29 nodes app shell on CH/ OP after optimization -->
-        <!-- 29 nodes app shell on FF after optimization -->
-        <!-- 107 nodes element on CH/ OP after optimization -->
-        <!-- 112 nodes element on FF after optimization -->
-
-        <!-- <semafloor-room-page view=vertical no-animation></semafloor-room-page> -->
-        <!-- <semafloor-room-page view=horizontal></semafloor-room-page> -->
         <semafloor-room-page></semafloor-room-page>
+        <semafloor-room-page view=vertical no-animation></semafloor-room-page>
+        <semafloor-room-page view=horizontal></semafloor-room-page>
       </app-header-layout>
-    </app-drawer-layout>
+    </app-drawer-layout> -->
+
+    <semafloor-main></semafloor-main>
 
     <script>
-      var _header = document.querySelector('app-header');
+      // var _header = document.querySelector('app-header');
+      //
+      // _header.addEventListener('app-header-transform', function(ev) {
+      //   _header.toggleClass('condensed', ev.detail.progress > 0.5);
+      // });
+      //
+      // window.addEventListener('room-page-attached', function() {
+      //   var _app = document.querySelector('semafloor-room-page');
+      //   var _tel = _app.getElementsByTagName('*').length;
+      //   console.log('Total element nodes with Lazy-Loading: ', _tel);
+      // });
+      var _main = document.querySelector('semafloor-main');
 
-      _header.addEventListener('app-header-transform', function(ev) {
-        _header.toggleClass('condensed', ev.detail.progress > 0.5);
-      });
-
-      window.addEventListener('room-page-attached', function() {
-        var _app = document.querySelector('semafloor-room-page');
-        var _tel = _app.getElementsByTagName('*').length;
-        console.log('Total element nodes with Lazy-Loading: ', _tel);
+      _main.addEventListener('main-page-attached', function() {
+        var _tel = _main.getElementsByTagName('*').length;
+        console.log('Total element nodes w/ Lazy-Loading:', _tel);
       });
 
     </script>

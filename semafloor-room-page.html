@@ -36,27 +36,29 @@ Example:
 
     <firebase-collection id="infoList" location="[[url]]" on-firebase-value="_onFirebaseValue"></firebase-collection>
 
-    <div class$="loading [[_computeLoadingCls(_isLoadingCard)]]"></div>
+    <div class="room-page-container">
+      <div class$="loading [[_computeLoadingCls(_isLoadingCard)]]"></div>
 
-    <iron-pages id="pages" class$="[[_computeLoadingCls(_isLoadingCard)]]" selected="[[_page]]" attr-for-selected="page">
-      <div class="card-container" page="card">
-        <template is="dom-repeat" items="[[_allSiteCards]]" index-as="index" strip-whitespace>
-          <paper-card class="each-card">
-            <div class="each-content">
-              <div class="card-content">
-                <iron-icon class$="[[_computeSiteIcon(index)]]" icon="icons:[[_computeSiteIcon(index)]]"></iron-icon>
-                [[item]]
+      <iron-pages id="pages" class$="[[_computeLoadingCls(_isLoadingCard)]]" selected="[[_page]]" attr-for-selected="page">
+        <div class="card-container" page="card">
+          <template is="dom-repeat" items="[[_allSiteCards]]" index-as="index" strip-whitespace>
+            <paper-card class="each-card">
+              <div class="each-content">
+                <div class="card-content">
+                  <iron-icon class$="[[_computeSiteIcon(index)]]" icon="icons:[[_computeSiteIcon(index)]]"></iron-icon>
+                  [[item]]
+                </div>
+                <div class="card-actions">
+                  <paper-button on-tap="_rollThumbnail">roll</paper-button>
+                  <paper-button on-transitionend="_exploreSite">Explore</paper-button>
+                </div>
               </div>
-              <div class="card-actions">
-                <paper-button on-tap="_rollThumbnail">roll</paper-button>
-                <paper-button on-transitionend="_exploreSite">Explore</paper-button>
-              </div>
-            </div>
-            <iron-image class$="card-img [[_computeSiteIcon(index)]]" alt="[[item]]" src="[[_computeSiteImage(imagesList)]]" sizing="cover" fade preload></iron-image>
-          </paper-card>
-        </template>
-      </div>
-    </iron-pages>
+              <iron-image class$="card-img [[_computeSiteIcon(index)]]" alt="[[item]]" src="[[_computeSiteImage(imagesList)]]" sizing="cover" fade preload></iron-image>
+            </paper-card>
+          </template>
+        </div>
+      </iron-pages>
+    </div>
 
     <paper-dialog id="floorInfo"
       entry-animation="slide-from-bottom-animation"
