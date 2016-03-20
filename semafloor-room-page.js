@@ -418,10 +418,12 @@ Polymer({
       var _scroller = this.$.infoCardContainer
       // workaround: try to reset scrollTop first.
       _scroller.scrollTop = 0;
-      this.async(function() {
-        // Just scroll until the page end.
-        _scroller.scrollTop = _scroller.scrollHeight - _scroller.clientHeight;
-      }, 1);
+      if (_scroller.scrollHeight > _scroller.clientHeight) {
+        this.async(function() {
+          // Just scroll until the page end.
+          _scroller.scrollTop = _scroller.scrollHeight - _scroller.clientHeight;
+        }, 300);
+      }
     }
   },
   // To toggle iron-collapse meantime animate the arrow down icom button.
