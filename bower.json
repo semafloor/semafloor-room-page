@@ -1,10 +1,10 @@
 {
   "name": "semafloor-room-page",
-  "version": "0.6.16",
+  "version": "0.6.17",
   "authors": [
     "semafloor <wes_ngrongsen@hotmail.com>"
   ],
-  "description": "Semafloor's Room Information Page.",
+  "description": "A sub-element to display information of all rooms.",
   "keywords": [
     "polymer",
     "seed",
