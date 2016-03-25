@@ -106,6 +106,8 @@ Example:
           max-height: 0 !important;
           display: none !important;
         };
+        will-change: transform;
+        transition: transform ease-in .2s;
         @apply(--layout-horizontal);
       }
       div.each-content {
@@ -555,7 +557,6 @@ Example:
     },
 
     _onFirebaseValue: function(ev) {
-      console.log('on-firebase-value', ev.detail.val());
       // set _currentReservations when data is fetched.
       this.set('_roomInfo', ev.detail.val());
       // unhide iron-list and hide progress bar.
