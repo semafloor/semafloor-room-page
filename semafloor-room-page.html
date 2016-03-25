@@ -175,7 +175,7 @@ Example:
         -webkit-transition: none;
         transition: none;
       }
-      div.info-card-toolbar {
+      paper-dialog#floorInfo > div.info-card-toolbar {
         margin-top: 0;
         padding: 0 16px;
         height: 64px;
@@ -184,18 +184,18 @@ Example:
         @apply(--layout-horizontal);
         @apply(--layout-center);
       }
-      div.info-card-toolbar.language {
+      paper-dialog#floorInfo > div.info-card-toolbar.language {
         background-color: #3F51B5;
         color: #fff;
       }
-      div.info-card-toolbar.trending-up {
+      paper-dialog#floorInfo > div.info-card-toolbar.trending-up {
         background-color: #E91E63;
         color: #fff;
       }
       div.info-card-toolbar > paper-icon-button {
         margin-right: 8px;
       }
-      div.info-card-container {
+      paper-dialog#floorInfo > div.info-card-container {
         height: 100%;
         max-height: calc(100% - 64px - 8px);
         margin-top: 8px;
@@ -260,6 +260,11 @@ Example:
       }
       div.each-card-info > paper-checkbox:first-of-type {
         margin-top: 3px;
+      }
+
+      /* hidden under Shadow DOM */
+      [hidden] {
+        display: none;
       }
 
       /* some @media */
@@ -743,7 +748,7 @@ Example:
         return;
       }
 
-      var _target = Polymer.dom(ev).localTarget;
+      var _target = Polymer.dom(ev).rootTarget;
 
       if (_target) {
         var _icon = _target.icon;
@@ -806,21 +811,23 @@ Example:
     },
 
     _collapseOpened: function(ev) {
-      // When collapse is opened and after the transitionend event,
-      // scroll the end of the page to view everything.
-      if (this.$$('#infoCollapse').opened) {
-        // Scroll to bottom of the page ASYNC-ly.
-        // To prevent scrolling past end.
-        var _scroller = this.$.infoCardContainer
-        // workaround: try to reset scrollTop first.
-        _scroller.scrollTop = 0;
-        if (_scroller.scrollHeight > _scroller.clientHeight) {
-          this.async(function() {
-            // Just scroll until the page end.
-            _scroller.scrollTop = _scroller.scrollHeight - _scroller.clientHeight;
-          }, 300);
+      this.debounce('_collapseOpened', function() {
+        // When collapse is opened and after the transitionend event,
+        // scroll the end of the page to view everything.
+        if (this.$$('#infoCollapse').opened) {
+          // Scroll to bottom of the page ASYNC-ly.
+          // To prevent scrolling past end.
+          var _scroller = this.$.infoCardContainer
+          // workaround: try to reset scrollTop first.
+          _scroller.scrollTop = 0;
+          if (_scroller.scrollHeight > _scroller.clientHeight) {
+            this.async(function() {
+              // Just scroll until the page end.
+              _scroller.scrollTop = _scroller.scrollHeight - _scroller.clientHeight;
+            }, 300);
+          }
         }
-      }
+      }, 1);
     },
     // To toggle iron-collapse meantime animate the arrow down icom button.
     _toggleCollapse: function(_open) {
