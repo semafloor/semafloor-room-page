@@ -31,7 +31,7 @@ Example:
 <dom-module id="semafloor-room-page">
 
   <template strip-whitespace>
-    <style include="semafloor-room-page-theme">
+    <style>
       :host {
         -webkit-user-select: none;
            -moz-user-select: none;
@@ -46,7 +46,7 @@ Example:
         @apply(--layout-vertical);
       }
 
-      *, *::before, *::after {
+      * {
         box-sizing: border-box;
       }
 
@@ -194,6 +194,7 @@ Example:
       }
       div.info-card-toolbar > paper-icon-button {
         margin-right: 8px;
+        --paper-icon-button-ink-color: #fff;
       }
       paper-dialog#floorInfo > div.info-card-container {
         height: 100%;
@@ -302,6 +303,109 @@ Example:
           margin: 8px auto;
         }
       }
+
+      /* dark-theme */
+      :host(.dark-theme) .room-page-container {
+        background-color: #303030;
+      }
+
+      :host(.dark-theme) .loading {
+        border: 2px solid #212121;
+        border-left-color: #1ddb8b;
+      }
+
+      :host(.dark-theme) paper-card.each-card {
+        background-color: #424242;
+        color: #eee;
+      }
+      :host(.dark-theme) div.each-content iron-icon {
+        background-color: #fbc02d;
+        color: #212121;
+      }
+      :host(.dark-theme) div.each-content iron-icon.language {
+        background-color: #303f9f;
+        color: #eee;
+      }
+      :host(.dark-theme) div.each-content iron-icon.trending-up {
+        background-color: #c2185b;
+        color: #eee;
+      }
+      :host(.dark-theme) div.card-actions {
+        border-top: 1px solid #646464;
+      }
+      :host(.dark-theme) div.card-actions > paper-button {
+        color: #646464;
+      }
+      :host(.dark-theme) div.card-actions > paper-button+paper-button {
+        color: #80cbc4;
+        --paper-button-ink-color: #bcbcbc;
+      }
+
+      :host(.dark-theme) paper-dialog {
+        background-color: #303030;
+        color: #bcbcbc;
+      }
+      :host(.dark-theme) paper-dialog#floorInfo > div.info-card-toolbar {
+        background-color: #fbc02d;
+        color: #212121;
+      }
+      :host(.dark-theme) paper-dialog#floorInfo > div.info-card-toolbar.language {
+        background-color: #303f9f;
+        color: #eee;
+      }
+      :host(.dark-theme) paper-dialog#floorInfo > div.info-card-toolbar.trending-up {
+        background-color: #c2185b;
+        color: #eee;
+      }
+      :host(.dark-theme) div.info-card-container iron-icon,
+      :host(.dark-theme) iron-image.card-img {
+        background-color: #ffe57f;
+      }
+      :host(.dark-theme) div.info-card-container iron-icon.language,
+      :host(.dark-theme) iron-image.card-img.language {
+        background-color: #8c9eff;
+      }
+      :host(.dark-theme) div.info-card-container iron-icon.trending-up,
+      :host(.dark-theme) iron-image.card-img.trending-up {
+        background-color: #ff80ab;
+      }
+      :host(.dark-theme) paper-dialog div.card-actions > paper-button,
+      :host(.dark-theme) paper-dialog > div.info-card-container paper-icon-button {
+        color: #80cbc4;
+        --paper-button-ink-color: #bcbcbc;
+      }
+      :host(.dark-theme) paper-dialog iron-collapse {
+        border-top: 1px solid #646464;
+      }
+      :host(.dark-theme) div.each-card-info {
+        color: #bcbcbc;
+      }
+      :host(.dark-theme) div.each-card-info > span {
+        color: #9e9e9e;
+      }
+      div.each-card-info > paper-checkbox {
+        --paper-checkbox-checked-color: #fbc02d;
+        --paper-checkbox-checked-ink-color: #fbc02d;
+        --paper-checkbox-unchecked-color: #fbc02d;
+        --paper-checkbox-unchecked-ink-color: #fbc02d;
+        --paper-checkbox-checkmark-color: #212121;
+        --paper-checkbox-label-color: #9e9e9e;
+      }
+      paper-dialog paper-card.language paper-checkbox {
+        --paper-checkbox-checked-color: #3f51b5;
+        --paper-checkbox-checked-ink-color: #3f51b5;
+        --paper-checkbox-unchecked-color: #3f51b5;
+        --paper-checkbox-unchecked-ink-color: #3f51b5;
+        --paper-checkbox-checkmark-color: #eee;
+      }
+      paper-dialog paper-card.trending-up paper-checkbox {
+        --paper-checkbox-checked-color: #c2185b;
+        --paper-checkbox-checked-ink-color: #c2185b;
+        --paper-checkbox-unchecked-color: #c2185b;
+        --paper-checkbox-unchecked-ink-color: #c2185b;
+        --paper-checkbox-checkmark-color: #eee;
+      }
+
     </style>
 
     <firebase-collection id="infoList" location="[[url]]" on-firebase-value="_onFirebaseValue"></firebase-collection>
@@ -423,19 +527,49 @@ Example:
     ],
 
     properties: {
+      /**
+       * Changeable theme. GO `Settings page` to change the theme value.
+       */
+      themeSelected: String,
+      /**
+       * Firebase reference to retrieve room information.
+       */
       url: {
         type: String,
         // TODO: To change to new Firebase reference URL soon.
         value: 'https://polymer-semaphore.firebaseio.com/mockMessages/2016/01february/week07/17/site'
       },
-
-      // normally vertical view and all cards are centered.
-      // view=horizontal to display horizontal view with wrapping cards.
+      /**
+       * Normally vertical view and all cards are centered.
+       * `view=horizontal` to display horizontal view with wrapping cards.
+       */
       view: String,
-
-      // By default, all animations are enabled.
+      /**
+       * If set, all animations and transitions are disabled.
+       * By default, all animations are enabled.
+       */
       noAnimation: Boolean,
-
+      /**
+       * A list of images to be displayed on the cards.
+       */
+      imagesList: {
+        type: Array,
+        value: function() {
+          var _images = [
+            'https://c4.staticflickr.com/8/7209/6891647325_29b124ebe4_b.jpg',
+            'https://wallpaperscraft.com/image/dubai_uae_buildings_skyscrapers_night_96720_2560x1440.jpg',
+            'https://wallpaperscraft.com/image/kln_germany_bridge_weser_reflection_architecture_hdr_47748_2560x1440.jpg',
+            'https://wallpaperscraft.com/image/twin_towers_new_york_world_trade_center_skyscrapers_river_bridge_night_city_manhattan_59434_1920x1080.jpg',
+            'https://wallpaperscraft.com/image/skyscrapers_city_night_lights_91888_1920x1080.jpg',
+            'https://wallpaperscraft.com/image/london_england_city_night_lights_river_thames_uk_tower_bridge_lantern_58386_1920x1080.jpg',
+            'https://wallpaperscraft.com/image/tokyo_japan_city_night_lights_63139_1920x1080.jpg'
+          ];
+          return _images;
+        }
+      },
+      /**
+       * Animation configurations for `paper-cards` and `paper-dialog`.
+       */
       animationConfig: {
         type: Object,
         value: function() {
@@ -470,22 +604,6 @@ Example:
         value: !1
       },
 
-      imagesList: {
-        type: Array,
-        value: function() {
-          var _images = [
-            'https://c4.staticflickr.com/8/7209/6891647325_29b124ebe4_b.jpg',
-            'https://wallpaperscraft.com/image/dubai_uae_buildings_skyscrapers_night_96720_2560x1440.jpg',
-            'https://wallpaperscraft.com/image/kln_germany_bridge_weser_reflection_architecture_hdr_47748_2560x1440.jpg',
-            'https://wallpaperscraft.com/image/twin_towers_new_york_world_trade_center_skyscrapers_river_bridge_night_city_manhattan_59434_1920x1080.jpg',
-            'https://wallpaperscraft.com/image/skyscrapers_city_night_lights_91888_1920x1080.jpg',
-            'https://wallpaperscraft.com/image/london_england_city_night_lights_river_thames_uk_tower_bridge_lantern_58386_1920x1080.jpg',
-            'https://wallpaperscraft.com/image/tokyo_japan_city_night_lights_63139_1920x1080.jpg'
-          ];
-          return _images;
-        }
-      },
-
       _isLoadingCard: {
         type: Boolean,
         value: !0
@@ -502,7 +620,8 @@ Example:
 
     observers: [
       '_applyAnimationConfigToNodes(_isDataReady)',
-      '_noAnimationChanged(noAnimation)'
+      '_noAnimationChanged(noAnimation)',
+      '_updateThemeColor(themeSelected)',
     ],
 
     listeners: {
@@ -812,19 +931,23 @@ Example:
 
     _collapseOpened: function(ev) {
       this.debounce('_collapseOpened', function() {
-        // When collapse is opened and after the transitionend event,
-        // scroll the end of the page to view everything.
-        if (this.$$('#infoCollapse').opened) {
-          // Scroll to bottom of the page ASYNC-ly.
-          // To prevent scrolling past end.
-          var _scroller = this.$.infoCardContainer
-          // workaround: try to reset scrollTop first.
-          _scroller.scrollTop = 0;
-          if (_scroller.scrollHeight > _scroller.clientHeight) {
-            this.async(function() {
-              // Just scroll until the page end.
-              _scroller.scrollTop = _scroller.scrollHeight - _scroller.clientHeight;
-            }, 300);
+        var _target = Polymer.dom(ev).rootTarget;
+
+        if (_target && _target.tagName === 'IRON-COLLAPSE') {
+          // When collapse is opened and after the transitionend event,
+          // scroll the end of the page to view everything.
+          if (this.$$('#infoCollapse').opened) {
+            // Scroll to bottom of the page ASYNC-ly.
+            // To prevent scrolling past end.
+            var _scroller = this.$.infoCardContainer
+            // workaround: try to reset scrollTop first.
+            _scroller.scrollTop = 0;
+            if (_scroller.scrollHeight > _scroller.clientHeight) {
+              this.async(function() {
+                // Just scroll until the page end.
+                _scroller.scrollTop = _scroller.scrollHeight - _scroller.clientHeight;
+              }, 300);
+            }
           }
         }
       }, 1);
@@ -858,6 +981,12 @@ Example:
 
     _computeLoadingCls: function(_isLoadingCard) {
       return _isLoadingCard ? '' : 'finish-loading';
+    },
+
+    _updateThemeColor: function(_themeSelected) {
+      var _isDarkTheme = _themeSelected === 'dark theme';
+      this.toggleClass('dark-theme', _isDarkTheme, this);
+      this.updateStyles();
     },
 
     // X - TODO: Fixed scroll to page top even though not inside dialog.
