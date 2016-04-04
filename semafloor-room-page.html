@@ -106,8 +106,15 @@ Example:
           max-height: 0 !important;
           display: none !important;
         };
+        -webkit-transform: translate3d(0px, 0px, 0px);;
+                transform: translate3d(0px, 0px, 0px);
+        -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
         will-change: transform;
+        -webkit-transition: -webkit-transform ease-in .2s;
+        transition: -webkit-transform ease-in .2s;
         transition: transform ease-in .2s;
+        transition: transform ease-in .2s, -webkit-transform ease-in .2s;
         @apply(--layout-horizontal);
       }
       div.each-content {
@@ -383,7 +390,7 @@ Example:
       :host(.dark-theme) div.each-card-info > span {
         color: #9e9e9e;
       }
-      div.each-card-info > paper-checkbox {
+      :host(.dark-theme) div.each-card-info > paper-checkbox {
         --paper-checkbox-checked-color: #fbc02d;
         --paper-checkbox-checked-ink-color: #fbc02d;
         --paper-checkbox-unchecked-color: #fbc02d;
@@ -391,21 +398,20 @@ Example:
         --paper-checkbox-checkmark-color: #212121;
         --paper-checkbox-label-color: #9e9e9e;
       }
-      paper-dialog paper-card.language paper-checkbox {
+      :host(.dark-theme) paper-dialog paper-card.language paper-checkbox {
         --paper-checkbox-checked-color: #3f51b5;
         --paper-checkbox-checked-ink-color: #3f51b5;
         --paper-checkbox-unchecked-color: #3f51b5;
         --paper-checkbox-unchecked-ink-color: #3f51b5;
         --paper-checkbox-checkmark-color: #eee;
       }
-      paper-dialog paper-card.trending-up paper-checkbox {
+      :host(.dark-theme) paper-dialog paper-card.trending-up paper-checkbox {
         --paper-checkbox-checked-color: #c2185b;
         --paper-checkbox-checked-ink-color: #c2185b;
         --paper-checkbox-unchecked-color: #c2185b;
         --paper-checkbox-unchecked-ink-color: #c2185b;
         --paper-checkbox-checkmark-color: #eee;
       }
-
     </style>
 
     <firebase-collection id="infoList" location="[[url]]" on-firebase-value="_onFirebaseValue"></firebase-collection>
